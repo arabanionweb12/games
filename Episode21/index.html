@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Future Projections</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Spectral:ital,wght@0,600;0,700;1,500&family=Noto+Naskh+Arabic:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --midnight:#0E1E22;--midnight-2:#16303a;--paper:#F2ECDE;--panel:#FBF7EC;--paper-2:#E7DECB;
+  --ink:#182420;--ink-soft:#5E6560;--line:rgba(24,36,32,.14);
+  --brass:#C29A46;--brass-deep:#A57F2E;--emerald:#0F6B4E;--teal:#1C7168;--copper:#BC7A34;
+  --good:#1f8a5b;--good-soft:#d9f1e4;--bad:#c2453a;--bad-soft:#f8dedb;--sky:#2f6fb5;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+.ar{font-family:'Noto Naskh Arabic','Geeza Pro','Arial',serif !important;direction:rtl;unicode-bidi:isolate;font-weight:700;line-height:1.75}
+button{font-family:inherit;cursor:pointer}
+.hidden{display:none !important}
+
+/* top bar */
+.topbar{position:sticky;top:0;z-index:20;background:var(--midnight);color:#EDE8DA;display:flex;align-items:center;gap:10px;padding:10px 16px;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+.topbar .title{font-family:'Spectral',serif;font-weight:700;font-size:17px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar .title small{font-family:'Inter';font-weight:500;color:#9fb0a6;font-size:12px;margin-left:6px}
+.tb-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#EDE8DA;border-radius:10px;padding:7px 11px;font-size:13px;font-weight:600}
+.chip-me{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;background:rgba(194,154,70,.16);border:1px solid rgba(194,154,70,.4);padding:4px 10px 4px 4px;border-radius:30px}
+.chip-me .dot{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:13px;color:#fff}
+.stars-tot{font-size:13px;color:var(--brass);font-weight:700}
+
+main{max-width:980px;margin:0 auto;padding:18px 16px 60px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 10px 30px -22px rgba(14,30,34,.5)}
+.h1{font-family:'Spectral',serif;font-weight:700;font-size:clamp(26px,4.4vw,38px);line-height:1.1;margin:0 0 6px}
+.h2{font-family:'Spectral',serif;font-weight:700;font-size:clamp(21px,3.2vw,27px);line-height:1.15;margin:0 0 8px}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--brass-deep)}
+.muted{color:var(--ink-soft)}
+.btn{border:none;border-radius:14px;padding:13px 22px;font-size:16px;font-weight:700;background:var(--emerald);color:#fff;box-shadow:0 4px 0 #0a4d38;transition:transform .1s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #0a4d38}
+.btn.brass{background:var(--brass);color:#2a2210;box-shadow:0 4px 0 var(--brass-deep)}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line);box-shadow:none}
+.btn.big{font-size:19px;padding:16px 30px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.center{text-align:center}
+.spacer{height:14px}
+
+/* hero / select */
+.hero{background:var(--midnight);color:#F2ECDE;border-radius:24px;padding:26px 22px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 90% -10%,rgba(194,154,70,.25),transparent 60%),radial-gradient(60% 60% at 0% 120%,rgba(15,107,78,.3),transparent 60%);pointer-events:none}
+.hero > *{position:relative}
+.hero .eyebrow{color:var(--brass)}
+.hero .ar-title{font-size:clamp(36px,7vw,60px);color:#F6F0E2;margin:4px 0 0}
+.hero .en-title{font-family:'Spectral',serif;font-style:italic;color:var(--brass);font-size:clamp(20px,3.4vw,28px);margin:0 0 8px}
+.badges{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+@media(max-width:760px){.badges{grid-template-columns:repeat(2,1fr)}}
+.badge{background:#FBF7EC;color:var(--ink);border-radius:18px;border:none;padding:0 0 14px;text-align:center;overflow:hidden;position:relative;transition:transform .18s, box-shadow .18s;box-shadow:0 8px 20px -10px rgba(0,0,0,.6)}
+.badge:hover{transform:translateY(-4px) rotate(-1deg)}
+.badge .lanyard{height:16px;background:repeating-linear-gradient(90deg,var(--brass) 0 10px,var(--brass-deep) 10px 20px)}
+.badge .bhead{font-size:10px;letter-spacing:.16em;font-weight:800;text-transform:uppercase;color:#fff;padding:5px 0}
+.badge svg{width:84px;height:84px;margin:10px auto 0;display:block}
+.badge .bname{font-size:30px;margin:2px 0 0;line-height:1.4}
+.badge .ben{font-weight:700;font-size:14px}
+.badge .brole{font-size:12px;color:var(--ink-soft);margin-top:2px}
+.badge .bstars{font-size:13px;color:var(--brass-deep);font-weight:700;margin-top:6px;min-height:18px}
+
+/* level map */
+.map{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+@media(max-width:700px){.map{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:420px){.map{grid-template-columns:1fr}}
+.lvl{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;text-align:left;position:relative;min-height:128px;transition:transform .15s}
+.lvl:hover:not(.locked){transform:translateY(-3px);border-color:var(--emerald)}
+.lvl .ln{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--brass-deep);text-transform:uppercase}
+.lvl .lt{font-family:'Spectral',serif;font-size:19px;font-weight:700;line-height:1.15;margin:4px 0}
+.lvl .ld{font-size:12.5px;color:var(--ink-soft)}
+.lvl .ls{position:absolute;right:14px;top:12px;color:var(--brass);font-size:15px;letter-spacing:1px}
+.lvl.locked{opacity:.5;cursor:not-allowed}
+.lvl.boss{background:var(--midnight);color:#F2ECDE}
+.lvl.boss .ld{color:#aebbb3}
+.lvl.next{outline:3px solid var(--brass);outline-offset:2px}
+
+/* explain screen */
+.explain{display:grid;grid-template-columns:200px 1fr;gap:22px;align-items:start}
+@media(max-width:700px){.explain{grid-template-columns:1fr}.explain .who{max-width:150px;margin:0 auto}}
+.explain .who svg{width:100%;height:auto;display:block}
+.bubble{background:#fff;border:2px solid var(--ink);border-radius:18px;padding:14px 16px;position:relative;font-size:15px}
+.bubble.layla{border-color:var(--teal);background:#eef7f5}
+.bubble .who-n{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:3px}
+.rule{background:var(--midnight);color:#F2ECDE;border-radius:16px;padding:16px 18px;margin:12px 0}
+.rule .ar{color:#fff}
+.eq{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;font-size:15px;margin:10px 0}
+.eq .box{background:#fff;border:2px solid var(--line);border-radius:12px;padding:6px 14px;text-align:center}
+.eq .box .ar{font-size:30px;display:block;line-height:1.5}
+.eq .box small{display:block;color:var(--ink-soft);font-size:12px}
+.eq .op{font-size:24px;font-weight:800;color:var(--brass-deep)}
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+@media(max-width:600px){.tri{grid-template-columns:1fr}}
+.tri > div{border-radius:14px;padding:12px;text-align:center;border:2px solid var(--line);background:#fff}
+.tri .ar{font-size:30px;display:block}
+.tri b{display:block;font-size:17px}
+.tri small{color:var(--ink-soft)}
+.tri small .ar,.eq small .ar,.train small .ar{font-size:1.25em !important;display:inline !important;line-height:1.4}
+
+/* audio/speak bar */
+.speak{display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap}
+.sbtn{border:2px solid var(--line);background:#fff;border-radius:12px;padding:6px 10px;font-size:14px;font-weight:700;color:var(--ink);display:inline-flex;align-items:center;gap:5px}
+.sbtn.rec{border-color:#e4b9b4}
+.sbtn.rec.on{background:var(--bad);color:#fff;border-color:var(--bad);animation:pulse 1s infinite}
+.sbtn:disabled{opacity:.4}
+@keyframes pulse{50%{transform:scale(1.06)}}
+.phrase{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin:10px 0;display:flex;flex-direction:column;gap:6px}
+.phrase .ar{font-size:clamp(24px,4.4vw,32px);text-align:right}
+.phrase .en{color:var(--ink-soft);font-size:14px}
+
+.chkbtn{border-color:#9fd3b8}
+.chkbtn.on{background:var(--good);color:#fff;border-color:var(--good);animation:pulse 1s infinite}
+.chk{margin-top:8px;border-radius:12px;padding:8px 12px;font-size:14px;animation:pop .25s}
+.chk.ok{background:var(--good-soft);border:2px solid var(--good)}
+.chk.mid{background:#fff3d6;border:2px solid #e9cf8f}
+.chk.no{background:var(--bad-soft);border:2px solid var(--bad)}
+.chk-words{font-size:24px;text-align:right}
+.chk-words .w-ok{color:var(--good)}
+.chk-words .w-no{color:var(--bad);text-decoration:underline wavy}
+.chk .note .ar{font-size:16px}
+#tbar2{position:sticky;top:52px;z-index:19;background:#2a2210;color:#fff;border-bottom:2px solid var(--brass);padding:6px 10px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+#tbar2 button{background:var(--brass);color:#2a2210;border:none;border-radius:10px;padding:6px 9px;font-weight:800;font-size:12.5px}
+#tbar2 .tlabel{font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);align-self:center;padding:0 6px}
+
+body.teacher .opt[data-ok="1"]{outline:3px dashed var(--brass);outline-offset:2px}
+body.teacher .chipw::after{content:attr(data-hint);display:block;font:700 10px Inter;color:var(--brass-deep);direction:ltr}
+body.nomic .sbtn.rec,body.nomic .sbtn[data-a="cmp"],body.nocheck .chkbtn{display:none !important}
+#tlogin{display:flex;gap:8px;justify-content:center;margin-top:8px}
+#tlogin input{border:2px solid var(--line);border-radius:12px;padding:10px 12px;font-size:15px}
+.tlink{background:none;border:none;color:var(--ink-soft);font-size:12px;text-decoration:underline;margin-top:6px}
+@media print{
+  body.printing-cert *{visibility:hidden !important}
+  body.printing-cert .cert,body.printing-cert .cert *{visibility:visible !important}
+  body.printing-cert .cert{position:fixed;left:0;top:0;width:100%;margin:0;border-width:10px}
+  body.printing-cert .topbar,body.printing-cert #tbar2{display:none !important}
+  @page{size:A4 landscape;margin:12mm}
+}
+/* explore */
+.grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:14px}
+.vcard{background:#fff;border:2px solid var(--line);border-radius:16px;padding:12px 10px;text-align:center;min-height:132px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2px;transition:transform .15s,border-color .15s}
+.vcard:hover{transform:translateY(-2px)}
+.vcard.done{border-color:var(--good);background:var(--good-soft)}
+.vcard .ar{font-size:28px;line-height:1.5}
+.vcard .ic{font-size:26px;line-height:1}
+.vcard .en{font-size:13px;color:var(--ink-soft);font-weight:600}
+.vcard .tag{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--brass-deep)}
+
+/* quiz */
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.pbar{flex:1;height:10px;background:var(--paper-2);border-radius:10px;overflow:hidden}
+.pbar > i{display:block;height:100%;background:var(--emerald);border-radius:10px;transition:width .3s}
+.qcount{font-size:13px;font-weight:700;color:var(--ink-soft);white-space:nowrap}
+.second{display:inline-block;background:#fff3d6;color:#7a5a12;border:1px solid #e9cf8f;font-size:12px;font-weight:800;padding:3px 9px;border-radius:20px;margin-bottom:8px;letter-spacing:.04em}
+.prompt{font-size:17px;font-weight:600;margin:4px 0 12px}
+.prompt .ar{font-size:clamp(26px,5vw,36px)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.opts{grid-template-columns:1fr}}
+.opt{background:#fff;border:2px solid var(--line);border-radius:14px;padding:12px 14px;font-size:16px;font-weight:600;color:var(--ink);text-align:center;min-height:60px;transition:transform .1s,border-color .15s}
+.opt .ar{font-size:clamp(22px,4.2vw,28px)}
+.opt:hover:not(:disabled){border-color:var(--emerald);transform:translateY(-2px)}
+.opt.right{background:var(--good-soft);border-color:var(--good)}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.opt:disabled{cursor:default}
+.fb{margin-top:14px;border-radius:16px;padding:14px 16px;font-size:15px;display:flex;flex-direction:column;gap:6px;animation:pop .25s}
+.fb.ok{background:var(--good-soft);border:2px solid var(--good)}
+.fb.no{background:var(--bad-soft);border:2px solid var(--bad)}
+.fb .fbt{font-weight:800;font-size:16px}
+.fb .why{background:rgba(255,255,255,.7);border-radius:12px;padding:10px 12px}
+.fb .why b{color:var(--emerald)}
+@keyframes pop{from{transform:scale(.96);opacity:0}to{transform:none;opacity:1}}
+.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* place (timeline/sort) */
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:12px 0;min-height:56px}
+.chipw{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:4px 14px;font-size:24px}
+.chipw.sel{background:var(--brass);border-color:var(--brass-deep);transform:translateY(-3px)}
+.chipw.used{visibility:hidden}
+.slots{display:grid;gap:10px}
+.slot{border:3px dashed var(--line);border-radius:16px;padding:10px;min-height:86px;background:#fff;display:flex;flex-direction:column;align-items:center;gap:4px;transition:background .15s}
+.slot.hot{border-color:var(--brass);background:#fffaf0}
+.slot .sl{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+.slot .ar{font-size:22px}
+.slot .ic{font-size:22px}
+.timeline{grid-template-columns:repeat(4,1fr)}
+@media(max-width:620px){.timeline{grid-template-columns:repeat(2,1fr)}}
+.bins{grid-template-columns:1fr 1fr}
+.bin-in{display:flex;flex-direction:column;gap:6px;width:100%}
+.bin-in .ar{font-size:19px;background:var(--good-soft);border-radius:10px;padding:2px 8px;text-align:center}
+.sortitem{font-size:22px;padding:8px 14px}
+
+/* build */
+.buildrow{direction:rtl;min-height:70px;border:3px dashed var(--line);border-radius:16px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-start;background:#fff}
+.tile{background:#fff;border:2px solid var(--ink);border-radius:12px;padding:2px 14px;font-size:26px}
+.tile.inrow{background:#fff7e3;border-color:var(--brass-deep)}
+
+/* memory */
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:560px){.mem{grid-template-columns:repeat(3,1fr)}}
+.mcard{aspect-ratio:1/1.05;border-radius:14px;border:none;background:var(--midnight);color:var(--brass);font-size:26px;font-weight:800;display:grid;place-items:center;padding:6px;transition:transform .3s}
+.mcard.open{background:#fff;color:var(--ink);border:2px solid var(--brass)}
+.mcard.open .ar{font-size:clamp(18px,4vw,26px)}
+.mcard.gone{background:var(--good-soft);border:2px solid var(--good);color:var(--ink)}
+.mcard .en{font-size:13px;font-weight:700}
+
+/* order */
+.dlg{display:flex;flex-direction:column;gap:8px}
+.dline{background:#fff;border:2px solid var(--line);border-radius:14px;padding:8px 12px;text-align:right;display:flex;align-items:center;gap:10px;justify-content:space-between}
+.dline .who{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--brass-deep);direction:ltr;flex:none}
+.dline .ar{font-size:20px}
+.dline.placed{background:var(--good-soft);border-color:var(--good)}
+
+/* meter */
+.meter{height:26px;background:var(--paper-2);border-radius:20px;overflow:hidden;position:relative;border:2px solid var(--ink)}
+.meter > i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--bad),var(--brass),var(--good));transition:width .6s}
+.meter span{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;font-size:13px}
+
+/* scene */
+.scene{width:100%;border-radius:18px;overflow:hidden;background:var(--midnight);position:relative;aspect-ratio:16/9}
+.scene svg,.scene video{width:100%;height:100%;display:block;object-fit:cover}
+
+/* stars/done */
+.bigstars{font-size:48px;color:var(--brass);letter-spacing:6px}
+.cert{background:#fffdf6;border:10px double var(--brass);border-radius:16px;padding:28px 20px;text-align:center}
+.cert .ar{font-size:34px}
+.timer{height:6px;background:var(--paper-2);border-radius:6px;overflow:hidden;margin-bottom:10px}
+.timer > i{display:block;height:100%;background:var(--copper);width:100%}
+.hearts{font-size:18px;color:var(--bad)}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--midnight);color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:50;max-width:92vw;opacity:0;transition:opacity .25s;pointer-events:none}
+.toast.on{opacity:1}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:60}
+.checklist label{display:flex;gap:10px;align-items:center;background:#fff;border:2px solid var(--line);border-radius:12px;padding:8px 12px;margin:6px 0;font-weight:600}
+.checklist input{width:22px;height:22px;accent-color:var(--emerald)}
+.note{font-size:13px;color:var(--ink-soft)}
+.joke{margin-top:14px}
+.magnet{font-size:44px;background:var(--bad);color:#fff;border:none;border-radius:16px 16px 30px 30px;padding:0 20px;box-shadow:0 5px 0 #8f2f27}
+.verbbox{font-size:44px;background:#fff;border:3px solid var(--ink);border-radius:16px;padding:0 20px;min-width:150px;text-align:center;transition:all .3s}
+.verbbox.fut{border-color:var(--good);background:var(--good-soft)}
+.train{display:flex;direction:rtl;justify-content:center;gap:6px;flex-wrap:wrap;margin:10px 0}
+.train > div{border-radius:12px;padding:4px 14px;text-align:center;color:#fff}
+.train .ar{font-size:30px;display:block}
+.train small{direction:ltr;display:block;font-size:11px;font-weight:700}
+.avatars{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:520px){.avatars{grid-template-columns:repeat(2,1fr)}}
+.avbtn{background:#fff;border:2px solid var(--line);border-radius:16px;padding:10px;text-align:center}
+.avbtn svg{width:64px;height:64px}
+.avbtn .ar{font-size:20px;display:block}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <button class="tb-btn" id="homeBtn" title="Map">&#9776; Map</button>
+  <div class="title" id="tbTitle">Future Projections <small>Episode 21</small></div>
+  <span class="stars-tot" id="tbStars"></span>
+  <span class="chip-me hidden" id="tbMe"></span>
+</div>
+<main id="stage"></main>
+<div class="toast" id="toast"></div>
+<canvas id="confetti"></canvas>
+<script src="audio.js"></script>
+<script>
+/* =========================================================
+   DATA
+   ========================================================= */
+const PLAYERS={
+  ali:{id:'ali',en:'Ali',ar:'عَلِي',g:'m',color:'#2f6fb5',role:'Report writer',taskAr:'التَّقْرِير',taskEn:'the report',verb:'k'},
+  andy:{id:'andy',en:'Andy',ar:'أَنْدِي',g:'m',color:'#BC7A34',role:'Code builder',taskAr:'الْكُود',taskEn:'the code',verb:'k'},
+  zaytuna:{id:'zaytuna',en:'Zaytuna',ar:'زَيْتُونَة',g:'f',color:'#0F6B4E',role:'Screen designer',taskAr:'الشَّاشَة',taskEn:'the screen',verb:'a'},
+  sandra:{id:'sandra',en:'Sandra',ar:'سَانْدْرَا',g:'f',color:'#8a4fa3',role:'Plan leader',taskAr:'الْخُطَّة',taskEn:'the plan',verb:'k'}
+};
+const ORDER=['zaytuna','sandra','andy','ali'];
+
+/* LINES: v = X (model voice: boy for male player, girl for female) | M (Muhammad) | L (Layla) | B / G (fixed boy / girl) */
+const LINES={
+ // vocabulary
+ w_today:{ar:'الْيَوْم',en:'today',v:'X'},
+ w_now:{ar:'الْآن',en:'now',v:'X'},
+ w_ghadan:{ar:'غَدًا',en:'tomorrow (formal)',v:'X'},
+ w_bukra:{ar:'بُكْرَة',en:'tomorrow (everyday)',v:'X'},
+ w_nextweek:{ar:'الْأُسْبُوع الْقَادِم',en:'next week',v:'X'},
+ w_future:{ar:'الْمُسْتَقْبَل',en:'the future',v:'X'},
+ w_plan:{ar:'خُطَّة',en:'a plan',v:'X'},
+ w_ready:{ar:'جَاهِز',en:'ready',v:'X'},
+ w_success:{ar:'نَجَاح',en:'success',v:'X'},
+ w_nanjah:{ar:'نَنْجَح',en:'we succeed',v:'X'},
+ w_sananjah:{ar:'سَنَنْجَح',en:'we will succeed',v:'X'},
+ w_promise:{ar:'وَعْد',en:'a promise',v:'X'},
+ w_a3iduka:{ar:'أَعِدَك',en:'I promise you (to a man)',v:'X'},
+ w_a3iduki:{ar:'أَعِدِك',en:'I promise you (to a woman)',v:'X'},
+ w_mumtaz:{ar:'مُمْتَاز',en:'excellent',v:'X'},
+ w_akid:{ar:'بِالتَّأْكِيد',en:'definitely / of course',v:'X'},
+ w_sawfa:{ar:'سَوْف',en:'will (full word, formal)',v:'X'},
+ w_rah:{ar:'رَاح',en:'gonna (spoken)',v:'X'},
+ // verbs
+ v_aktub:{ar:'أَكْتُب',en:'I write',v:'X'},
+ v_saaktub:{ar:'سَأَكْتُب',en:"I'll write",v:'X'},
+ v_a3mal:{ar:'أَعْمَل',en:'I work',v:'X'},
+ v_saa3mal:{ar:'سَأَعْمَل',en:"I'll work",v:'X'},
+ v_adhhab:{ar:'أَذْهَب',en:'I go',v:'X'},
+ v_saadhhab:{ar:'سَأَذْهَب',en:"I'll go",v:'X'},
+ v_atakallam:{ar:'أَتَكَلَّم',en:'I speak',v:'X'},
+ v_saatakallam:{ar:'سَأَتَكَلَّم',en:"I'll speak",v:'X'},
+ c_sanaktub:{ar:'سَنَكْتُب',en:"we'll write",v:'X'},
+ c_sayaktub:{ar:'سَيَكْتُب',en:"he'll write",v:'X'},
+ c_sataktub:{ar:'سَتَكْتُب',en:"she'll write / you'll write (to a man)",v:'X'},
+ c_sataktubin:{ar:'سَتَكْتُبِين',en:"you'll write (to a woman)",v:'X'},
+ // phrases
+ p_notToday:{ar:'لَيْسَ الْيَوْم! جَاهِز غَدًا.',en:'Not today! Ready tomorrow.',v:'X'},
+ p_nextweek:{ar:'جَاهِز الْأُسْبُوع الْقَادِم.',en:'Ready next week.',v:'X'},
+ p_planNow:{ar:'الْخُطَّة جَاهِزَة الْآن يَا مُحَمَّد.',en:'The plan is ready now, Muhammad.',v:'X'},
+ p_planBukra:{ar:'الْخُطَّة جَاهِزَة بُكْرَة.',en:'The plan is ready tomorrow. (everyday)',v:'X'},
+ p_planGhad:{ar:'الْخُطَّة جَاهِزَة غَدًا.',en:'The plan is ready tomorrow. (formal)',v:'X'},
+ p_file:{ar:'سَأَكْتُب الْمَلَفّ غَدًا.',en:"I'll write the file tomorrow.",v:'X'},
+ p_meeting:{ar:'سَوْف نَذْهَب إِلَى الِاجْتِمَاع.',en:'We will go to the meeting.',v:'X'},
+ p_rahWork:{ar:'رَاح نَعْمَل بُكْرَة.',en:"We're gonna work tomorrow.",v:'X'},
+ p_rahFile:{ar:'رَاح نَكْتُب الْمَلَفّ.',en:"We're gonna write the file.",v:'X'},
+ p_sawfaSucceed:{ar:'سَوْف نَنْجَح.',en:'We will succeed. (formal)',v:'X'},
+ p_vow:{ar:'نَعَم! سَنَنْجَح. هَذَا وَعْد!',en:"Yes! We'll succeed. That's a promise!",v:'X'},
+ p_pledge:{ar:'نَعَم يَا مُحَمَّد! أَعِدَك. الْخُطَّة مُمْتَازَة.',en:'Yes, Muhammad! I promise you. The plan is excellent.',v:'X'},
+ p_100:{ar:'بِالتَّأْكِيد! رَاح نَنْجَح مِئَة بِالْمِئَة!',en:"Definitely! We're gonna succeed 100%!",v:'X'},
+ // personal tasks (own gender only)
+ t_ali:{ar:'سَأَكْتُب التَّقْرِير غَدًا.',en:"I'll write the report tomorrow.",v:'B'},
+ t_andy:{ar:'سَأَكْتُب الْكُود غَدًا.',en:"I'll write the code tomorrow.",v:'B'},
+ t_zaytuna:{ar:'سَأَعْمَل عَلَى الشَّاشَة غَدًا.',en:"I'll work on the screen tomorrow.",v:'G'},
+ t_sandra:{ar:'سَأَكْتُب الْخُطَّة غَدًا.',en:"I'll write the plan tomorrow.",v:'G'},
+ // delegation (3rd person)
+ d_ali:{ar:'عَلِي سَيَكْتُب التَّقْرِير.',en:'Ali will write the report.',v:'X'},
+ d_andy:{ar:'أَنْدِي سَيَكْتُب الْكُود.',en:'Andy will write the code.',v:'X'},
+ d_zaytuna:{ar:'زَيْتُونَة سَتَعْمَل عَلَى الشَّاشَة.',en:'Zaytuna will work on the screen.',v:'X'},
+ d_sandra:{ar:'سَانْدْرَا سَتَكْتُب الْخُطَّة.',en:'Sandra will write the plan.',v:'X'},
+ // Muhammad
+ m_intro:{ar:'أَهْلًا يَا فَرِيق! الْفِكْرَة مُمْتَازَة. الْآن أُرِيد خُطَّة.',en:'Welcome, team! The idea is excellent. Now I want a plan.',v:'M'},
+ m_when:{ar:'مَتَى الْمَشْرُوع جَاهِز؟',en:'When is the project ready?',v:'M'},
+ m_today:{ar:'هَلْ الْمَشْرُوع جَاهِز الْيَوْم؟',en:'Is the project ready today?',v:'M'},
+ m_bukraQ:{ar:'بُكْرَة؟! أُرِيد خُطَّة الْآن!',en:'Tomorrow?! I want a plan now!',v:'M'},
+ m_whatM:{ar:'مَاذَا سَتَعْمَل غَدًا؟',en:'What will you do tomorrow? (to a man)',v:'M'},
+ m_whatF:{ar:'مَاذَا سَتَعْمَلِين غَدًا؟',en:'What will you do tomorrow? (to a woman)',v:'M'},
+ m_team:{ar:'وَالْفَرِيق؟',en:'And the team?',v:'M'},
+ m_future:{ar:'وَالْمُسْتَقْبَل؟',en:'And the future?',v:'M'},
+ m_planGood:{ar:'هَلْ الْخُطَّة جَيِّدَة؟',en:'Is the plan good?',v:'M'},
+ m_succeedQ:{ar:'وَهَلْ سَنَنْجَح؟',en:'And will we succeed?',v:'M'},
+ m_formal:{ar:'الِاجْتِمَاع مَعَ الْمُسْتَثْمِر رَسْمِي. مَاذَا سَنَعْمَل؟',en:'The meeting with the investor is formal. What will we do?',v:'M'},
+ m_execute:{ar:'مُمْتَاز! التَّنْفِيذ غَدًا!',en:'Excellent! Execution tomorrow!',v:'M'},
+ m_goodM:{ar:'أَحْسَنْتَ!',en:'Well done! (to a man)',v:'M'},
+ m_goodF:{ar:'أَحْسَنْتِ!',en:'Well done! (to a woman)',v:'M'},
+ m_name_ali:{ar:'يَا عَلِي!',en:'Ali!',v:'M'},
+ m_name_andy:{ar:'يَا أَنْدِي!',en:'Andy!',v:'M'},
+ m_name_zaytuna:{ar:'يَا زَيْتُونَة!',en:'Zaytuna!',v:'M'},
+ m_name_sandra:{ar:'يَا سَانْدْرَا!',en:'Sandra!',v:'M'},
+ // Layla
+ l_hi:{ar:'أَهْلًا! أَنَا لَيْلَى. أَنَا مَعَك!',en:"Hi! I'm Layla. I'm with you!",v:'L'},
+ l_rah:{ar:'فِي الْمَكْتَب نَقُول: رَاح! رَاح نَعْمَل، رَاح نَنْجَح!',en:'In the office we say "rah"! Gonna work, gonna succeed!',v:'L'},
+ l_sawfa:{ar:'وَمَعَ مُحَمَّد فِي الِاجْتِمَاع: سَوْف.',en:'And with Muhammad in the meeting: sawfa.',v:'L'},
+ l_noFearM:{ar:'لَا تَخَفْ! رَاح نَنْجَح بُكْرَة.',en:"Don't worry! We're gonna succeed tomorrow. (to a man)",v:'L'},
+ l_noFearF:{ar:'لَا تَخَافِي! رَاح نَنْجَح بُكْرَة.',en:"Don't worry! We're gonna succeed tomorrow. (to a woman)",v:'L'}
+};
+
+const JOKES=[
+ 'My cousin has been saying <span class="ar">رَاح أَعْمَل</span> for three years. He is still "gonna".',
+ 'Muhammad\'s favourite word is <span class="ar">الْآن</span>. My favourite word is <span class="ar">بُكْرَة</span>. Guess which one of us is the boss.',
+ '<span class="ar">سَـ</span> is the hardest-working letter in Arabic: it carries the whole future and only takes up one letter of space.',
+ 'Formal Arabic is a suit: <span class="ar">سَوْف</span>. Office Arabic is slippers: <span class="ar">رَاح</span>. Never wear slippers to Muhammad\'s meeting.',
+ 'The verb asked <span class="ar">سَـ</span>: "Why are you always in front of me?" It said: "Because I\'m the future."',
+ 'A promise in Arabic is <span class="ar">وَعْد</span>. A promise from my little brother is <span class="ar">بُكْرَة</span>.',
+ 'I told Muhammad the plan is ready <span class="ar">بُكْرَة</span>. He asked: "Which one? There\'s a new one every day!"',
+ 'Why did the plan join a gym? It wanted to be a strong <span class="ar">خُطَّة</span>, not a "maybe".',
+ 'Investors love two words: <span class="ar">نَجَاح</span> and <span class="ar">وَعْد</span>. Accountants love one: <span class="ar">الْآن</span>.',
+ 'Saying <span class="ar">سَرَاح</span> is like saying "I\'ll gonna". Even my phone\'s autocorrect gave up.'
+];
+
+const LEVELS=[
+ {n:1,key:'explore',title:'The Whiteboard',ar:'السَّبُّورَة',desc:'Tap, listen, say. Meet every word. No points.'},
+ {n:2,key:'deadline',title:'The Deadline',ar:'الْمَوْعِد',desc:'Today, tomorrow, next week, the future.'},
+ {n:3,key:'magnet',title:'The سَـ Magnet',ar:'مِغْنَاطِيس سَـ',desc:"One letter = I'll. Glue it on."},
+ {n:4,key:'who',title:'Who Does What?',ar:'مَنْ سَيَعْمَل؟',desc:'I\'ll / he\'ll / she\'ll / we\'ll — the person sticker.'},
+ {n:5,key:'register',title:'Suit or Slippers?',ar:'سَوْف أَمْ رَاح؟',desc:'سَوْف = I will. رَاح = I\'m gonna.'},
+ {n:6,key:'promise',title:'The Promise',ar:'الْوَعْد',desc:'Success words and the pledge.'},
+ {n:7,key:'meter',title:'The Confidence Meter',ar:'مِقْيَاس الثِّقَة',desc:'Every answer moves Muhammad\'s trust.'},
+ {n:8,key:'boss',title:'BOSS: The Master Roadmap',ar:'الْخُطَّة الْكُبْرَى',desc:'Everything, fast. Your missed words come back.',boss:true},
+ {n:9,key:'roleplay',title:'Face Muhammad',ar:'وَجْهًا لِوَجْه',desc:'Speak out loud, record, compare. Then your certificate.',boss:true}
+];
+
+/* =========================================================
+   STATE
+   ========================================================= */
+let P=null; // current player
+const STORE_KEY='ep21_future_v1';
+let DB={};
+function load(){try{DB=JSON.parse(localStorage.getItem(STORE_KEY)||'{}')||{}}catch(e){DB={}}}
+function save(){try{localStorage.setItem(STORE_KEY,JSON.stringify(DB))}catch(e){}}
+function prog(pid){pid=pid||P.id;if(!DB[pid])DB[pid]={stars:{},missed:{}};return DB[pid]}
+function totalStars(pid){const s=prog(pid).stars;return Object.values(s).reduce((a,b)=>a+b,0)}
+function miss(key){if(!key||!P)return;const m=prog().missed;m[key]=(m[key]||0)+1;save()}
+function hit(key){if(!key||!P)return;const m=prog().missed;if(m[key]){m[key]=Math.max(0,m[key]-1);save()}}
+load();
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+const $=s=>document.querySelector(s);
+const stage=$('#stage');
+const ar=t=>`<span class="ar">${t}</span>`;
+const G=()=>P?P.g:'m';
+const gx=(m,f)=>G()==='f'?f:m;
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function toast(msg,ms=2200){const t=$('#toast');t.innerHTML=msg;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),ms)}
+function others(){return ORDER.filter(id=>id!==P.id).map(id=>PLAYERS[id])}
+function joke(i){return `<div class="bubble layla joke"><span class="who-n">Layla's joke</span>${JOKES[i%JOKES.length]}</div>`}
+
+/* ---------- audio ---------- */
+function fileFor(id){
+  const L=LINES[id];if(!L)return null;
+  const n=L.v==='X'?(G()==='f'?'g_':'b_')+id:L.v==='B'?'b_'+id:L.v==='G'?'g_'+id:id;
+  return (window.AUDIO&&window.AUDIO[n])||n+'.mp3';
+}
+let curAudio=null;
+function stopAudio(){if(curAudio){try{curAudio.pause()}catch(e){}curAudio=null}try{speechSynthesis.cancel()}catch(e){}}
+function play(id){
+  return new Promise(res=>{
+    stopAudio();
+    const f=fileFor(id);if(!f){res();return}
+    const a=new Audio(f);curAudio=a;let done=false;
+    const fin=()=>{if(!done){done=true;res()}};
+    a.onended=fin;
+    a.onerror=()=>{ttsFallback(id).then(fin)};
+    a.play().catch(()=>{ if(!done && a.error){} });
+    setTimeout(fin,15000);
+  });
+}
+function ttsFallback(id){
+  return new Promise(res=>{
+    try{
+      const L=LINES[id];
+      if(!('speechSynthesis' in window)){toast('Audio coming soon');res();return}
+      const u=new SpeechSynthesisUtterance(L.ar.replace(/[ً-ْ]/g,''));
+      u.lang='ar-SA';u.rate=.85;
+      const vs=speechSynthesis.getVoices().filter(v=>v.lang&&v.lang.startsWith('ar'));
+      if(!vs.length){toast('Audio for this line is coming soon');res();return}
+      u.voice=vs[0];u.onend=res;u.onerror=res;speechSynthesis.speak(u);setTimeout(res,8000);
+    }catch(e){res()}
+  });
+}
+async function playSeq(ids){for(const id of ids){await play(id);await wait(250)}}
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+
+/* ---------- sfx ---------- */
+let AC=null;
+function sfx(type){
+  try{
+    AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    const notes={good:[660,880],bad:[220,170],tap:[520],win:[523,659,784,1046],flip:[440]}[type]||[440];
+    notes.forEach((f,i)=>{
+      const o=AC.createOscillator(),g=AC.createGain();
+      o.type=type==='bad'?'sawtooth':'triangle';o.frequency.value=f;
+      g.gain.setValueAtTime(.0001,AC.currentTime+i*.1);
+      g.gain.exponentialRampToValueAtTime(type==='bad'?.08:.18,AC.currentTime+i*.1+.02);
+      g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+i*.1+.22);
+      o.connect(g);g.connect(AC.destination);o.start(AC.currentTime+i*.1);o.stop(AC.currentTime+i*.1+.25);
+    });
+  }catch(e){}
+}
+
+/* ---------- confetti ---------- */
+function confetti(){
+  const c=$('#confetti'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;
+  const cols=['#C29A46','#0F6B4E','#BC7A34','#2f6fb5','#F2ECDE','#c2453a'];
+  const ps=Array.from({length:140},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height*.5,r:4+Math.random()*6,c:pick(cols),vy:2+Math.random()*4,vx:-2+Math.random()*4,a:Math.random()*6}));
+  let t=0;(function f(){x.clearRect(0,0,c.width,c.height);ps.forEach(p=>{p.y+=p.vy;p.x+=p.vx;p.a+=.1;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r/2,-p.r/2,p.r,p.r*1.6);x.restore()});if(++t<170)requestAnimationFrame(f);else x.clearRect(0,0,c.width,c.height)})();
+}
+
+/* ---------- recorder ---------- */
+const RECS={};let mediaRec=null,recKey=null;
+async function toggleRec(key,btn){
+  if(mediaRec&&mediaRec.state==='recording'){mediaRec.stop();return}
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    const chunks=[];mediaRec=new MediaRecorder(stream);recKey=key;
+    mediaRec.ondataavailable=e=>chunks.push(e.data);
+    mediaRec.onstop=()=>{stream.getTracks().forEach(t=>t.stop());RECS[key]=URL.createObjectURL(new Blob(chunks,{type:mediaRec.mimeType||'audio/webm'}));btn.classList.remove('on');btn.innerHTML='&#127908; Again';const cmp=btn.parentElement.querySelector('[data-a="cmp"]');if(cmp)cmp.disabled=false;toast('Saved! Press &#9654; Compare')};
+    mediaRec.start();btn.classList.add('on');btn.innerHTML='&#9632; Stop';
+    setTimeout(()=>{if(mediaRec&&mediaRec.state==='recording'&&recKey===key)mediaRec.stop()},7000);
+  }catch(e){toast('The microphone is blocked in this preview. Open the game from your class link (your website) to record. For now: listen, then say it out loud 3 times!',5000)}
+}
+async function compare(key){
+  await play(key);await wait(300);
+  if(RECS[key]){const a=new Audio(RECS[key]);curAudio=a;a.play().catch(()=>{})}
+}
+function speakBar(id){
+  return `<span class="speak" data-line="${id}"><button class="sbtn" data-a="play">&#128266; Listen</button><button class="sbtn rec" data-a="rec">&#127908; Record</button><button class="sbtn" data-a="cmp" ${RECS[id]?'':'disabled'}>&#9654; Compare</button><button class="sbtn chkbtn" data-a="chk">&#9989; Check me</button></span>`;
+}
+function phraseBox(id,extra=''){const L=LINES[id];return `<div class="phrase">${ar(L.ar)}<div class="en">${L.en}${extra}</div>${speakBar(id)}</div>`}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('.sbtn');if(!b)return;
+  const id=b.closest('.speak').dataset.line;const a=b.dataset.a;
+  if(a==='play')play(id);else if(a==='rec')toggleRec(id,b);else if(a==='cmp')compare(id);else if(a==='chk')checkSpeech(id,b);
+});
+
+
+/* ---------- teacher mode + mic availability ---------- */
+const TEACHER_CODE='ARABANION21';
+let TEACHER=false;try{TEACHER=localStorage.getItem('ep21_teacher')==='1'}catch(e){}
+try{const q=new URLSearchParams(location.search).get('teacher');if(q&&q.toUpperCase()===TEACHER_CODE){TEACHER=true;try{localStorage.setItem('ep21_teacher','1')}catch(e){}}}catch(e){}
+const SK={next:null,part:null};
+function setSkip(next,part){SK.next=next||part||null;SK.part=part||next||null}
+let SPEECH_ON=true;try{SPEECH_ON=localStorage.getItem('ep21_speech')!=='0'}catch(e){}
+const MIC_OK=!!(window.isSecureContext&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder)&&!(document.featurePolicy&&document.featurePolicy.allowsFeature&&!document.featurePolicy.allowsFeature('microphone'));
+const SR_OK=MIC_OK&&!!(window.SpeechRecognition||window.webkitSpeechRecognition);
+function applyModes(){document.body.classList.toggle('teacher',TEACHER);document.body.classList.toggle('nomic',!MIC_OK);document.body.classList.toggle('nocheck',!SR_OK||!SPEECH_ON);renderTeacherBar()}
+function renderTeacherBar(){
+  let bar=document.getElementById('tbar2');
+  if(!TEACHER){if(bar)bar.remove();return}
+  if(!bar){bar=document.createElement('div');bar.id='tbar2';document.querySelector('.topbar').after(bar)}
+  bar.innerHTML=`<span class="tlabel">Teacher</span><button data-t="next" title="Skip this question / screen">&#9197; Next</button><button data-t="part" title="Skip this whole part">&#9193; Skip part</button><button data-t="finish" title="Finish level now">&#127937; Finish level</button><button data-t="map">&#9776; Map</button><button data-t="speech">${SPEECH_ON?'Speech check: ON':'Speech check: OFF'}</button><button data-t="exit">&#10005; Exit</button>`;
+  bar.onclick=e=>{const t=e.target.closest('button');if(!t)return;stopAudio();const a=t.dataset.t;
+    if(a==='next'&&SK.next)SK.next();else if(a==='part'&&SK.part)SK.part();
+    else if(a==='finish'&&LV)finishLevel('<p class="note">Teacher skip — stars not saved.</p>');
+    else if(a==='map')P?showMap():showSelect();
+    else if(a==='speech'){SPEECH_ON=!SPEECH_ON;try{localStorage.setItem('ep21_speech',SPEECH_ON?'1':'0')}catch(e){}applyModes()}
+    else if(a==='exit'){TEACHER=false;try{localStorage.removeItem('ep21_teacher')}catch(e){}applyModes();P?showMap():showSelect()}};
+}
+function teacherLogin(){
+  const box=document.getElementById('tlogin');if(!box)return;
+  box.innerHTML=`<input id="tcode" type="password" placeholder="Teacher code" autocomplete="off"><button class="btn" id="tgo">Enter</button>`;
+  const go=()=>{if(($('#tcode').value||'').trim().toUpperCase()===TEACHER_CODE){TEACHER=true;try{localStorage.setItem('ep21_teacher','1')}catch(e){}applyModes();toast('Teacher mode ON: all levels unlocked, answers highlighted, skip buttons at the bottom.',4000);showSelect()}else{toast('Wrong code')}};
+  $('#tgo').onclick=go;$('#tcode').onkeydown=e=>{if(e.key==='Enter')go()};$('#tcode').focus();
+}
+
+/* ---------- speech check (browser speech recognition, ar-SA) ---------- */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+const NAMES=['علي','اندي','زيتونه','ساندرا','محمد','ليلي'];
+function normAr(t){return (t||'').replace(/(100|١٠٠)\s*(%|٪)?/g,' مئة بالمئة ').replace(/[\u064B-\u065F\u0670\u0640]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/[^\u0621-\u064A\s]/g,' ').replace(/\s+/g,' ').trim()}
+function lev(a,b){const m=a.length,n=b.length;const d=Array.from({length:m+1},(_,i)=>[i]);for(let j=1;j<=n;j++)d[0][j]=j;
+  for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n]}
+const SYN=[['غدا','بكره','بكرا','باكر']];
+function wordMatch(w,h){if(h===w)return true;
+  if(SYN.some(g=>g.includes(w)&&g.includes(h)))return true;
+  // the future prefix is the lesson: never forgive a missing or extra س
+  const fut=x=>/^(س|وس)[اتين]/.test(x);if(fut(w)!==fut(h))return false;
+  const strip=x=>x.replace(/^(و|ال|وال)/,'');if(strip(h)===strip(w)&&strip(w).length>=2)return true;
+  if(w.length>=4&&lev(h,w)<=1)return true;if(w.length>=6&&lev(h,w)<=2)return true;return false}
+function scoreSpeech(target,heard){
+  const orig=target.split(/\s+/).filter(x=>normAr(x));
+  const H=normAr(heard).split(' ').filter(Boolean);const used=H.map(()=>false);
+  const hits=orig.map(o=>{const w=normAr(o);if(NAMES.includes(w)||w==='يا')return true;
+    const i=H.findIndex((h,k)=>!used[k]&&wordMatch(w,h));if(i>=0){used[i]=true;return true}return false});
+  return {orig,hits,pct:Math.round(hits.filter(Boolean).length/Math.max(orig.length,1)*100)};
+}
+let recog=null;
+function checkSpeech(id,btn){
+  const L=LINES[id];if(!L)return;
+  if(!SR){toast('Speech check works in Chrome, Edge or Safari. You can still Record and Compare.',3500);return}
+  if(recog){try{recog.abort()}catch(e){}recog=null}
+  stopAudio();
+  const r=new SR();recog=r;r.lang='ar-SA';r.interimResults=false;r.maxAlternatives=5;r.continuous=false;
+  const old=btn.innerHTML;btn.classList.add('on');btn.innerHTML='&#127908; Listening… speak now';
+  let got=false;
+  r.onresult=e=>{got=true;const alts=[...e.results[0]].map(a=>a.transcript);
+    let best=null,bestT='';alts.forEach(t=>{const sc=scoreSpeech(L.ar,t);if(!best||sc.pct>best.pct){best=sc;bestT=t}});
+    showCheck(btn,best,bestT,id)};
+  r.onerror=e=>{toast(e.error==='not-allowed'||e.error==='service-not-allowed'?'The microphone is blocked here. Open the game from your class link (your website) and allow the microphone to use Check me.':e.error==='no-speech'?'I didn\'t hear anything — try again, a little louder.':'Speech check could not run here ('+e.error+'). Record & Compare still works.',3500)};
+  r.onend=()=>{btn.classList.remove('on');btn.innerHTML=old;recog=null;if(!got)return};
+  try{r.start()}catch(e){btn.classList.remove('on');btn.innerHTML=old}
+}
+function showCheck(btn,sc,heard,id){
+  const host=btn.closest('.speak');let box=host.nextElementSibling;
+  if(!box||!box.classList.contains('chk')){box=document.createElement('div');box.className='chk';host.insertAdjacentElement('afterend',box)}
+  const lvl=sc.pct>=80?'ok':sc.pct>=50?'mid':'no';
+  const msg=lvl==='ok'?pick(['Excellent pronunciation!','Muhammad is impressed!','Native-level confidence!','Clear and correct!']):lvl==='mid'?'Close! Listen again to the red words and repeat.':'Not yet. Press 🔊 Listen, then try again slowly.';
+  if(lvl==='ok'){sfx('good');hit(id)}else{sfx('bad');miss(id)}
+  box.className='chk '+lvl;
+  box.innerHTML=`<div class="chk-top"><b>${sc.pct}%</b> ${msg}</div>
+    <div class="ar chk-words">${sc.orig.map((w,i)=>`<span class="${sc.hits[i]?'w-ok':'w-no'}">${w}</span>`).join(' ')}</div>
+    ${sc.orig.some((w,i)=>!sc.hits[i]&&/^(س|وس)[اتين]/.test(normAr(w)))?`<div><b>Tip:</b> start the red verb with the ${ar('سَـ')} magnet — that's what makes it future!</div>`:''}
+    <div class="note">I heard: <span class="ar">${heard||'—'}</span></div>`;
+}
+
+/* ---------- SVG art ---------- */
+function svgMuhammad(){return `<svg viewBox="0 0 120 140" aria-hidden="true"><rect x="22" y="88" width="76" height="52" rx="24" fill="#1d2f4a"/><path d="M52 88 L60 112 L68 88 Z" fill="#fff"/><path d="M58 92 L62 92 L64 118 L60 124 L56 118Z" fill="#C29A46"/><rect x="51" y="70" width="18" height="20" rx="6" fill="#c08a64"/><ellipse cx="60" cy="52" rx="27" ry="30" fill="#c99872"/><path d="M33 48 Q34 20 60 20 Q86 20 87 48 Q80 32 60 32 Q40 32 33 48Z" fill="#2b2522"/><path d="M36 58 Q40 84 60 86 Q80 84 84 58 Q78 74 60 75 Q42 74 36 58Z" fill="#2b2522"/><circle cx="49" cy="52" r="3.4" fill="#2b2522"/><circle cx="71" cy="52" r="3.4" fill="#2b2522"/><path d="M43 44 h12 M65 44 h12" stroke="#2b2522" stroke-width="3" stroke-linecap="round"/><path d="M52 68 Q60 73 68 68" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>`}
+function svgLayla(){return `<svg viewBox="0 0 120 140" aria-hidden="true"><rect x="22" y="90" width="76" height="50" rx="24" fill="#F2ECDE" stroke="#1C7168" stroke-width="2"/><path d="M26 112 Q20 50 60 22 Q100 50 94 112 Q78 96 60 96 Q42 96 26 112Z" fill="#1C7168"/><ellipse cx="60" cy="60" rx="22" ry="26" fill="#d8a77f"/><path d="M38 58 Q38 30 60 30 Q82 30 82 58 Q76 40 60 40 Q44 40 38 58Z" fill="#1C7168"/><circle cx="51" cy="60" r="3.2" fill="#2b2522"/><circle cx="69" cy="60" r="3.2" fill="#2b2522"/><path d="M47 54 q4 -3 8 0 M65 54 q4 -3 8 0" stroke="#2b2522" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M50 71 Q60 79 70 71" stroke="#8a3b2e" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="45" cy="68" r="4" fill="#e9a08a" opacity=".5"/><circle cx="75" cy="68" r="4" fill="#e9a08a" opacity=".5"/></svg>`}
+function svgAvatar(p){
+  const icon={ali:'<rect x="44" y="30" width="32" height="40" rx="3" fill="#fff"/><path d="M50 40h20M50 48h20M50 56h14" stroke="#2f6fb5" stroke-width="3"/>',
+              andy:'<path d="M48 40 l-10 10 l10 10 M72 40 l10 10 l-10 10 M64 36 l-8 28" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+              zaytuna:'<rect x="36" y="34" width="48" height="32" rx="4" fill="#fff"/><rect x="40" y="38" width="40" height="22" rx="2" fill="#0F6B4E"/><rect x="54" y="66" width="12" height="6" fill="#fff"/>',
+              sandra:'<path d="M38 64 L50 50 L60 56 L80 34" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="80" cy="34" r="5" fill="#fff"/>'}[p.id];
+  return `<svg viewBox="0 0 120 100" aria-hidden="true"><circle cx="60" cy="50" r="46" fill="${p.color}"/><circle cx="60" cy="50" r="40" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2"/>${icon}</svg>`;
+}
+function sceneSVG(kind){
+  const board=`<rect x="250" y="40" width="460" height="260" rx="10" fill="#fff"/><rect x="250" y="40" width="460" height="260" rx="10" fill="none" stroke="#C29A46" stroke-width="6"/>`;
+  const tl=`<line x1="290" y1="170" x2="670" y2="170" stroke="#0E1E22" stroke-width="5"/><circle cx="310" cy="170" r="12" fill="#BC7A34"/><circle cx="430" cy="170" r="12" fill="#1C7168"/><circle cx="550" cy="170" r="12" fill="#0F6B4E"/><circle cx="660" cy="170" r="14" fill="#C29A46"/><text x="660" y="140" text-anchor="middle" font-size="26">&#9733;</text>`;
+  const extra={
+    deadline:`<rect x="560" y="70" width="110" height="80" rx="6" fill="#c2453a"/><text x="615" y="122" font-size="34" font-weight="800" fill="#fff" text-anchor="middle" font-family="Inter">?!</text>`,
+    team:`<g font-family="Inter" font-size="18" font-weight="700" fill="#0E1E22"><rect x="290" y="210" width="90" height="56" rx="8" fill="#e8f1fb"/><rect x="395" y="210" width="90" height="56" rx="8" fill="#fbefe3"/><rect x="500" y="210" width="90" height="56" rx="8" fill="#e3f2ec"/><rect x="605" y="210" width="90" height="56" rx="8" fill="#f2e8f6"/></g>`,
+    promise:`<path d="M480 230 l20 20 l40 -46" stroke="#0F6B4E" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+    coffee:`<rect x="560" y="200" width="60" height="70" rx="8" fill="#BC7A34"/><path d="M620 215 q24 0 24 20 q0 20 -24 20" stroke="#BC7A34" stroke-width="8" fill="none"/>`,
+    deal:`<path d="M380 230 q100 -60 200 0" stroke="#C29A46" stroke-width="10" fill="none"/><text x="480" y="250" text-anchor="middle" font-size="40" fill="#0F6B4E" font-family="Inter" font-weight="800">100%</text>`
+  }[kind]||'';
+  return `<svg viewBox="0 0 960 540" preserveAspectRatio="xMidYMid slice"><rect width="960" height="540" fill="#0E1E22"/><circle cx="820" cy="40" r="260" fill="rgba(194,154,70,.12)"/><rect x="0" y="420" width="960" height="120" fill="#132A2E"/><rect x="120" y="390" width="720" height="40" rx="8" fill="#5a3f26"/>${board}${tl}${extra}<g transform="translate(40,250) scale(1.25)">${svgMuhammad().replace(/<\/?svg[^>]*>/g,'')}</g><g transform="translate(770,262) scale(1.15)">${svgLayla().replace(/<\/?svg[^>]*>/g,'')}</g></svg>`;
+}
+function sceneBox(kind,videoN){
+  return `<div class="scene" data-vid="${videoN}">${sceneSVG(kind)}</div>`;
+}
+function mountVideos(){
+  document.querySelectorAll('.scene[data-vid]').forEach(s=>{
+    const n=s.dataset.vid;if(!n)return;
+    const v=document.createElement('video');v.src='video_'+n+'.mp4';v.muted=true;v.playsInline=true;v.loop=true;v.autoplay=true;v.setAttribute('playsinline','');
+    v.addEventListener('loadeddata',()=>{s.innerHTML='';s.appendChild(v);v.play().catch(()=>{})});
+    v.addEventListener('error',()=>{});
+    v.load();
+  });
+}
+function mohamedNote(n){
+  // optional teacher recording explain_L{n}.mp3 -> button appears only if file exists
+  const id='mn'+n;
+  setTimeout(()=>{const a=new Audio('explain_L'+n+'.mp3');a.addEventListener('loadedmetadata',()=>{const b=document.getElementById(id);if(b){b.classList.remove('hidden');b.onclick=()=>{stopAudio();curAudio=a;a.currentTime=0;a.play()}}});a.load()},50);
+  return `<button class="btn brass hidden" id="${id}">&#9658; Muhammad's voice note</button>`;
+}
+
+/* =========================================================
+   TOP BAR + SCREENS
+   ========================================================= */
+function setTop(title){
+  $('#tbTitle').innerHTML=title;
+  if(P){$('#tbMe').classList.remove('hidden');$('#tbMe').innerHTML=`<span class="dot" style="background:${P.color}">${P.en[0]}</span>${P.en}`;$('#tbStars').textContent='★ '+totalStars()}
+  else{$('#tbMe').classList.add('hidden');$('#tbStars').textContent=''}
+}
+$('#homeBtn').onclick=()=>{stopAudio();P?showMap():showSelect()};
+
+function showSelect(){
+  P=null;setTop('Future Projections <small>Episode 21</small>');
+  stage.innerHTML=`
+  <div class="hero">
+    <div class="eyebrow">The Global Summit &middot; Episode 21</div>
+    <p class="ar ar-title">تَوَقُّعَات الْمُسْتَقْبَل</p>
+    <p class="en-title">Future Projections</p>
+    <p style="max-width:60ch;color:#C9CFC7;margin:0">The idea is approved. Now Muhammad, the head of the summit, wants a timeline. Pick up your delegate badge, then promise him the future — in Arabic.</p>
+    <div class="badges">${ORDER.map(id=>{const p=PLAYERS[id];const s=totalStars(id);return `
+      <button class="badge" data-p="${id}"><div class="lanyard"></div><div class="bhead" style="background:${p.color}">Delegate</div>${svgAvatar(p)}
+      <div class="ar bname">${p.ar}</div><div class="ben">${p.en}</div><div class="brole">${p.role}</div><div class="bstars">${s?('★ '+s+' / 27'):'New'}</div></button>`}).join('')}</div>
+  </div>
+  <p class="note center" style="margin-top:14px">${MIC_OK?'Tip: use headphones. Every Arabic line has &#128266; listen, &#127908; record and &#9654; compare'+(SR_OK&&SPEECH_ON?', plus &#9989; Check me.':'.'):'Tip: use headphones. Press &#128266; and repeat every line out loud three times.'}</p>
+  <div class="center">${TEACHER?'<span class="note"><b>Teacher mode is ON</b> — every level is open. Use the gold bar at the bottom to jump around.</span>':'<button class="tlink" id="tlk">Teacher</button><div id="tlogin"></div>'}</div>`;
+  if($('#tlk'))$('#tlk').onclick=teacherLogin;
+  stage.querySelectorAll('.badge').forEach(b=>b.onclick=()=>{sfx('good');P=PLAYERS[b.dataset.p];briefing()});
+}
+
+function briefing(){
+  setTop('Mission Briefing');
+  stage.innerHTML=`<div class="card">
+   ${sceneBox('',1)}
+   <div class="spacer"></div>
+   <div class="eyebrow">Your badge: ${P.en} &middot; ${P.role}</div>
+   <h2 class="h1">${gx('Welcome back, delegate.','Welcome back, delegate.')}</h2>
+   <p class="muted">Last time the startup idea was approved. This morning Muhammad is standing at the whiteboard. He wants dates, tasks and promises. Your job: <b>${P.taskEn}</b> (${ar(P.taskAr)}).</p>
+   ${phraseBox('m_intro',' &middot; Muhammad')}
+   ${phraseBox('l_hi',' &middot; Layla, your fixer')}
+   <div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn big" id="go">Open the level map</button></div>
+  </div>`;
+  mountVideos();
+  setTimeout(()=>play('m_intro'),400);
+  $('#go').onclick=showMap;
+}
+
+function unlocked(n){if(n===1||TEACHER)return true;return !!prog().stars[n-1]}
+function showMap(){
+  stopAudio();LV=null;setTop('Level map');
+  const st=prog().stars;let nextN=LEVELS.find(l=>!st[l.n]);nextN=nextN?nextN.n:0;
+  stage.innerHTML=`<div class="row" style="justify-content:space-between"><div><div class="eyebrow">${P.en}'s roadmap</div><h2 class="h2" style="margin:2px 0">Nine steps to the deal</h2></div>
+   <div class="row">${TEACHER?'<button class="btn ghost" id="reset">Reset '+P.en+'\'s progress</button>':''}<button class="btn ghost" id="swap">Change badge</button></div></div>
+   <div class="map">${LEVELS.map(l=>{const s=st[l.n]||0;const lock=!unlocked(l.n);return `<button class="lvl ${l.boss?'boss':''} ${lock?'locked':''} ${l.n===nextN?'next':''}" data-n="${l.n}" ${lock?'disabled':''}>
+     <span class="ls">${'★'.repeat(s)}${'☆'.repeat(3-s)}</span><div class="ln">Level ${l.n}${lock?' &middot; locked':''}</div><div class="lt">${l.title}</div><div class="ar" style="font-size:18px;opacity:.8">${l.ar}</div><div class="ld">${l.desc}</div></button>`}).join('')}</div>
+   <p class="note" style="margin-top:14px">Finish a level to unlock the next. You can replay any level to earn more stars.</p>`;
+  $('#swap').onclick=showSelect;if($('#reset'))$('#reset').onclick=()=>{DB[P.id]={stars:{},missed:{}};save();toast('Progress reset');showMap()};setSkip(null,null);
+  stage.querySelectorAll('.lvl:not(.locked)').forEach(b=>b.onclick=()=>{sfx('tap');startLevel(+b.dataset.n)});
+}
+
+/* =========================================================
+   LEVEL ENGINE
+   ========================================================= */
+let LV=null; // {n, mistakes}
+function startLevel(n){
+  stopAudio();LV={n,mistakes:0};const L=LEVELS[n-1];
+  setTop(`Level ${n}: ${L.title}`);
+  explainScreen(n,()=>RUN[L.key]());
+}
+function finishLevel(extraHtml=''){
+  const n=LV.n;const m=LV.mistakes;
+  const stars=m<=1?3:m<=4?2:1;
+  const pr=prog();if(!TEACHER){pr.stars[n]=Math.max(pr.stars[n]||0,stars);save()}setTop(`Level ${n} complete`);
+  sfx('win');confetti();
+  const next=LEVELS[n];
+  stage.innerHTML=`<div class="card center">
+    <div class="eyebrow">Level ${n} complete</div>
+    <div class="bigstars">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
+    <h2 class="h2">${['','Good start.','Strong work.','Flawless!'][stars]} ${m?`(${m} slip${m>1?'s':''} — they'll come back in the boss level)`:''}</h2>
+    ${extraHtml}
+    ${phraseBox(gx('m_goodM','m_goodF'),' &middot; Muhammad')}
+    ${joke(n+3)}
+    <div class="row" style="justify-content:center;margin-top:16px">
+      <button class="btn ghost" id="again">Play again</button>
+      ${next?`<button class="btn big" id="nxt">Next: ${next.title}</button>`:`<button class="btn big" id="nxt">Back to map</button>`}
+    </div></div>`;
+  setTimeout(()=>play(gx('m_goodM','m_goodF')),500);
+  $('#again').onclick=()=>startLevel(n);
+  $('#nxt').onclick=()=>next?startLevel(n+1):showMap();
+}
+
+/* ---------- explanation screens (Muhammad explains) ---------- */
+const EXPLAIN={
+ 1:()=>`<p>Today's toolbox. Tap every card on the whiteboard: hear it, see it, say it. Nothing is scored here — just get comfortable.</p>
+   <div class="rule">Three groups: <b>time words</b> (when?), <b>future words</b> (will / gonna) and <b>success words</b> (the promise).</div>`,
+ 2:()=>`<p>Before you promise anything, you need a <b>when</b>.</p>
+   <div class="tri"><div>${ar('غَدًا')}<b>tomorrow in a suit</b><small>formal — Muhammad, emails, meetings</small></div><div>${ar('بُكْرَة')}<b>tomorrow in jeans</b><small>everyday — Layla, colleagues</small></div><div>${ar('الْأُسْبُوع الْقَادِم')}<b>the coming week</b><small>${ar('قَادِم')} = coming, like "upcoming"</small></div></div>
+   <div class="rule">Same day, different outfit: ${ar('غَدًا')} and ${ar('بُكْرَة')} both mean <b>tomorrow</b>. And ${ar('الْمُسْتَقْبَل')} is <b>the future</b> — the place where all your plans live.</div>
+   ${phraseBox('p_notToday')}`,
+ 3:()=>`<p>In English you glue <b>'ll</b> onto "I" and get <b>I'll</b>. Arabic does exactly the same with one letter: ${ar('سَـ')}.</p>
+   <div class="eq"><div class="box">${ar('سَـ')}<small>'ll</small></div><span class="op">+</span><div class="box">${ar('أَكْتُب')}<small>I write</small></div><span class="op">=</span><div class="box" style="border-color:var(--good)">${ar('سَأَكْتُب')}<small>I'll write</small></div></div>
+   <div class="rule">Rule: ${ar('سَـ')} goes at the very <b>front</b> and touches the verb. Keep the ${ar('أَ')} — that is the "I" sticker. No ${ar('أَ')}, no "I".</div>
+   ${phraseBox('p_file')}`,
+ 4:()=>`<p>English: <b>I'll, he'll, she'll, we'll</b>. One "will" plus a person. Arabic is a little train:</p>
+   <div class="train"><div style="background:#c2453a">${ar('سَـ')}<small>engine: will</small></div><div style="background:#1C7168">${ar('أَ / تَـ / يَـ / نَـ')}<small>car: who?</small></div><div style="background:#0E1E22">${ar('كْتُب')}<small>cargo: the verb</small></div></div>
+   <div class="tri"><div>${ar('سَأَكْتُب')}<b>I'll write</b><small>${ar('أَ')} = I</small></div><div>${ar('سَيَكْتُب')}<b>he'll write</b><small>${ar('يَـ')} = he</small></div><div>${ar('سَنَكْتُب')}<b>we'll write</b><small>${ar('نَـ')} = we (n for "nahnu")</small></div></div>
+   <div class="rule">${ar('سَتَكْتُب')} = <b>she'll</b> write, and also <b>you'll</b> write to a man. To a woman add <b>-een</b>: ${ar('سَتَكْتُبِين')}. ${gx('So Muhammad asks you: '+ar('مَاذَا سَتَعْمَل؟'),'So Muhammad asks you: '+ar('مَاذَا سَتَعْمَلِين؟'))}</div>
+   ${phraseBox(gx('m_whatM','m_whatF'),' &middot; Muhammad asks you')}`,
+ 5:()=>`<p>English has three futures. So does the office:</p>
+   <div class="tri"><div>${ar('سَـ')}<b>I'll</b><small>short, glued on — works everywhere</small></div><div>${ar('سَوْف')}<b>I will</b><small>full word — formal, written, the suit</small></div><div>${ar('رَاح')}<b>I'm gonna</b><small>spoken — the office, the slippers</small></div></div>
+   <div class="rule">Golden rule: <b>one "will" per verb</b>. You would never say "I'll gonna write". So never ${ar('سَـ')} + ${ar('رَاح')} together. After ${ar('رَاح')} or ${ar('سَوْف')} the verb stays plain: ${ar('رَاح نَكْتُب')} · ${ar('سَوْف نَكْتُب')}.</div>
+   ${phraseBox('l_rah',' &middot; Layla')}${phraseBox('l_sawfa',' &middot; Layla')}`,
+ 6:()=>`<p>One family, three words — like <b>success, succeed, successful</b> in English:</p>
+   <div class="tri"><div>${ar('نَجَاح')}<b>success</b><small>the thing</small></div><div>${ar('نَنْجَح')}<b>we succeed</b><small>${ar('نَـ')} = we</small></div><div>${ar('سَنَنْجَح')}<b>we'll succeed</b><small>${ar('سَـ')} + ${ar('نَنْجَح')}</small></div></div>
+   <div class="rule">${ar('وَعْد')} = a promise. ${ar('أَعِدَك')} (a'idak) = I promise <b>you</b> — to a man, like Muhammad. To a woman: ${ar('أَعِدِك')} (a'idik). Just like we say ${ar('عَلَيْك / عَلَيْكِ')}: <b>-ak</b> for him, <b>-ik</b> for her. Seal it with ${ar('هَذَا وَعْد!')} = That's a promise!</div>
+   ${phraseBox('p_vow')}`,
+ 7:()=>`<p>Meeting time. Muhammad's <b>confidence meter</b> starts at 50%. Every answer you give moves it up or down. Reach <b>70%</b> and he approves the timeline.</p>
+   <div class="rule">Think like a professional: give a <b>time</b>, a <b>task</b> with the right person, and a <b>promise</b>. Suit words for formal moments.</div>`,
+ 8:()=>`<p>The boss level mixes <b>everything</b>, fast. The words you slipped on earlier come back here on purpose — that is how they stick.</p>
+   <div class="rule">3 hearts. A timer bar. No panic: every answer still shows you <b>why</b>.</div>`,
+ 9:()=>`<p>No buttons to choose from now. Muhammad asks; you <b>answer out loud</b>. Record yourself, then compare with the model. Tick each tool you used.</p>
+   <div class="rule">Use all four: a <b>time</b> word, ${ar('سَـ')}, ${ar('رَاح')}, and a <b>promise</b>.</div>`
+};
+const VID={2:['deadline',2],4:['team',3],5:['coffee',4],6:['promise',5]};
+function explainScreen(n,go){
+  const L=LEVELS[n-1];
+  stage.innerHTML=`<div class="card">
+   <div class="eyebrow">Level ${n} &middot; Muhammad explains</div>
+   <h2 class="h1">${L.title}</h2>
+   ${VID[n]?`<div style="margin:10px 0 16px">${sceneBox(VID[n][0],VID[n][1])}</div>`:''}
+   <div class="explain">
+     <div class="who">${svgMuhammad()}<div class="center" style="font-weight:800">Muhammad</div><div class="center note">Head of the Summit</div></div>
+     <div>${EXPLAIN[n]()}${joke(n-1)}</div>
+   </div>
+   <div class="row" style="justify-content:flex-end;margin-top:16px">${mohamedNote(n)}<button class="btn big" id="go">${n===1?'Open the whiteboard':'Start'}</button></div>
+  </div>`;
+  mountVideos();setSkip(()=>{stopAudio();go()});
+  $('#go').onclick=()=>{stopAudio();sfx('tap');go()};
+}
+
+/* ---------- generic multiple-choice quiz with second-chance queue ---------- */
+function quiz(qs,{title='',onDone,timer=0,hearts=0,label=''}){
+  let queue=qs.map(q=>({...q})),i=0,lives=hearts,tm=null;
+  const total=()=>queue.length;
+  function render(){
+    if(i>=queue.length){onDone&&onDone({lives});return}
+    const q=queue[i];setSkip(()=>{clearTimeout(tm);i++;render()},()=>{clearTimeout(tm);onDone&&onDone({lives})});
+    const opts=q.noShuffle?q.options:shuffle(q.options);
+    stage.innerHTML=`<div class="card">
+      <div class="qhead"><div class="pbar"><i style="width:${(i/total())*100}%"></i></div><div class="qcount">${label||title} &middot; ${i+1}/${total()}</div>${hearts?`<div class="hearts">${'♥'.repeat(Math.max(lives,0))}${'♡'.repeat(Math.max(hearts-lives,0))}</div>`:''}</div>
+      ${timer?'<div class="timer"><i id="tbar"></i></div>':''}
+      ${q.retry?'<span class="second">Second chance</span>':''}
+      <div class="prompt">${q.prompt}${q.audio?` <button class="sbtn" id="rep">&#128266; Play again</button>`:''}</div>
+      <div class="opts">${opts.map((o,k)=>`<button class="opt" data-k="${k}" data-ok="${o.correct?1:0}">${o.html}</button>`).join('')}</div>
+      <div id="fbx"></div></div>`;
+    if(q.audio){const pl=()=>Array.isArray(q.audio)?playSeq(q.audio):play(q.audio);setTimeout(pl,250);$('#rep').onclick=pl}
+    let answered=false;
+    if(timer){const bar=$('#tbar');bar.style.transition=`width ${timer}s linear`;requestAnimationFrame(()=>requestAnimationFrame(()=>bar.style.width='0%'));tm=setTimeout(()=>{if(!answered)choose(null)},timer*1000)}
+    function choose(btn){
+      if(answered)return;answered=true;clearTimeout(tm);
+      const o=btn?opts[+btn.dataset.k]:null;const ok=o&&o.correct;
+      stage.querySelectorAll('.opt').forEach(b=>{b.disabled=true;if(opts[+b.dataset.k].correct)b.classList.add('right')});
+      if(btn&&!ok)btn.classList.add('wrong');
+      const right=opts.find(x=>x.correct);
+      if(ok){sfx('good');hit(q.key)}else{sfx('bad');LV&&LV.mistakes++;miss(q.key);if(hearts)lives--;
+        if(!q.retry&&!q.noRetry){const c={...q,retry:true};queue.splice(Math.min(i+3,queue.length),0,c)}}
+      const whyWrong=o&&!ok&&o.why?`<div class="why">&#10007; ${o.why}</div>`:(!o?'<div class="why">Time\'s up! Here is the answer.</div>':'');
+      const whyRight=`<div class="why">&#10003; ${right.why||q.why||''}</div>`;
+      $('#fbx').innerHTML=`<div class="fb ${ok?'ok':'no'}"><div class="fbt">${ok?pick(['Exactly!','Spot on!','Yes!','Perfect!','Nailed it!']):'Not quite — look why:'}</div>${whyWrong}${whyRight}
+        ${q.say?`<div><b>Now say it:</b> ${phraseBox(q.say)}</div>`:''}
+        <div class="row" style="justify-content:flex-end"><button class="btn" id="nx">${hearts&&lives<=0?'Continue':'Next'}</button></div></div>`;
+      if(q.say&&ok)setTimeout(()=>play(q.say),400);
+      $('#nx').onclick=()=>{stopAudio();i++;if(hearts&&lives<=0){onDone&&onDone({lives:0,failed:true});return}render()};
+      $('#fbx').scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+    stage.querySelectorAll('.opt').forEach(b=>b.onclick=()=>choose(b));
+  }
+  render();
+}
+const A=(t,correct,why)=>({html:ar(t),correct:!!correct,why});
+const E=(t,correct,why)=>({html:t,correct:!!correct,why});
+
+/* ---------- rapid recall ---------- */
+function recall(ids,next){
+  const pool=shuffle(ids).slice(0,6);
+  const all=Object.keys(LINES).filter(k=>k.startsWith('w_')||k.startsWith('v_'));
+  const qs=pool.map(id=>{const d=shuffle(all.filter(k=>k!==id&&LINES[k].en!==LINES[id].en)).slice(0,2);
+    return {key:id,prompt:`Rapid recall: ${ar(LINES[id].ar)}`,audio:id,noRetry:true,options:[E(LINES[id].en,1,`${ar(LINES[id].ar)} = <b>${LINES[id].en}</b>.`),...d.map(k=>E(LINES[k].en,0,`That would be ${ar(LINES[k].ar)}.`))]}});
+  stage.innerHTML=`<div class="card center"><div class="eyebrow">Rapid Recall</div><h2 class="h2">30-second memory sprint</h2><p class="muted">Six quick ones from this level. Hear it, see it, pick the meaning before the bar runs out.</p><button class="btn big" id="go">Go!</button></div>`;
+  setSkip(next);
+  $('#go').onclick=()=>quiz(qs,{label:'Rapid recall',timer:8,onDone:next});
+}
+
+/* ---------- place mechanic (timeline / sort bins) ---------- */
+function placeGame({title,intro,items,bins,cls,onDone}){
+  let sel=null,left=items.length;setSkip(onDone);
+  stage.innerHTML=`<div class="card"><div class="eyebrow">${title}</div><p class="prompt" style="font-weight:600">${intro}</p>
+    <div class="chips">${shuffle(items).map((it,k)=>`<button class="chipw ${it.cls||''}" data-i="${items.indexOf(it)}" data-bin="${it.bin}" data-hint="${TEACHER?(bins.find(b=>b.id===it.bin)||{}).label:''}">${ar(it.ar)}</button>`).join('')}</div>
+    <div class="slots ${cls}">${bins.map(b=>`<div class="slot" data-b="${b.id}"><span class="ic">${b.ic||''}</span><span class="sl">${b.label}</span><div class="bin-in"></div></div>`).join('')}</div>
+    <div id="fbx"></div></div>`;
+  stage.querySelectorAll('.chipw').forEach(c=>c.onclick=()=>{stage.querySelectorAll('.chipw').forEach(x=>x.classList.remove('sel'));c.classList.add('sel');sel=+c.dataset.i;sfx('tap');const it=items[sel];if(it.line)play(it.line);stage.querySelectorAll('.slot').forEach(s=>s.classList.add('hot'))});
+  stage.querySelectorAll('.slot').forEach(s=>s.onclick=()=>{
+    if(sel===null){toast('First tap a word, then tap where it belongs.');return}
+    const it=items[sel];const chip=stage.querySelector(`.chipw[data-i="${sel}"]`);
+    if(it.bin===s.dataset.b){sfx('good');hit(it.key);chip.classList.add('used');s.querySelector('.bin-in').insertAdjacentHTML('beforeend',ar(it.ar));left--;
+      $('#fbx').innerHTML=`<div class="fb ok"><div class="why">&#10003; ${it.why}</div></div>`;
+      sel=null;stage.querySelectorAll('.slot').forEach(x=>x.classList.remove('hot'));
+      if(!left){setTimeout(()=>{$('#fbx').innerHTML=`<div class="fb ok"><div class="fbt">All placed!</div><div class="row" style="justify-content:flex-end"><button class="btn" id="nx">Next</button></div></div>`;$('#nx').onclick=onDone},500)}
+    }else{sfx('bad');LV.mistakes++;miss(it.key);s.classList.add('shake');setTimeout(()=>s.classList.remove('shake'),400);
+      $('#fbx').innerHTML=`<div class="fb no"><div class="fbt">Not that one.</div><div class="why">&#10007; ${it.whyNo||it.why}</div></div>`}
+  });
+}
+
+/* ---------- build-a-sentence ---------- */
+function buildGame(rounds,onDone){
+  let r=0;
+  function render(){
+    if(r>=rounds.length){onDone();return}
+    const R=rounds[r];let built=[];window.__ANS=R.answer;setSkip(()=>{r++;render()},onDone);
+    const tiles=shuffle([...R.answer,...(R.extra||[])]);
+    stage.innerHTML=`<div class="card"><div class="qhead"><div class="pbar"><i style="width:${r/rounds.length*100}%"></i></div><div class="qcount">Build it &middot; ${r+1}/${rounds.length}</div></div>
+      <p class="prompt">Build: <b>"${R.en}"</b>${TEACHER?` <span class="note">(answer: ${ar(R.answer.join(' '))})</span>`:''}<br><span class="note">Tap the pieces in order. Arabic runs right &#8592; left, so the first piece lands on the right.</span></p>
+      <div class="buildrow" id="row"></div>
+      <div class="chips" id="pool">${tiles.map((t,k)=>`<button class="tile" data-k="${k}" data-t="${t}">${ar(t)}</button>`).join('')}</div>
+      <div class="row"><button class="btn ghost" id="undo">Undo</button><button class="btn" id="chk">Check</button></div><div id="fbx"></div></div>`;
+    const row=$('#row');
+    stage.querySelectorAll('#pool .tile').forEach(b=>b.onclick=()=>{sfx('tap');built.push(tiles[+b.dataset.k]);b.classList.add('used');b.style.visibility='hidden';b.dataset.used=1;row.insertAdjacentHTML('beforeend',`<span class="tile inrow">${ar(tiles[+b.dataset.k])}</span>`)});
+    $('#undo').onclick=()=>{if(!built.length)return;const last=built.pop();row.lastElementChild.remove();const b=[...stage.querySelectorAll('#pool .tile')].reverse().find(x=>x.dataset.used&&tiles[+x.dataset.k]===last);if(b){b.style.visibility='';delete b.dataset.used}};
+    $('#chk').onclick=()=>{
+      const ok=built.join(' ')===R.answer.join(' ');
+      if(ok){sfx('good');hit(R.key);$('#fbx').innerHTML=`<div class="fb ok"><div class="fbt">Perfect sentence!</div><div class="why">&#10003; ${R.why}</div><div><b>Now say it:</b> ${phraseBox(R.line)}</div><div class="row" style="justify-content:flex-end"><button class="btn" id="nx">Next</button></div></div>`;setTimeout(()=>play(R.line),300);$('#nx').onclick=()=>{r++;render()}}
+      else{sfx('bad');LV.mistakes++;miss(R.key);row.classList.add('shake');setTimeout(()=>row.classList.remove('shake'),400);
+        $('#fbx').innerHTML=`<div class="fb no"><div class="fbt">Almost. The right order is:</div><div class="phrase">${ar(R.answer.join(' '))}</div><div class="why">${R.hint}</div><div class="row" style="justify-content:flex-end"><button class="btn" id="retry">Try building it again</button></div></div>`;
+        $('#retry').onclick=render}
+    };
+  }
+  render();
+}
+
+/* ---------- memory match ---------- */
+function memoryGame(pairs,onDone){setSkip(onDone);
+  const cards=shuffle(pairs.flatMap((p,i)=>[{i,t:'ar',v:p.ar,line:p.line},{i,t:'en',v:p.en}]));
+  let open=[],done=0,lock=false,tries=0;
+  stage.innerHTML=`<div class="card"><div class="eyebrow">Memory Match</div><p class="prompt">Find each Arabic word and its English twin. Every Arabic card speaks when you flip it.</p><div class="mem">${cards.map((c,k)=>`<button class="mcard" data-k="${k}" data-pair="${c.i}">&#9670;</button>`).join('')}</div><div id="fbx"></div></div>`;
+  stage.querySelectorAll('.mcard').forEach(b=>b.onclick=()=>{
+    if(lock||b.classList.contains('open')||b.classList.contains('gone'))return;
+    const c=cards[+b.dataset.k];b.classList.add('open');b.innerHTML=c.t==='ar'?ar(c.v):`<span class="en">${c.v}</span>`;sfx('flip');if(c.t==='ar')play(c.line);
+    open.push(b);
+    if(open.length===2){lock=true;tries++;const [x,y]=open.map(o=>cards[+o.dataset.k]);
+      if(x.i===y.i&&x.t!==y.t){setTimeout(()=>{open.forEach(o=>{o.classList.remove('open');o.classList.add('gone')});sfx('good');open=[];lock=false;done++;
+        if(done===pairs.length){if(tries>pairs.length+4)LV.mistakes+=1;$('#fbx').innerHTML=`<div class="fb ok"><div class="fbt">All pairs found in ${tries} tries!</div><div class="row" style="justify-content:flex-end"><button class="btn" id="nx">Next</button></div></div>`;$('#nx').onclick=onDone}},450)}
+      else{setTimeout(()=>{open.forEach(o=>{o.classList.remove('open');o.innerHTML='&#9670;'});open=[];lock=false},1000)}}
+  });
+}
+
+/* ---------- order the dialogue ---------- */
+function orderGame(lines,onDone){setSkip(onDone);
+  let nextIdx=0;const sh=shuffle(lines.map((l,i)=>({...l,i})));
+  stage.innerHTML=`<div class="card"><div class="eyebrow">Put the conversation in order</div><p class="prompt">Tap the lines in the order they happen. Listen to each one as it lands.</p>
+    <div class="dlg" id="done"></div><div class="spacer"></div><div class="dlg" id="pool">${sh.map(l=>`<button class="dline" data-i="${l.i}"><span class="who">${l.who}</span>${ar(LINES[l.line]?LINES[l.line].ar:l.ar)}</button>`).join('')}</div><div id="fbx"></div></div>`;
+  stage.querySelectorAll('#pool .dline').forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.i;
+    if(i===nextIdx){sfx('good');b.classList.add('placed');$('#done').appendChild(b);b.onclick=null;play(lines[i].line);nextIdx++;$('#fbx').innerHTML=lines[i].why?`<div class="fb ok"><div class="why">&#10003; ${lines[i].why}</div></div>`:'';
+      if(nextIdx===lines.length)setTimeout(()=>{$('#fbx').innerHTML=`<div class="fb ok"><div class="fbt">The conversation flows!</div><div class="row" style="justify-content:flex-end"><button class="btn" id="nx">Next</button></div></div>`;$('#nx').onclick=onDone},600)}
+    else{sfx('bad');LV.mistakes++;b.classList.add('shake');setTimeout(()=>b.classList.remove('shake'),400);$('#fbx').innerHTML=`<div class="fb no"><div class="why">&#10007; Not yet. ${lines[nextIdx].hint}</div></div>`}
+  });
+}
+
+/* =========================================================
+   LEVEL CONTENT
+   ========================================================= */
+function verbFor(p,person){ // person: I, he, she, we, youM, youF
+  const k=p.verb==='k';
+  const map=k?{I:'سَأَكْتُب',he:'سَيَكْتُب',she:'سَتَكْتُب',we:'سَنَكْتُب'}:{I:'سَأَعْمَل',he:'سَيَعْمَل',she:'سَتَعْمَل',we:'سَنَعْمَل'};
+  return map[person];
+}
+function objFor(p){return p.verb==='k'?p.taskAr:'عَلَى '+p.taskAr}
+function verbEn(p){return p.verb==='k'?'write':'work on'}
+
+const RUN={
+ /* ---------- L1 explore ---------- */
+ explore(){
+  const groups=[
+   ['Time',['w_today','w_now','w_ghadan','w_bukra','w_nextweek','w_future','w_plan','w_ready'],{w_today:'&#9728;',w_now:'&#9200;',w_ghadan:'&#128084;',w_bukra:'&#128085;',w_nextweek:'&#128197;',w_future:'&#128301;',w_plan:'&#128203;',w_ready:'&#9989;'}],
+   ['Future',['w_sawfa','w_rah','v_saaktub','v_saa3mal','v_saadhhab','v_saatakallam'],{w_sawfa:'&#127913;',w_rah:'&#128062;',v_saaktub:'&#9997;',v_saa3mal:'&#128187;',v_saadhhab:'&#128694;',v_saatakallam:'&#128172;'}],
+   ['Success',['w_success','w_nanjah','w_sananjah','w_promise','w_a3iduka','w_a3iduki','w_mumtaz','w_akid'],{w_success:'&#127942;',w_nanjah:'&#128200;',w_sananjah:'&#128640;',w_promise:'&#129309;',w_a3iduka:'&#9757;',w_a3iduki:'&#9757;',w_mumtaz:'&#11088;',w_akid:'&#128175;'}]
+  ];
+  const all=groups.flatMap(g=>g[1]);const seen=new Set();
+  stage.innerHTML=`<div class="card"><div class="qhead"><div class="pbar"><i id="exb" style="width:0%"></i></div><div class="qcount" id="exc">0/${all.length} heard</div></div>
+   ${groups.map(g=>`<div class="eyebrow" style="margin-top:12px">${g[0]} words</div><div class="grid-cards">${g[1].map(id=>`<button class="vcard" data-id="${id}"><span class="ic">${g[2][id]}</span>${ar(LINES[id].ar)}<span class="en">${LINES[id].en}</span></button>`).join('')}</div>`).join('')}
+   <div id="sayzone"></div>
+   <div class="row" style="justify-content:flex-end;margin-top:16px"><button class="btn big" id="done" disabled>Hear all ${all.length} to continue</button></div></div>`;
+  stage.querySelectorAll('.vcard').forEach(b=>b.onclick=()=>{const id=b.dataset.id;play(id);b.classList.add('done');seen.add(id);
+    $('#exb').style.width=(seen.size/all.length*100)+'%';$('#exc').textContent=`${seen.size}/${all.length} heard`;
+    $('#sayzone').innerHTML=`<div class="spacer"></div><div class="eyebrow">Say it yourself</div>${phraseBox(id)}`;
+    if(seen.size===all.length){const d=$('#done');d.disabled=false;d.textContent='Whiteboard done!'}});
+  setSkip(()=>finishLevel());
+  $('#done').onclick=()=>finishLevel();
+ },
+
+ /* ---------- L2 deadline ---------- */
+ deadline(){
+  const ids=['w_today','w_now','w_ghadan','w_bukra','w_nextweek','w_future','w_plan','w_ready'];
+  const why={w_today:'الْيَوْم = today. Think "the day" — this one.',w_now:'الْآن = now. Muhammad\'s favourite word.',w_ghadan:'غَدًا = tomorrow in a suit (formal).',w_bukra:'بُكْرَة = tomorrow in jeans (everyday).',w_nextweek:'الْأُسْبُوع الْقَادِم = next week. قَادِم = coming, like "upcoming".',w_future:'الْمُسْتَقْبَل = the future, where your plans live.',w_plan:'خُطَّة = a plan. (Careful: خُطَّة with ـُ, not ـِ.)',w_ready:'جَاهِز = ready.'};
+  const fix=s=>s.replace(/([؀-ۿ][؀-ۿً-ْ\s]*[؀-ۿً-ْ])/g,m=>ar(m));
+  const qA=ids.map(id=>{const d=shuffle(ids.filter(k=>k!==id&&!(id==='w_ghadan'&&k==='w_bukra')&&!(id==='w_bukra'&&k==='w_ghadan'))).slice(0,3);
+    return {key:id,prompt:'Listen. What did you hear?',audio:id,options:[E(LINES[id].en,1,fix(why[id])),...d.map(k=>E(LINES[k].en,0,`That is ${ar(LINES[k].ar)}. Listen again for the difference.`))]}});
+  const timeline=()=>placeGame({title:'Build the timeline',intro:'Muhammad draws a line on the whiteboard. Tap a word, then tap its place on the timeline.',cls:'timeline',
+    bins:[{id:'t0',label:'Today / now',ic:'&#9728;'},{id:'t1',label:'Tomorrow',ic:'&#128198;'},{id:'t2',label:'Next week',ic:'&#128197;'},{id:'t3',label:'Far ahead',ic:'&#128301;'}],
+    items:[{ar:'الْيَوْم',bin:'t0',line:'w_today',key:'w_today',why:`${ar('الْيَوْم')} = today.`,whyNo:`${ar('الْيَوْم')} is today — the first stop.`},
+      {ar:'الْآن',bin:'t0',line:'w_now',key:'w_now',why:`${ar('الْآن')} = now. Even closer than today!`,whyNo:`${ar('الْآن')} = now — it can't be later than today.`},
+      {ar:'غَدًا',bin:'t1',line:'w_ghadan',key:'w_ghadan',why:`${ar('غَدًا')} = tomorrow (suit).`,whyNo:`${ar('غَدًا')} = tomorrow.`},
+      {ar:'بُكْرَة',bin:'t1',line:'w_bukra',key:'w_bukra',why:`${ar('بُكْرَة')} shares the box with ${ar('غَدًا')}: same day, different outfit.`,whyNo:`${ar('بُكْرَة')} = tomorrow, just everyday style.`},
+      {ar:'الْأُسْبُوع الْقَادِم',bin:'t2',line:'w_nextweek',key:'w_nextweek',why:`${ar('الْأُسْبُوع الْقَادِم')} = next week.`,whyNo:`${ar('الْقَادِم')} = coming. The coming week.`},
+      {ar:'الْمُسْتَقْبَل',bin:'t3',line:'w_future',key:'w_future',why:`${ar('الْمُسْتَقْبَل')} = the future: the far end of the line.`,whyNo:`${ar('الْمُسْتَقْبَل')} = the future — the farthest point.`}],
+    onDone:replies});
+  const replies=()=>quiz([
+    {key:'p_notToday',prompt:`Muhammad: ${ar(LINES.m_today.ar)}`,audio:'m_today',say:'p_notToday',options:[
+      A(LINES.p_notToday.ar,1,`"Not today! Ready tomorrow." You stalled like a pro: ${ar('لَيْسَ')} = not, ${ar('غَدًا')} = tomorrow.`),
+      A('نَعَم، جَاهِز أَمْس.',0,`${ar('أَمْس')} = yesterday. Ready in the past for a future deadline? Time travel isn't in the plan.`),
+      A('الْمُسْتَقْبَل جَاهِز.',0,`"The future is ready." Sounds like a movie trailer, not an answer.`)]},
+    {key:'p_nextweek',prompt:`Muhammad: ${ar(LINES.m_when.ar)}`,audio:'m_when',say:'p_nextweek',options:[
+      A(LINES.p_nextweek.ar,1,`${ar('مَتَى؟')} = when? So you answer with a <b>time</b>: next week.`),
+      A('مَتَى؟',0,`You answered his question with the same question. Bold. Not helpful.`),
+      A('نَعَم.',0,`"When?" needs a time, not "yes".`)]},
+    {key:'p_planNow',prompt:`Muhammad: ${ar(LINES.m_bukraQ.ar)}`,audio:'m_bukraQ',say:'p_planNow',options:[
+      A(LINES.p_planNow.ar,1,`He wants it ${ar('الْآن')} (now), so you deliver now. Notice ${ar('الْخُطَّة جَاهِزَة')}: plan ends in ${ar('ـة')}, so ready gets ${ar('ـة')} too.`),
+      A('بُكْرَة، بُكْرَة!',0,`He just complained about ${ar('بُكْرَة')}! Saying it twice makes it worse.`),
+      A('الْيَوْم؟',0,`Asking "today?" back doesn't give him a plan.`)]}
+  ],{label:'Best reply',onDone:()=>recall(ids,()=>finishLevel())});
+  quiz(qA,{label:'Listen & pick',onDone:timeline});
+ },
+
+ /* ---------- L3 magnet ---------- */
+ magnet(){
+  const verbs=[['v_aktub','v_saaktub'],['v_a3mal','v_saa3mal'],['v_adhhab','v_saadhhab'],['v_atakallam','v_saatakallam']];let vi=0;
+  function mag(){
+    if(vi>=verbs.length){stageB();return}
+    const [p,f]=verbs[vi];setSkip(()=>{vi++;mag()},()=>{vi=verbs.length;mag()});
+    stage.innerHTML=`<div class="card center"><div class="eyebrow">Magnet ${vi+1}/4</div><p class="prompt">Present: <b>${LINES[p].en}</b>. Tap the red magnet to send it into the future.</p>
+     <div class="row" style="justify-content:center;gap:18px;direction:rtl"><button class="magnet ar" id="mg">سَـ</button><div class="verbbox ar" id="vb">${LINES[p].ar}</div></div>
+     <div id="fbx" style="text-align:left"></div></div>`;
+    setTimeout(()=>play(p),300);
+    $('#mg').onclick=()=>{sfx('good');$('#mg').style.visibility='hidden';const vb=$('#vb');vb.classList.add('fut');vb.innerHTML=LINES[f].ar;play(f);
+      $('#fbx').innerHTML=`<div class="fb ok"><div class="fbt">${LINES[p].en} &#8594; <b>${LINES[f].en}</b></div><div class="why">One letter, ${ar('سَـ')}, glued to the front. Everything else stays the same.</div>${phraseBox(f)}<div class="row" style="justify-content:flex-end"><button class="btn" id="nx">Next verb</button></div></div>`;
+      $('#nx').onclick=()=>{vi++;mag()}};
+  }
+  const qB=()=>{
+    const mk=(enF,fut,pres,stripped,wrongSide,key)=>({key,prompt:`Which one means <b>"${enF}"</b>?`,options:[
+      A(fut,1,`${ar('سَـ')} at the front + ${ar('أَ')} (I) + verb = ${enF}.`),
+      A(pres,0,`${ar(pres)} is the present: no magnet, no future.`),
+      A(stripped,0,`The ${ar('أَ')} fell off! ${ar('أَ')} is the "I" sticker. Without it nobody knows who will do it.`),
+      A(wrongSide,0,`The magnet always goes at the very front, before the person sticker ${ar('أَ')}.`)]});
+    return [
+      mk("I'll write",'سَأَكْتُب','أَكْتُب','سَكْتُب','أَسَكْتُب','v_saaktub'),
+      mk("I'll work",'سَأَعْمَل','أَعْمَل','سَعْمَل','أَسَعْمَل','v_saa3mal'),
+      mk("I'll go",'سَأَذْهَب','أَذْهَب','سَذْهَب','أَسَذْهَب','v_saadhhab'),
+      mk("I'll speak",'سَأَتَكَلَّم','أَتَكَلَّم','سَتَكَلَّم','أَسَتَكَلَّم','v_saatakallam'),
+      {key:'v_saa3mal',prompt:`What does ${ar('سَأَعْمَل')} mean?`,audio:'v_saa3mal',options:[E("I'll work",1,`${ar('سَـ')} = 'll, ${ar('أَعْمَل')} = I work.`),E('I work',0,`"I work" is ${ar('أَعْمَل')} — no ${ar('سَـ')}.`),E('I worked',0,`Past tense isn't today's topic; ${ar('سَـ')} always points forward.`)]},
+      {key:'v_saadhhab',prompt:'Listen. Present or future?',audio:'v_saadhhab',options:[E("Future: I'll go",1,`You heard the "sa" at the start: ${ar('سَأَذْهَب')}.`),E('Present: I go',0,`Listen for the "sa-" at the very start. That's the future signal.`)]}
+    ];
+  };
+  function stageB(){quiz(qB(),{label:'Spot the future',onDone:stageC})}
+  function stageC(){
+    const task=P.verb==='k'?['سَأَكْتُب',P.taskAr+(P.id==='ali'?'':''),'غَدًا']:['سَأَعْمَل','عَلَى',P.taskAr,'غَدًا'];
+    buildGame([
+      {key:'t_'+P.id,en:LINES['t_'+P.id].en,answer:P.verb==='k'?['سَأَكْتُب',P.taskAr,'غَدًا']:['سَأَعْمَل','عَلَى','الشَّاشَة','غَدًا'],extra:['أَمْس'],line:'t_'+P.id,why:`Future verb first, then <b>${P.taskEn}</b>, then the time. This is <b>your</b> line for the meeting.`,hint:`Start with the future verb (the one with ${ar('سَـ')}), then the thing, then the time. ${ar('أَمْس')} = yesterday — it doesn't belong in a promise.`},
+      {key:'p_file',en:"I'll write the file tomorrow.",answer:['سَأَكْتُب','الْمَلَفّ','غَدًا'],extra:['أَكْتُب'],line:'p_file',why:`${ar('سَأَكْتُب')} (I'll write) + ${ar('الْمَلَفّ')} (the file) + ${ar('غَدًا')} (tomorrow).`,hint:`${ar('أَكْتُب')} without ${ar('سَـ')} is "I write" (present). We need the future one.`}
+    ],()=>recall(['v_saaktub','v_saa3mal','v_saadhhab','v_saatakallam','v_aktub','v_a3mal','w_ghadan'],()=>finishLevel()));
+  }
+  mag();
+ },
+
+ /* ---------- L4 who ---------- */
+ who(){
+  const os=others();
+  const conjQ=os.map(t=>{
+    const she=t.g==='f';const right=verbFor(t,she?'she':'he');const wrongG=verbFor(t,she?'he':'she');
+    return {key:'d_'+t.id,prompt:`Assign the task: <b>"${t.en} will ${verbEn(t)} ${t.taskEn}."</b><br>${ar(t.ar+' ___ '+objFor(t))}`,say:'d_'+t.id,options:[
+      A(right,1,`${t.en} is <b>${she?'she':'he'}</b> &#8594; ${ar(she?'تَـ':'يَـ')}. ${ar(right)} = ${she?'she':'he'}'ll ${verbEn(t)}.`),
+      A(wrongG,0,`${ar(wrongG)} is for ${she?'"he"':'"she"'}. ${t.en} is ${she?'she':'he'}: use ${ar(she?'تَـ':'يَـ')}.`),
+      A(verbFor(t,'I'),0,`${ar('أَ')} = I. That would mean <b>you</b> take ${t.en}'s job!`),
+      A(verbFor(t,'we'),0,`${ar('نَـ')} = we. That's the whole team, not just ${t.en}.`)]};
+  });
+  const extra=[
+   {key:'c_sanaktub',prompt:'<b>"We\'ll write the report together."</b> Which verb?',options:[A('سَنَكْتُب',1,`${ar('نَـ')} = we (think "nahnu"). ${ar('سَنَكْتُب')} = we'll write.`),A('سَأَكْتُب',0,`${ar('أَ')} = I. You're taking all the credit!`),A('سَيَكْتُب',0,`${ar('يَـ')} = he.`),A('سَتَكْتُب',0,`${ar('تَـ')} = she / you.`)]},
+   {key:'m_whatM',prompt:'Muhammad turns to <b>Andy</b> (a man). What does he ask?',options:[A('مَاذَا سَتَعْمَل غَدًا؟',1,`To a man: ${ar('سَتَعْمَل')}.`),A('مَاذَا سَتَعْمَلِين غَدًا؟',0,`${ar('ـِين')} at the end is for a woman. Andy is a man.`)]},
+   {key:'m_whatF',prompt:'Muhammad turns to <b>Sandra</b> (a woman). What does he ask?',options:[A('مَاذَا سَتَعْمَلِين غَدًا؟',1,`To a woman add <b>-een</b>: ${ar('سَتَعْمَلِين')}.`),A('مَاذَا سَتَعْمَل غَدًا؟',0,`That's how you ask a man. For Sandra add ${ar('ـِين')}.`)]},
+   {key:'t_'+P.id,prompt:`Muhammad asks <b>you</b>: ${ar(gx(LINES.m_whatM.ar,LINES.m_whatF.ar))}`,audio:[ 'm_name_'+P.id, gx('m_whatM','m_whatF')],say:'t_'+P.id,options:[
+      A(LINES['t_'+P.id].ar,1,`You answer with ${ar('أَ')} = I. That's your own task: <b>${P.taskEn}</b>.`),
+      A(LINES['d_'+P.id].ar,0,`That's how someone else talks <b>about</b> you. Talking about yourself? Use ${ar('أَ')}.`),
+      A(P.verb==='k'?'سَتَكْتُب '+P.taskAr+' غَدًا.':'سَتَعْمَل عَلَى الشَّاشَة غَدًا.',0,`${ar('سَتَـ')} = you/she will. You're repeating his question back at him.`)]}
+  ];
+  const listen=()=>{
+    const ppl=shuffle(ORDER.map(id=>PLAYERS[id]));let k=0;
+    function one(){
+      if(k>=ppl.length){recall(['c_sanaktub','c_sayaktub','c_sataktub','c_sataktubin','v_saaktub','v_saa3mal'],()=>finishLevel());return}
+      const t=ppl[k];setSkip(()=>{k++;one()},()=>{k=ppl.length;one()});
+      stage.innerHTML=`<div class="card"><div class="qhead"><div class="pbar"><i style="width:${k/ppl.length*100}%"></i></div><div class="qcount">Who will do it? ${k+1}/4</div></div>
+       <p class="prompt">Listen to the plan. <b>Who</b> got the job? <button class="sbtn" id="rep">&#128266; Play again</button></p>
+       <div class="avatars">${ORDER.map(id=>`<button class="avbtn" data-id="${id}" style="${TEACHER&&id===t.id?'outline:3px dashed var(--brass)':''}">${svgAvatar(PLAYERS[id])}${ar(PLAYERS[id].ar)}<b>${PLAYERS[id].en}</b></button>`).join('')}</div><div id="fbx"></div></div>`;
+      const pl=()=>play('d_'+t.id);setTimeout(pl,300);$('#rep').onclick=pl;let done=false;
+      stage.querySelectorAll('.avbtn').forEach(b=>b.onclick=()=>{if(done)return;done=true;const ok=b.dataset.id===t.id;
+        if(ok){sfx('good');b.style.borderColor='var(--good)'}else{sfx('bad');LV.mistakes++;miss('d_'+t.id);b.style.borderColor='var(--bad)';stage.querySelector(`.avbtn[data-id="${t.id}"]`).style.borderColor='var(--good)'}
+        $('#fbx').innerHTML=`<div class="fb ${ok?'ok':'no'}"><div class="fbt">${ok?'Right!':'It was '+t.en+'.'}</div><div class="why">${phraseBox('d_'+t.id)} The name comes first, then ${ar(t.g==='f'?'سَتَـ':'سَيَـ')} (${t.g==='f'?'she':'he'} will).</div><div class="row" style="justify-content:flex-end"><button class="btn" id="nx">Next</button></div></div>`;
+        $('#nx').onclick=()=>{k++;one()}});
+    }
+    one();
+  };
+  quiz([...conjQ,...extra],{label:'Assign the tasks',onDone:listen});
+ },
+
+ /* ---------- L5 register ---------- */
+ register(){
+  const sort=()=>placeGame({title:'Suit or slippers?',intro:'Where would you hear it? Tap a sentence, then tap the room.',cls:'bins',
+    bins:[{id:'f',label:'Formal meeting with Muhammad',ic:'&#127913;'},{id:'s',label:'Coffee with Layla',ic:'&#9749;'}],
+    items:[{ar:LINES.p_meeting.ar,bin:'f',line:'p_meeting',key:'w_sawfa',why:`${ar('سَوْف')} = the suit. Formal "will".`,whyNo:`${ar('سَوْف')} is the formal "I will" — it belongs in the meeting.`},
+      {ar:LINES.p_rahWork.ar,bin:'s',line:'p_rahWork',key:'w_rah',why:`${ar('رَاح')} + ${ar('بُكْرَة')} = full slippers mode.`,whyNo:`${ar('رَاح')} = gonna. Spoken, relaxed: Layla's room.`},
+      {ar:LINES.p_planGhad.ar,bin:'f',line:'p_planGhad',key:'w_ghadan',why:`${ar('غَدًا')} = tomorrow in a suit.`,whyNo:`${ar('غَدًا')} is the formal tomorrow.`},
+      {ar:LINES.p_planBukra.ar,bin:'s',line:'p_planBukra',key:'w_bukra',why:`${ar('بُكْرَة')} = tomorrow in jeans.`,whyNo:`${ar('بُكْرَة')} is the everyday tomorrow.`},
+      {ar:LINES.p_100.ar,bin:'s',line:'p_100',key:'w_rah',why:`${ar('رَاح نَنْجَح')} = we're gonna succeed. Pure office energy.`,whyNo:`Spot the ${ar('رَاح')}: that's spoken style.`},
+      {ar:LINES.p_sawfaSucceed.ar,bin:'f',line:'p_sawfaSucceed',key:'w_sawfa',why:`${ar('سَوْف نَنْجَح')} = We will succeed. Investor-ready.`,whyNo:`${ar('سَوْف')} = formal.`}],
+    onDone:hunt});
+  const hunt=()=>{
+    const rounds=[
+      [['رَاح نَكْتُب الْمَلَفّ',1],['سَرَاح نَكْتُب',0],['سَنَكْتُب الْمَلَفّ',1]],
+      [['رَاح سَنَعْمَل',0],['رَاح نَعْمَل',1],['سَوْف نَعْمَل',1]],
+      [['سَوْف سَنَذْهَب',0],['سَوْف نَذْهَب',1],['سَنَذْهَب',1]],
+      [['سَأَكْتُب غَدًا',1],['رَاح أَكْتُب بُكْرَة',1],['سَأَكْتُب أَمْس',0]]];
+    const whyBad=[`${ar('سَرَاح')} glues two "wills" together — like "I'll gonna write". One will per verb.`,
+      `${ar('رَاح')} + ${ar('سَـ')} = "gonna will work". Drop the ${ar('سَـ')}: ${ar('رَاح نَعْمَل')}.`,
+      `${ar('سَوْف')} + ${ar('سَـ')} = "will will go". Pick one: ${ar('سَوْف نَذْهَب')} or ${ar('سَنَذْهَب')}.`,
+      `${ar('سَـ')} (future) + ${ar('أَمْس')} (yesterday) = a time machine. Use ${ar('غَدًا')} or ${ar('بُكْرَة')}.`];
+    quiz(rounds.map((r,i)=>({key:'w_rah',prompt:'Error hunter: tap the <b>broken</b> sentence.',noShuffle:false,options:r.map(([t,ok])=>A(t,!ok,ok?`This one is fine: one "will" and a matching time.`:whyBad[i]))})),{label:'Error hunter',onDone:convert});
+  };
+  const convert=()=>quiz([
+    {key:'w_rah',prompt:`Say it <b>Layla-style</b> (spoken): ${ar('سَنَعْمَل بُكْرَة')}`,say:'p_rahWork',options:[A('رَاح نَعْمَل بُكْرَة',1,`Swap ${ar('سَـ')} for ${ar('رَاح')} and keep the verb plain.`),A('رَاح سَنَعْمَل بُكْرَة',0,`Two wills! Remove the ${ar('سَـ')} after ${ar('رَاح')}.`),A('سَوْف نَعْمَل بُكْرَة',0,`${ar('سَوْف')} is the suit. Layla wants slippers.`)]},
+    {key:'w_sawfa',prompt:`Say it <b>Muhammad-style</b> (formal): ${ar('رَاح نَذْهَب إِلَى الِاجْتِمَاع')}`,say:'p_meeting',options:[A(LINES.p_meeting.ar,1,`${ar('سَوْف')} = the formal full-word "will".`),A('سَوْف سَنَذْهَب إِلَى الِاجْتِمَاع',0,`"Will will go" — one will only.`),A('رَاح نَذْهَب بُكْرَة',0,`Still slippers: ${ar('رَاح')} and ${ar('بُكْرَة')}.`)]},
+    {key:'w_sananjah',prompt:`Say it <b>Layla-style</b>: ${ar('سَنَنْجَح')}`,say:'p_100',options:[A('رَاح نَنْجَح',1,`${ar('سَنَنْجَح')} &#8594; ${ar('رَاح نَنْجَح')}: same meaning, spoken outfit.`),A('رَاح سَنَنْجَح',0,`Double will again. ${ar('رَاح')} + plain verb.`)]}
+  ],{label:'Switch the outfit',onDone:()=>recall(['w_sawfa','w_rah','w_ghadan','w_bukra','w_sananjah','w_nanjah'],()=>finishLevel())});
+  sort();
+ },
+
+ /* ---------- L6 promise ---------- */
+ promise(){
+  const mem=()=>memoryGame([
+    {ar:'نَجَاح',en:'success',line:'w_success'},{ar:'نَنْجَح',en:'we succeed',line:'w_nanjah'},{ar:'سَنَنْجَح',en:'we will succeed',line:'w_sananjah'},
+    {ar:'وَعْد',en:'a promise',line:'w_promise'},{ar:'أَعِدَك',en:'I promise you',line:'w_a3iduka'},{ar:'مُمْتَاز',en:'excellent',line:'w_mumtaz'}],order);
+  const order=()=>orderGame([
+    {who:'Muhammad',line:'m_planGood',hint:'Muhammad opens with a question about the plan.',why:'He opens: "Is the plan good?"'},
+    {who:P.en,line:'p_pledge',hint:'You answer his question first — yes, and you promise.',why:`You: yes + ${ar('أَعِدَك')} + the plan is excellent.`},
+    {who:'Muhammad',line:'m_succeedQ',hint:'Now Muhammad pushes further: will we succeed?',why:`${ar('وَهَلْ سَنَنْجَح؟')} = And will we succeed?`},
+    {who:P.en,line:'p_vow',hint:'You close with the vow.',why:`Close the deal: ${ar('هَذَا وَعْد!')}`}],quiz6);
+  const quiz6=()=>quiz([
+    {key:'w_sananjah',prompt:'<b>"We will succeed."</b>',options:[A('سَنَنْجَح',1,`${ar('سَـ')} + ${ar('نَنْجَح')}.`),A('نَجَاح',0,`${ar('نَجَاح')} = success (the noun).`),A('نَنْجَح',0,`${ar('نَنْجَح')} = we succeed (present). Add ${ar('سَـ')}!`)]},
+    {key:'w_success',prompt:'<b>"Success"</b> — the thing investors want.',options:[A('نَجَاح',1,`${ar('نَجَاح')} = success.`),A('نَنْجَح',0,`That's the verb: we succeed.`),A('وَعْد',0,`${ar('وَعْد')} = a promise.`)]},
+    {key:'w_a3iduka',prompt:'Tell Muhammad: <b>"I promise you."</b>',options:[A('أَعِدَك',1,`<b>-ak</b> = you (to a man). Muhammad is a man, so: a'idak.`),A('أَعِدِك',0,`<b>-ik</b> is "you" for a woman (a'idik). Muhammad would be confused.`),A('وَعْد',0,`${ar('وَعْد')} is just "a promise" — the noun, not "I promise you".`)]},
+    {key:'w_mumtaz',prompt:'<b>"The plan is excellent."</b>',say:'p_pledge',options:[A('الْخُطَّة مُمْتَازَة',1,`${ar('الْخُطَّة')} ends in ${ar('ـة')}, so its adjective also takes ${ar('ـة')}: ${ar('مُمْتَازَة')}.`),A('الْخُطَّة مُمْتَاز',0,`The plan is "feminine" (${ar('ـة')}), so excellent needs ${ar('ـة')} too.`)]},
+    {key:'w_promise',prompt:`Seal the deal: ${ar('هَذَا ___ !')} (That's a promise!)`,say:'p_vow',options:[A('وَعْد',1,`${ar('هَذَا وَعْد!')} = That's a promise!`),A('نَجَاح',0,`"That's success!" — nice, but you're promising, not celebrating yet.`),A('بُكْرَة',0,`"That's tomorrow!" Muhammad will not be amused.`)]}
+  ],{label:'Promise words',onDone:()=>recall(['w_success','w_nanjah','w_sananjah','w_promise','w_a3iduka','w_a3iduki','w_mumtaz','w_akid'],()=>finishLevel())});
+  mem();
+ },
+
+ /* ---------- L7 meter ---------- */
+ meter(){
+  let conf=50,turn=0;const tm=pick(others());
+  const T=[
+   {q:['m_name_'+P.id,'m_when'],opts:[[LINES.p_nextweek.ar,20,'A clear time. Muhammad relaxes.'],['جَاهِز أَمْس.',-15,`${ar('أَمْس')} = yesterday. He knows it isn't ready yet.`],['نَعَم.',-10,'"When?" needs a time, not a yes.']]},
+   {q:[gx('m_whatM','m_whatF')],opts:[[LINES['t_'+P.id].ar,20,`Your task with ${ar('سَأَ')} = I'll. Confident!`],[P.verb==='k'?'أَكْتُب '+P.taskAr+'.':'أَعْمَل عَلَى الشَّاشَة.',-5,'That is present tense ("I write"). He asked about tomorrow — add سَـ.'],[P.verb==='k'?'سَتَكْتُب '+P.taskAr+'.':'سَتَعْمَل عَلَى الشَّاشَة.',-10,`${ar('سَتَـ')} = you will. You just gave the job back to Muhammad!`]]},
+   {q:['m_team'],opts:[[LINES['d_'+tm.id].ar,20,`${tm.en} = ${tm.g==='f'?'she':'he'} &#8594; ${ar(tm.g==='f'?'سَتَـ':'سَيَـ')}. Delegation done.`],[tm.ar+' '+verbFor(tm,tm.g==='f'?'he':'she')+' '+objFor(tm)+'.',-10,`Wrong person sticker: ${tm.en} is ${tm.g==='f'?'she (تَـ)':'he (يَـ)'}.`],[verbFor(tm,'I')+' '+objFor(tm)+'.',-5,`${ar('أَ')} = I. Now you're doing ${tm.en}'s job too.`]]},
+   {q:['m_future'],opts:[[LINES.p_100.ar,20,`${ar('رَاح نَنْجَح')} — gonna succeed, 100%. Energy!`],['رَاح سَنَنْجَح!',-10,'Double "will": رَاح + سَـ. One only.'],['الْمُسْتَقْبَل أَمْس.',-15,'"The future is yesterday." Muhammad checks your temperature.']]},
+   {q:['m_formal'],opts:[[LINES.p_meeting.ar,20,`Formal moment &#8594; ${ar('سَوْف')}. The suit fits.`],['رَاح نَذْهَب بُكْرَة.',5,'Correct Arabic, but slippers in a formal meeting. Use سَوْف / غَدًا.'],['سَوْف سَنَذْهَب.',-10,'"Will will go." One will per verb.']]},
+   {q:['m_succeedQ'],opts:[[LINES.p_vow.ar,25,`${ar('سَنَنْجَح')} + ${ar('هَذَا وَعْد!')} — the strongest close.`],['لَا أَعْرِف.',-20,'"I don\'t know." The meter just fainted.'],['نَجَاح.',0,'One word: "success". True, but where is your promise?']]}
+  ];
+  function render(){
+   if(turn>=T.length){end();return}
+   const t=T[turn];const opts=shuffle(t.opts);setSkip(()=>{turn++;render()},()=>{conf=Math.max(conf,70);turn=T.length;render()});
+   stage.innerHTML=`<div class="card"><div class="eyebrow">Confidence meter &middot; turn ${turn+1}/${T.length}</div>
+     <div class="meter"><i style="width:${conf}%"></i><span>Muhammad's confidence: ${conf}%</span></div>
+     <div class="explain" style="margin-top:14px"><div class="who">${svgMuhammad()}</div><div>
+     <div class="bubble"><span class="who-n" style="color:var(--ink)">Muhammad</span>${ar(t.q.map(id=>LINES[id].ar).join(' '))}<br><span class="note">${t.q.map(id=>LINES[id].en).join(' ')}</span> <button class="sbtn" id="rep">&#128266;</button></div>
+     <div class="opts" style="grid-template-columns:1fr;margin-top:12px">${opts.map((o,k)=>`<button class="opt" data-k="${k}" data-ok="${o[1]===Math.max(...t.opts.map(x=>x[1]))?1:0}">${ar(o[0])}</button>`).join('')}</div><div id="fbx"></div></div></div></div>`;
+   const pl=()=>playSeq(t.q);setTimeout(pl,300);$('#rep').onclick=pl;let done=false;
+   stage.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(done)return;done=true;const o=opts[+b.dataset.k];const best=Math.max(...t.opts.map(x=>x[1]));
+     conf=Math.max(0,Math.min(100,conf+o[1]));const ok=o[1]===best;
+     if(ok)sfx('good');else{sfx('bad');LV.mistakes++;miss('meter'+turn)}
+     stage.querySelector('.meter i').style.width=conf+'%';stage.querySelector('.meter span').textContent=`Muhammad's confidence: ${conf}%`;
+     b.classList.add(ok?'right':'wrong');const bestO=t.opts.find(x=>x[1]===best);
+     $('#fbx').innerHTML=`<div class="fb ${ok?'ok':'no'}"><div class="fbt">${o[1]>0?'+':''}${o[1]}% &middot; ${ok?'Great answer':'Better answer below'}</div><div class="why">${o[2]}</div>${ok?'':`<div class="why">&#10003; Best: ${ar(bestO[0])} — ${bestO[2]}</div>`}<div class="row" style="justify-content:flex-end"><button class="btn" id="nx">Next</button></div></div>`;
+     $('#nx').onclick=()=>{turn++;render()}});
+  }
+  function end(){
+   if(conf>=70){finishLevel(`<p class="muted">Muhammad's confidence: <b>${conf}%</b>. Timeline approved!</p>`)}
+   else{stage.innerHTML=`<div class="card center"><div class="eyebrow">Meeting over</div><h2 class="h2">Confidence: ${conf}% — Muhammad wants another round.</h2><p class="muted">You need 70%. Every answer showed you why — try again, you know it now.</p>${phraseBox(gx('l_noFearM','l_noFearF'),' &middot; Layla')}<button class="btn big" id="again">Try the meeting again</button></div>`;setTimeout(()=>play(gx('l_noFearM','l_noFearF')),400);$('#again').onclick=()=>{LV.mistakes=0;conf=50;turn=0;render()}}
+  }
+  render();
+ },
+
+ /* ---------- L8 boss ---------- */
+ boss(){
+  const bank=bossBank();
+  const missed=prog().missed;
+  const weighted=bank.map(q=>({q,w:(missed[q.key]||0)*3+Math.random()*2})).sort((a,b)=>b.w-a.w).map(x=>x.q);
+  const chosen=shuffle(weighted.slice(0,12));
+  quiz(chosen,{label:'BOSS',timer:15,hearts:3,onDone:(r)=>{
+    if(r.failed){stage.innerHTML=`<div class="card center"><div class="eyebrow">Out of hearts</div><h2 class="h2">The roadmap needs one more draft.</h2><p class="muted">The questions you missed are now at the top of the pile. Go again — they'll feel easier.</p>${phraseBox(gx('l_noFearM','l_noFearF'),' &middot; Layla')}<button class="btn big" id="again">Retry the boss</button></div>`;$('#again').onclick=()=>startLevel(8)}
+    else finishLevel(`<p class="muted">Hearts left: ${'♥'.repeat(r.lives)}</p>`)}});
+ },
+
+ /* ---------- L9 roleplay ---------- */
+ roleplay(){
+  const tm=pick(others());
+  const turns=[
+   {q:['m_name_'+P.id,'m_when'],model:'p_notToday',tip:'Stall: not today, ready tomorrow.'},
+   {q:[gx('m_whatM','m_whatF')],model:'t_'+P.id,tip:`Your task with ${ar('سَأَ')}.`},
+   {q:['m_team'],model:'d_'+tm.id,tip:`Delegate to ${tm.en} (${tm.g==='f'?'she':'he'} will…).`},
+   {q:['m_future'],model:'p_100',tip:`Use ${ar('رَاح')} for the big vision.`},
+   {q:['m_succeedQ'],model:'p_vow',tip:'Promise it.'}
+  ];let k=0;
+  function render(){
+   if(k>=turns.length){checklist();return}
+   const t=turns[k];setSkip(()=>{k++;render()},()=>{k=turns.length;render()});
+   stage.innerHTML=`<div class="card"><div class="qhead"><div class="pbar"><i style="width:${k/turns.length*100}%"></i></div><div class="qcount">Face Muhammad &middot; ${k+1}/${turns.length}</div></div>
+    <div class="explain"><div class="who">${svgMuhammad()}</div><div>
+     <div class="bubble"><span class="who-n" style="color:var(--ink)">Muhammad</span>${ar(t.q.map(id=>LINES[id].ar).join(' '))}<br><span class="note">${t.q.map(id=>LINES[id].en).join(' ')}</span> <button class="sbtn" id="rep">&#128266;</button></div>
+     <p class="prompt" style="margin-top:12px">Your turn: answer <b>out loud</b>${MIC_OK?'':' (say it, then press “Show the model answer” to check yourself)'}. Hint: ${t.tip}</p>
+     <div class="row"><span class="speak" data-line="${t.model}"><button class="sbtn rec" data-a="rec">&#127908; Record my answer</button><button class="sbtn chkbtn" data-a="chk">&#9989; Say it &amp; check me</button></span><button class="btn ghost" id="reveal">Show the model answer</button></div>
+     <div id="mod" class="hidden">${phraseBox(t.model,' &middot; model answer')}<p class="note">Press &#9654; Compare: you'll hear the model first, then yourself.</p><div class="row" style="justify-content:flex-end"><button class="btn" id="nx">Next question</button></div></div>
+    </div></div></div>`;
+   const pl=()=>playSeq(t.q);setTimeout(pl,300);$('#rep').onclick=pl;
+   $('#reveal').onclick=()=>{$('#mod').classList.remove('hidden');$('#reveal').classList.add('hidden');play(t.model)};
+   $('#mod').addEventListener('click',e=>{if(e.target.id==='nx'){k++;render()}});
+  }
+  function checklist(){
+   stage.innerHTML=`<div class="card"><div class="eyebrow">Self-check</div><h2 class="h2">Which tools did you use out loud?</h2>
+    <div class="checklist">
+     <label><input type="checkbox"> A time word: ${ar('غَدًا / بُكْرَة / الْأُسْبُوع الْقَادِم')}</label>
+     <label><input type="checkbox"> The magnet ${ar('سَـ')}: ${ar('سَأَكْتُب')}…</label>
+     <label><input type="checkbox"> The right person sticker for a teammate: ${ar('سَيَـ / سَتَـ')}</label>
+     <label><input type="checkbox"> ${ar('رَاح')} with a plain verb: ${ar('رَاح نَنْجَح')}</label>
+     <label><input type="checkbox"> The promise: ${ar('سَنَنْجَح. هَذَا وَعْد!')}</label></div>
+    <div class="row" style="justify-content:flex-end"><button class="btn big" id="fin">Close the deal</button></div></div>`;
+   $('#fin').onclick=()=>{const c=[...stage.querySelectorAll('input')].filter(x=>x.checked).length;LV.mistakes=Math.max(0,5-c);cert(c)};
+  }
+  function cert(c){
+   const pr=prog();const stars=LV.mistakes<=1?3:LV.mistakes<=3?2:1;if(!TEACHER){pr.stars[9]=Math.max(pr.stars[9]||0,stars);save()}
+   sfx('win');confetti();setTop('Deal closed');
+   const d=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+   stage.innerHTML=`${sceneBox('deal',6)}<div class="spacer"></div><div class="cert">
+     <div class="eyebrow">The Global Summit &middot; Episode 21</div>
+     <h2 class="h1">Certificate of Future Projections</h2>
+     <p class="ar">${P.ar}</p><p style="font-size:20px;font-weight:700;margin:0">${P.en}</p>
+     <p class="muted">can set a deadline, assign tasks with ${ar('سَـ')}, speak the future with ${ar('سَوْف')} and ${ar('رَاح')}, and promise success in Arabic.</p>
+     <div class="bigstars">★ ${totalStars()} / 27</div><p class="note">${d} &middot; signed: Muhammad, Head of the Summit</p></div>
+     ${phraseBox('m_execute',' &middot; Muhammad')}
+     <div class="card" style="margin-top:14px"><div class="eyebrow">Mission for home</div><h2 class="h2">Your WhatsApp commitment</h2>
+     <p>Send a voice note to the cohort group, tag Layla, and say what you will do tomorrow:</p>
+     ${phraseBox('t_'+P.id)}
+     <p class="note">Then reply to the next person's voice note confirming <b>their</b> task with ${ar('سَيَـ / سَتَـ')}. Next episode: The Pitch Rehearsal.</p>
+     <div class="row" style="justify-content:flex-end"><button class="btn ghost" id="prt">&#128424; Print</button><button class="btn brass" id="dlc">&#11015; Download certificate</button><button class="btn" id="mapb">Back to map</button></div>
+     <div id="certprev" class="hidden" style="margin-top:12px"><p class="note">Your certificate image (on a phone: press and hold it to save):</p><img id="certimg" alt="Certificate" style="width:100%;border-radius:12px;border:1px solid var(--line)"></div></div>`;
+   mountVideos();setTimeout(()=>play('m_execute'),500);$('#mapb').onclick=showMap;
+   const info={ar:P.ar,en:P.en,stars:totalStars(),date:d};
+   $('#dlc').onclick=()=>saveCertificate(info);
+   $('#prt').onclick=()=>printCertificate(info);
+  }
+  render();
+ }
+};
+
+/* ---------- certificate image / print ---------- */
+async function certCanvas(info){
+  try{await Promise.all([document.fonts.load('700 80px "Noto Naskh Arabic"'),document.fonts.load('700 60px Spectral'),document.fonts.load('600 30px Inter')])}catch(e){}
+  const W=2000,H=1414,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
+  x.fillStyle='#0E1E22';x.fillRect(0,0,W,H);
+  x.fillStyle='#FFFDF6';x.fillRect(50,50,W-100,H-100);
+  x.strokeStyle='#C29A46';x.lineWidth=14;x.strokeRect(80,80,W-160,H-160);x.lineWidth=4;x.strokeRect(110,110,W-220,H-220);
+  const ctr=(t,y,font,col,rtl)=>{x.font=font;x.fillStyle=col;x.textAlign='center';x.direction=rtl?'rtl':'ltr';x.fillText(t,W/2,y)};
+  ctr('THE GLOBAL SUMMIT  ·  EPISODE 21',230,'700 30px Inter, Arial','#A57F2E');
+  ctr('Certificate of Future Projections',350,'700 84px Spectral, Georgia, serif','#0E1E22');
+  ctr('شَهَادَة',470,'700 76px "Noto Naskh Arabic", serif','#0F6B4E',true);
+  ctr('This certifies that',570,'500 34px Inter, Arial','#5E6560');
+  ctr(info.ar,720,'700 120px "Noto Naskh Arabic", serif','#182420',true);
+  ctr(info.en,810,'700 54px Inter, Arial','#182420');
+  ctr('can set a deadline, assign tasks, talk about the future',900,'500 36px Inter, Arial','#182420');
+  ctr('and promise success in Arabic.',950,'500 36px Inter, Arial','#182420');
+  ctr('سَنَنْجَح. هَذَا وَعْد!',1060,'700 64px "Noto Naskh Arabic", serif','#A57F2E',true);
+  ctr('★ '+info.stars+' / 27 stars',1140,'700 40px Inter, Arial','#C29A46');
+  x.strokeStyle='#182420';x.lineWidth=2;x.beginPath();x.moveTo(330,1250);x.lineTo(830,1250);x.moveTo(W-830,1250);x.lineTo(W-330,1250);x.stroke();
+  x.font='500 28px Inter, Arial';x.fillStyle='#5E6560';x.textAlign='center';x.direction='ltr';
+  x.fillText('Muhammad, Head of the Summit',580,1295);x.fillText(info.date,W-580,1295);
+  return c;
+}
+async function saveCertificate(info){
+  const btn=$('#dlc');if(btn){btn.disabled=true;btn.textContent='Preparing…'}
+  try{
+    const c=await certCanvas(info);
+    const url=c.toDataURL('image/png');$('#certimg').src=url;$('#certprev').classList.remove('hidden');
+    const blob=await new Promise(r=>c.toBlob(r,'image/png'));
+    const name='Certificate_Future_Projections_'+info.en+'.png';
+    let done=false;
+    try{if(window.claude&&typeof window.claude.use==='function'){
+      const dl=await Promise.race([window.claude.use('downloads'),wait(4000).then(()=>null)]);
+      if(dl){try{await dl.save({filename:name,data:blob});done=true;toast('Certificate saved!')}catch(e){if(e&&e.code==='declined'){done=true}}}
+    }}catch(e){}
+    if(!done){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();toast('Certificate downloaded. You can also press and hold the image below to save it.',4000)}
+  }catch(e){toast('Could not create the image here. Take a screenshot of the certificate instead.')}
+  if(btn){btn.disabled=false;btn.innerHTML='&#11015; Download certificate'}
+}
+function printCertificate(info){
+  let printed=false;const mark=()=>{printed=true};window.addEventListener('beforeprint',mark,{once:true});
+  document.body.classList.add('printing-cert');
+  try{window.print()}catch(e){}
+  setTimeout(()=>{document.body.classList.remove('printing-cert');window.removeEventListener('beforeprint',mark);
+    if(!printed){toast('Printing is blocked in this preview — downloading the certificate instead.',4000);saveCertificate(info)}},1200);
+}
+
+/* ---------- boss bank ---------- */
+function bossBank(){
+  const tm=others();
+  const b=[];
+  const time=['w_today','w_now','w_ghadan','w_bukra','w_nextweek','w_future','w_plan','w_ready','w_success','w_promise','w_mumtaz','w_sawfa','w_rah','w_a3iduka','w_sananjah'];
+  time.forEach(id=>{const d=shuffle(time.filter(k=>k!==id&&LINES[k].en!==LINES[id].en&&!(['w_ghadan','w_bukra'].includes(id)&&['w_ghadan','w_bukra'].includes(k)))).slice(0,3);
+    b.push({key:id,prompt:`Hear it. Pick the meaning.`,audio:id,options:[E(LINES[id].en,1,`${ar(LINES[id].ar)} = ${LINES[id].en}.`),...d.map(k=>E(LINES[k].en,0,`That's ${ar(LINES[k].ar)}.`))]});
+    b.push({key:id,prompt:`Which Arabic means <b>"${LINES[id].en}"</b>?`,options:[A(LINES[id].ar,1,`${ar(LINES[id].ar)} = ${LINES[id].en}.`),...d.map(k=>A(LINES[k].ar,0,`${ar(LINES[k].ar)} = ${LINES[k].en}.`))]});
+  });
+  [['v_saaktub',"I'll write",'أَكْتُب','سَكْتُب'],['v_saa3mal',"I'll work",'أَعْمَل','أَسَعْمَل'],['v_saadhhab',"I'll go",'أَذْهَب','سَذْهَب']].forEach(([id,en,p,w])=>b.push({key:id,prompt:`<b>"${en}"</b>`,options:[A(LINES[id].ar,1,`${ar('سَـ')} + ${ar('أَ')} + verb.`),A(p,0,'Present — no future magnet.'),A(w,0,'The magnet must sit at the front and the أَ must stay.')]}));
+  tm.forEach(t=>{const she=t.g==='f';b.push({key:'d_'+t.id,prompt:`<b>"${t.en} will ${verbEn(t)} ${t.taskEn}."</b>`,options:[A(LINES['d_'+t.id].ar,1,`${t.en} = ${she?'she':'he'} &#8594; ${ar(she?'سَتَـ':'سَيَـ')}.`),A(t.ar+' '+verbFor(t,she?'he':'she')+' '+objFor(t),0,`Wrong sticker: ${t.en} is ${she?'she':'he'}.`),A(verbFor(t,'I')+' '+objFor(t),0,`${ar('أَ')} = I.`)]})});
+  b.push({key:'w_rah',prompt:'Which is <b>correct</b>?',options:[A('رَاح نَكْتُب',1,`${ar('رَاح')} + plain verb.`),A('رَاح سَنَكْتُب',0,'Double will.'),A('سَرَاح نَكْتُب',0,'Double will, glued.')]});
+  b.push({key:'w_sawfa',prompt:'Formal meeting. Choose the <b>suit</b> sentence.',options:[A(LINES.p_meeting.ar,1,`${ar('سَوْف')} = formal will.`),A(LINES.p_rahWork.ar,0,`${ar('رَاح')} + ${ar('بُكْرَة')} = slippers.`)]});
+  b.push({key:'t_'+P.id,prompt:`Muhammad asks you: ${ar(gx(LINES.m_whatM.ar,LINES.m_whatF.ar))}`,audio:gx('m_whatM','m_whatF'),options:[A(LINES['t_'+P.id].ar,1,'Your task, with أَ = I.'),A(LINES['d_'+P.id].ar,0,'That is someone talking about you.')]});
+  b.push({key:'w_a3iduka',prompt:'Promise Muhammad:',options:[A('أَعِدَك يَا مُحَمَّد',1,'-ak = to a man (a\'idak).'),A('أَعِدِك يَا مُحَمَّد',0,'-ik (a\'idik) is for a woman.')]});
+  b.push({key:'m_whatF',prompt:'Ask <b>Zaytuna</b> what she will do tomorrow:',options:[A('مَاذَا سَتَعْمَلِين غَدًا؟',1,'To a woman: -een.'),A('مَاذَا سَتَعْمَل غَدًا؟',0,'That is for a man.')]});
+  b.push({key:'w_mumtaz',prompt:'"The plan is excellent."',options:[A('الْخُطَّة مُمْتَازَة',1,'ـة noun &#8594; ـة adjective.'),A('الْخُطَّة مُمْتَاز',0,'Missing ـة on excellent.')]});
+  return b;
+}
+
+/* ---------- boot ---------- */
+window.__GAME__={PLAYERS,LINES,LEVELS,RUN,startLevel,setPlayer:id=>{P=PLAYERS[id]},prog,fileFor};
+applyModes();
+showSelect();
+</script>
+</body>
+</html>
