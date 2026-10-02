@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="en"><head>
+<title>Souq Wast al-Balad</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Noto+Naskh+Arabic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky:#3AB8FF;--sun:#FFD23F;--pink:#FF4D8D;--lime:#7BD23A;--grape:#7B4DFF;--ink:#1B1740;--orange:#FF8A3D;
+  --bg1:#FFF4D6;--bg2:#FFE1B3;--card:#FFFFFF;--text:#1B1740;--muted:#5B5680;--line:#1B1740;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg1:#241E4A;--bg2:#15112E;--card:#2E2760;--text:#FFF7E8;--muted:#C9C3F0;--line:#0B0820}
+}
+:root[data-theme="dark"]{--bg1:#241E4A;--bg2:#15112E;--card:#2E2760;--text:#FFF7E8;--muted:#C9C3F0;--line:#0B0820}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%}
+body{background:radial-gradient(circle at 20% 0%,var(--bg1),var(--bg2));color:var(--text);font-family:'Baloo 2',system-ui,sans-serif;overflow-x:hidden}
+.ar,[dir=rtl]{font-family:'Noto Naskh Arabic','Baloo 2',serif}
+bdi.ar{unicode-bidi:isolate}
+button{font-family:inherit;cursor:pointer;border:none}
+#app{max-width:980px;margin:0 auto;padding:14px 16px 90px;position:relative}
+.top{display:flex;align-items:center;gap:10px;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap}
+.pill{background:var(--card);border:3px solid var(--line);border-radius:999px;padding:4px 14px;font-weight:800;box-shadow:0 4px 0 var(--line);display:inline-flex;align-items:center;gap:6px}
+.btn{background:var(--sun);color:#1B1740;border:3px solid var(--line);border-radius:18px;padding:10px 20px;font-weight:800;font-size:18px;box-shadow:0 5px 0 var(--line);transition:transform .08s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--line)}
+.btn.pink{background:var(--pink);color:#fff}.btn.sky{background:var(--sky);color:#fff}.btn.lime{background:var(--lime)}.btn.grape{background:var(--grape);color:#fff}.btn.ghost{background:var(--card);color:var(--text)}
+.btn[disabled]{opacity:.35;pointer-events:none}
+.card{background:var(--card);border:3px solid var(--line);border-radius:24px;box-shadow:0 7px 0 var(--line);padding:18px;margin:12px 0}
+h1{font-size:clamp(34px,7vw,64px);line-height:1;margin:6px 0}
+h2{font-size:clamp(24px,4.5vw,36px);margin:4px 0}
+.big-ar{font-family:'Noto Naskh Arabic',serif;font-size:clamp(28px,5.5vw,46px);font-weight:700;direction:rtl}
+.hint{color:var(--muted);font-size:16px}
+.grid{display:grid;gap:14px}
+.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.center{text-align:center}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row.c{justify-content:center}
+/* awning */
+.awning{height:44px;border:3px solid var(--line);border-radius:18px 18px 0 0;background:repeating-linear-gradient(90deg,#FF4D8D 0 44px,#FFF 44px 88px);position:relative}
+.awning:after{content:"";position:absolute;left:0;right:0;bottom:-18px;height:18px;background:radial-gradient(circle at 22px 0,#FF4D8D 20px,transparent 21px) 0 0/88px 18px,radial-gradient(circle at 66px 0,#fff 20px,transparent 21px) 0 0/88px 18px}
+/* player cards */
+.pcard{cursor:pointer;text-align:center;transition:transform .15s}
+.pcard:hover{transform:translateY(-4px) rotate(-1deg)}
+.pcard .face{font-size:64px;line-height:1}
+.pcard .nm{font-family:'Noto Naskh Arabic';font-size:34px;font-weight:700}
+.tag{display:inline-block;border:2px solid var(--line);border-radius:10px;padding:0 8px;font-size:14px;font-weight:800;background:var(--sun);color:#1B1740}
+/* map */
+.map{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+.stop{background:var(--card);border:3px solid var(--line);border-radius:22px;padding:12px 8px;text-align:center;box-shadow:0 5px 0 var(--line);cursor:pointer;position:relative}
+.stop .ic{font-size:40px}
+.stop .t{font-family:'Noto Naskh Arabic';font-weight:700;font-size:20px}
+.stop .e{font-size:13px;color:var(--muted)}
+.stop.locked{filter:grayscale(1);opacity:.45;cursor:not-allowed}
+.stop.done:after{content:"✔";position:absolute;top:-10px;right:-8px;background:var(--lime);border:3px solid var(--line);border-radius:50%;width:34px;height:34px;display:grid;place-items:center;font-weight:800}
+.stop.next{animation:bob 1.2s infinite}
+@keyframes bob{50%{transform:translateY(-6px)}}
+/* items */
+.item{background:var(--card);border:3px solid var(--line);border-radius:20px;padding:10px;text-align:center;cursor:pointer;box-shadow:0 5px 0 var(--line);position:relative}
+.item .ic{font-size:52px;height:64px;display:grid;place-items:center}
+.item .ic svg{width:60px;height:60px}
+.item .nm{font-family:'Noto Naskh Arabic';font-size:22px;font-weight:700;direction:rtl}
+.item.mine{background:linear-gradient(#FFF8D1,#FFE68A);color:#1B1740}
+.item.mine:before{content:"📝";position:absolute;top:-12px;left:-8px;font-size:24px}
+.item.heard{outline:4px dashed var(--lime);outline-offset:3px}
+.phrase{display:flex;align-items:center;gap:8px;background:var(--card);border:3px solid var(--line);border-radius:16px;padding:8px 10px;box-shadow:0 4px 0 var(--line)}
+.phrase .txt{flex:1;direction:rtl;text-align:right;font-family:'Noto Naskh Arabic';font-size:22px;font-weight:700}
+.phrase .en{display:block;font-family:'Baloo 2';font-size:13px;color:var(--muted);font-weight:500;direction:ltr;text-align:right}
+.ib{width:44px;height:44px;border-radius:50%;border:3px solid var(--line);background:var(--sky);color:#fff;font-size:20px;display:grid;place-items:center;flex:none;box-shadow:0 3px 0 var(--line)}
+.ib.rec{background:var(--pink)}.ib.rec.on{animation:pulse .6s infinite}.ib.play{background:var(--lime)}
+@keyframes pulse{50%{transform:scale(1.15)}}
+/* seller stage */
+.stage{display:grid;grid-template-columns:170px 1fr;gap:14px;align-items:center}
+@media (max-width:640px){.stage{grid-template-columns:110px 1fr}}
+.seller svg{width:100%;height:auto}
+.bubble{background:var(--card);border:3px solid var(--line);border-radius:22px;padding:12px 16px;position:relative;min-height:64px;box-shadow:0 5px 0 var(--line)}
+.bubble:before{content:"";position:absolute;left:-16px;top:24px;border:12px solid transparent;border-right-color:var(--line)}
+.bubble .ar{font-size:clamp(22px,4vw,32px);font-weight:700;direction:rtl;display:block;text-align:right}
+.me{background:linear-gradient(#DDF4FF,#BDE8FF);color:#1B1740}
+.mouth{transition:transform .1s}
+.talking .mouth{animation:talk .22s infinite}
+@keyframes talk{50%{transform:scaleY(.25)}}
+/* options */
+.opt{background:var(--card);color:var(--text);border:3px solid var(--line);border-radius:18px;padding:12px;font-size:22px;font-weight:700;box-shadow:0 5px 0 var(--line);font-family:'Noto Naskh Arabic','Baloo 2';direction:rtl;min-height:64px}
+.opt.num{font-family:'Baloo 2';font-size:34px;direction:ltr}
+.opt.good{background:var(--lime);color:#1B1740;animation:pop .3s}
+.opt.bad{background:#FFB3B3;color:#1B1740;animation:shake .35s}
+@keyframes pop{50%{transform:scale(1.08)}}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+/* price tag + meter */
+.ptag{display:inline-block;background:var(--sun);color:#1B1740;border:4px solid var(--line);border-radius:14px 30px 30px 14px;padding:4px 26px 4px 18px;font-size:clamp(40px,8vw,64px);font-weight:800;box-shadow:0 6px 0 var(--line);position:relative}
+.ptag:after{content:"";position:absolute;right:10px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:var(--bg2);border:3px solid var(--line)}
+.ptag small{font-size:20px}
+.meter{height:26px;border:3px solid var(--line);border-radius:999px;background:linear-gradient(90deg,var(--lime),var(--sun),var(--pink));position:relative;margin:14px 0 4px}
+.meter .dot{position:absolute;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:#fff;border:3px solid var(--line);display:grid;place-items:center;font-size:16px;transition:left .5s cubic-bezier(.3,1.5,.5,1)}
+.meter .fair{position:absolute;top:-8px;bottom:-8px;width:4px;background:var(--line)}
+.moves{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.move{background:var(--card);color:var(--text);border:3px solid var(--line);border-radius:16px;padding:8px 10px;box-shadow:0 4px 0 var(--line);text-align:right;direction:rtl}
+.move b{font-family:'Noto Naskh Arabic';font-size:21px;display:block}
+.move span{font-size:13px;color:var(--muted);direction:ltr;display:block;text-align:right}
+.move.rude{background:#FFE0E0;color:#1B1740}
+.move.deal{background:var(--lime);color:#1B1740}
+.move.used{opacity:.45}
+.wallet{font-weight:800;font-size:22px}
+.stars{font-size:28px;letter-spacing:2px}
+.namebox{min-height:84px;border:4px dashed var(--line);border-radius:20px;display:flex;align-items:center;justify-content:center;font-family:'Noto Naskh Arabic';font-size:clamp(38px,8vw,60px);font-weight:700;direction:rtl;background:var(--bg1);margin-bottom:14px}
+.namebox .ph{color:var(--muted);font-size:26px}
+.caret{display:inline-block;width:4px;height:52px;background:var(--pink);margin-right:4px;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:0}}
+.kb{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:8px;direction:rtl}
+.key{background:var(--card);color:var(--text);border:3px solid var(--line);border-radius:14px;font-family:'Noto Naskh Arabic';font-size:28px;font-weight:700;height:56px;box-shadow:0 4px 0 var(--line)}
+.key:nth-child(4n+1){background:#FFF3B0;color:#1B1740}.key:nth-child(4n+2){background:#D6F0FF;color:#1B1740}.key:nth-child(4n+3){background:#FFD9E6;color:#1B1740}.key:nth-child(4n){background:#DDF5C8;color:#1B1740}
+.key:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
+.key.wide{grid-column:span 2;font-size:20px;background:var(--sun)!important}.key.back{background:var(--pink)!important;color:#fff!important}
+.note{--nc:#2E9E6A;width:120px;height:64px;border-radius:10px;border:3px solid var(--line);background:linear-gradient(135deg,var(--nc),color-mix(in srgb,var(--nc) 60%,#fff));color:#fff;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 5px 0 var(--line);margin:4px;position:relative}
+.note:before{content:"";position:absolute;inset:6px;border:2px dashed rgba(255,255,255,.6);border-radius:6px}
+.note .nv{font-size:28px;font-weight:800;line-height:1}.note .nd{font-family:'Noto Naskh Arabic';font-size:14px}
+.note.sm{width:70px;height:40px;margin:-6px 2px}.note.sm .nv{font-size:18px}
+.counter{min-height:110px;border:3px solid var(--line);border-radius:18px;background:repeating-linear-gradient(90deg,#C98B4E 0 30px,#B97A3F 30px 60px);margin:14px 0;padding:14px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px}
+.counter .hint{color:#fff}
+.tv{position:relative;border:4px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 7px 0 var(--line);margin:12px 0;background:#000;aspect-ratio:16/9}
+.tv video{width:100%;height:100%;object-fit:cover;display:block}
+.tvcap{position:absolute;left:12px;bottom:12px;right:12px;text-align:right;direction:rtl;font-family:'Noto Naskh Arabic';font-weight:700;font-size:clamp(20px,3.6vw,30px);color:#fff;text-shadow:0 2px 6px #000,0 0 2px #000}
+.ov .tv{margin:6px 0 10px}
+.tvbtn{position:absolute;top:12px;left:12px;z-index:2;background:var(--sun);color:#1B1740;border:3px solid var(--line);border-radius:999px;padding:6px 16px;font-size:22px;font-weight:800;box-shadow:0 4px 0 var(--line);display:flex;gap:8px;align-items:center;animation:pulse 1.4s infinite}
+.tvbtn .ar{font-size:20px}
+.taphint{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:80;background:var(--pink);color:#fff;border:3px solid var(--line);border-radius:999px;padding:8px 18px;font-weight:800;box-shadow:0 4px 0 var(--line);animation:pulse 1.2s infinite;max-width:calc(100% - 24px);text-align:center}
+.gapbar{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:65;background:#FFF8D1;color:#1B1740;border:4px solid var(--line);border-radius:22px;box-shadow:0 7px 0 var(--line);padding:12px 18px;width:min(520px,calc(100% - 24px));text-align:center;animation:slidein .35s}
+.gapbar .gtop{font-size:20px;margin-bottom:4px}.gapbar .gtop .ar{font-size:22px;font-weight:700}
+.gapbar .gtxt{font-size:30px;font-weight:700;direction:rtl;margin:4px 0 10px}
+.gapbar .btn{font-size:18px;padding:8px 18px}
+.gapbar #gapNext{opacity:.55}.gapbar #gapNext.ready{opacity:1;animation:pulse 1.2s infinite}
+.hear{cursor:pointer}
+.hear:not(.inbtn)::after{content:"🔊";font-size:.45em;opacity:.6;margin-inline-start:5px;vertical-align:super;font-family:sans-serif}
+.hear:not(.inbtn):hover{text-decoration:underline dotted 2px}
+.spk{font-style:normal;font-size:15px;line-height:1;margin-inline-start:6px;background:#fff;color:#1B1740;border:2px solid #1B1740;border-radius:50%;padding:3px;cursor:pointer;display:inline-block;vertical-align:middle}
+/* overlays */
+.ov{position:fixed;inset:0;background:rgba(27,23,64,.72);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+.ov.show{display:flex}
+.ov .card{max-width:620px;max-height:92vh;overflow:auto;width:100%;text-align:center;animation:pop .35s}
+.codebox{font-size:34px;letter-spacing:10px;text-align:center;width:200px;border:3px solid var(--line);border-radius:14px;padding:6px;font-family:'Baloo 2';font-weight:800}
+/* joke */
+#joke{position:fixed;left:12px;bottom:12px;max-width:min(420px,calc(100% - 24px));z-index:40;display:none}
+#joke.show{display:block;animation:slidein .4s}
+#joke .card{margin:0;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;background:#FFF8D1;color:#1B1740}
+#joke .who{font-size:40px;line-height:1}
+#joke .x{margin-left:auto;background:none;font-size:20px;color:#1B1740}
+@keyframes slidein{from{transform:translateY(120%)}}
+.confetti{position:fixed;top:-20px;font-size:26px;z-index:60;pointer-events:none;animation:fall 2.4s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+.cert{border:6px double var(--line);background:linear-gradient(#FFFBEA,#FFE9A8);color:#1B1740;border-radius:26px;padding:24px;text-align:center}
+.check{display:flex;align-items:center;gap:10px;padding:8px 12px;border:3px solid var(--line);border-radius:14px;background:var(--card);cursor:pointer;direction:rtl;font-family:'Noto Naskh Arabic';font-size:21px;font-weight:700}
+.check.on{background:var(--lime);color:#1B1740}
+.check .bx{width:30px;height:30px;border:3px solid var(--line);border-radius:8px;display:grid;place-items:center;background:#fff;flex:none;color:#1B1740}
+.fade{animation:fadein .35s}
+@keyframes fadein{from{opacity:0;transform:translateY(10px)}}
+</style>
+<script src="audio.js"></script>
+</head><body>
+
+<div id="app"></div>
+
+<div class="ov" id="gate"><div class="card">
+  <div style="font-size:56px">✋</div>
+  <h2>Wait! Mohamed will explain this first</h2>
+  <div class="big-ar" style="font-size:28px">استنّى! الأستاذ محمد رح يشرحلك قبل ما نكمّل</div>
+  <p class="hint">Teacher code to continue</p>
+  <input id="code" class="codebox" inputmode="numeric" maxlength="4" autocomplete="off">
+  <div class="row c" style="margin-top:12px"><button class="btn lime" id="gateGo">Continue ▶</button></div>
+  <p id="gateMsg" class="hint"></p>
+</div></div>
+
+<div class="ov" id="pop"><div class="card" id="popIn"></div></div>
+<div id="joke"><div class="card"><div class="who" id="jWho">🦜</div><div><b id="jName">Za'tar</b><div id="jTxt"></div></div><button class="x" onclick="hideJoke()">✕</button></div></div>
+
+<script>
+/* ============ DATA ============ */
+const TEACHER_CODE='2468';
+const SVG_BRACELET='<svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="20" fill="none" stroke="#1B1740" stroke-width="4"/>'+[0,1,2,3,4,5,6,7].map(i=>{const a=i*Math.PI/4;return `<circle cx="${30+20*Math.cos(a)}" cy="${30+20*Math.sin(a)}" r="6" fill="${['#FF4D8D','#FFD23F','#3AB8FF','#7BD23A'][i%4]}" stroke="#1B1740" stroke-width="2"/>`}).join('')+'</svg>';
+const SVG_KUNAFA='<svg viewBox="0 0 60 60"><ellipse cx="30" cy="38" rx="26" ry="12" fill="#C9C9D6" stroke="#1B1740" stroke-width="3"/><ellipse cx="30" cy="32" rx="22" ry="10" fill="#FF8A3D" stroke="#1B1740" stroke-width="3"/><circle cx="22" cy="30" r="2.5" fill="#7BD23A"/><circle cx="32" cy="28" r="2.5" fill="#7BD23A"/><circle cx="38" cy="33" r="2.5" fill="#7BD23A"/><circle cx="27" cy="35" r="2.5" fill="#7BD23A"/></svg>';
+const ITEMS={
+  pad:{ar:'إيد إكس بوكس',en:'Xbox controller',ic:'🎮'},
+  ball:{ar:'طابة',en:'football',ic:'⚽'},
+  shawarma:{ar:'شاورما',en:'shawarma',ic:'🌯'},
+  bag:{ar:'شنطة',en:'bag',ic:'👜'},
+  bracelet:{ar:'إسوارة',en:'bracelet',ic:SVG_BRACELET},
+  flowers:{ar:'ورد',en:'flowers',ic:'💐'},
+  headphones:{ar:'سمّاعات',en:'headphones',ic:'🎧'},
+  watch:{ar:'ساعة',en:'watch',ic:'⌚'},
+  kunafa:{ar:'كنافة',en:'kunafa',ic:SVG_KUNAFA},
+};
+const PLAYERS={
+  hesham:{id:'hesham',ar:'هشام',en:'Hesham',g:'m',budget:50,mom:'m_h',
+    list:[{k:'pad',start:40,fair:25},{k:'ball',start:20,fair:12},{k:'shawarma',start:15,fair:10}],
+    goal:'an Xbox controller + a football + shawarma for the family'},
+  lina:{id:'lina',ar:'لينا',en:'Lina',g:'f',budget:50,mom:'m_l',
+    list:[{k:'bag',start:35,fair:22},{k:'bracelet',start:15,fair:9},{k:'flowers',start:10,fair:6}],
+    goal:'a bag + a bracelet + flowers for Mama'},
+  kareem:{id:'kareem',ar:'كريم',en:'Kareem',g:'m',budget:50,mom:'m_k',
+    list:[{k:'headphones',start:35,fair:22},{k:'watch',start:20,fair:12},{k:'kunafa',start:15,fair:10}],
+    goal:'headphones + a watch + kunafa for the family'},
+};
+const GUEST_LIST=[{k:'headphones',start:35,fair:22},{k:'ball',start:20,fair:12},{k:'kunafa',start:15,fair:10}];
+const norm=t=>(t||'').replace(/[ً-ْـ]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/\s+/g,'').trim();
+function findPlayer(name){const n=norm(name);if(n==='هشام'||n==='هاشم')return PLAYERS.hesham;if(n==='لينا'||n==='لينه')return PLAYERS.lina;if(n==='كريم')return PLAYERS.kareem;return null}
+const PHR=[
+  {id:'p_salam',ar:'السلام عليكم!',en:'Hello! (start polite)'},
+  {id:'p_want',ar:'بدّي هاد، لو سمحت.',en:'I want this, please.'},
+  {id:'p_price',ar:'قدّيش هاد؟',en:'How much is this?'},
+  {id:'p_exp',ar:'غالي كتير!',en:'Too expensive!'},
+  {id:'p_down',ar:'نزّللي شوي، لو سمحت.',en:'Bring it down a bit, please.'},
+  {id:'p_last',ar:'آخِر سِعر؟',en:'Final price?'},
+  {id:'p_give',ar:'بعطيك عشرين دينار.',en:"I'll give you 20 dinars."},
+  {id:'p_have',ar:'معي بس عشرين دينار.',en:'I only have 20 dinars.'},
+  {id:'p_bundle',ar:'إذا أخدت تنين، شو بتعمَلّي؟',en:'If I take two, what will you do for me?'},
+  {id:'p_walk',ar:'لا خلص، بدوّر على محلّ تاني.',en:"No thanks, I'll look in another shop."},
+  {id:'p_deal',ar:'ماشي، اتّفقنا!',en:'OK, deal!'},
+  {id:'p_thanks',ar:'يعطيك العافية!',en:'Thank you (God give you strength)!'},
+];
+const SELL={
+  s_hi_m:'أهلا وسهلا! تفضّل، شو بدّك؟',s_hi_f:'أهلا وسهلا! تفضّلي، شو بدّك؟',
+  s_orig:'هاد أصلي، مية بالمية!',s_loss:'والله خسران فيها!',s_foryou:'عشانك بس… بنزّللك شوي.',
+  s_come_m:'تعال تعال، ارجع!',s_come_f:'تعالي تعالي، ارجعي!',s_no:'لا لا، هيك كتير عليّ!',
+  s_deal_m:'اتّفقنا! مبروك عليك.',s_deal_f:'اتّفقنا! مبروك عليكي.',s_angry:'شو هالحكي؟! هيك ما بصير… السعر طلع!',
+  s_last:'آخر سعر… وبس عشانك!',s_bundle_m:'إذا أخدت تنين، بعملّك خصم!',s_bundle_f:'إذا أخدتي تنين، بعملِّك خصم!',
+  s_name:'أهلا وسهلا بالسوق! شو اسمك؟',s_pay_m:'يا هلا! تفضّل، الدفع هون.',s_pay_f:'يا هلا! تفضّلي، الدفع هون.',s_short:'هاي مش كفاية!',s_more:'كتير! هاي زيادة… خود الباقي.',s_exact:'مزبوط! يعطيك العافية.'
+};
+const NUMW={40:'بأربعين دينار!',20:'بعشرين دينار!',15:'بخمستعش دينار!',35:'بخمسة وتلاتين دينار!',10:'بعشر دنانير!',60:'بستّين دينار!',45:'بخمسة وأربعين دينار!',18:'بتمنتعش دينار!'};
+const LEVELS=[
+  {id:'tour',ic:'🛍️',ar:'جولة بالسوق',en:'Explore the souq'},
+  {id:'price',ic:'👂',ar:'قدّيش هاد؟',en:'Hear the price'},
+  {id:'pay',ic:'💵',ar:'ادفع المصاري',en:'Pay the exact money'},
+  {id:'reply',ic:'💬',ar:'شو بتحكي؟',en:'Pick the best reply'},
+  {id:'haggle',ic:'🎚️',ar:'عدّاد الفِصال',en:'Bargain for real'},
+  {id:'boss',ic:'👑',ar:'صفقة ولا خدعة؟',en:'Boss: spot the trick'},
+  {id:'live',ic:'🎭',ar:'مع الأستاذ',en:'Live with the teacher'},
+  {id:'end',ic:'🏆',ar:'الشهادة',en:'Your certificate'},
+];
+// Sidekick: زعتر the parrot who lives in Abu Jaber's shop. {N} = player's name
+const JOKES=[
+ ["map","Psst… {N}! You can go to ANY stall you want. I'm Za'tar 🦜 — I live in Abu Jaber's shop and I know all his tricks."],
+ ["map","Abu Jaber's favourite sport? Price jumping. 🏅 Your favourite sport today? Price DROPPING! 📉"],
+ ["tour","Hi {N}! I'm Za'tar 🦜, Abu Jaber's parrot. He said <bdi class='ar'>«والله خسران فيها»</bdi> 47 times today… and his shop is still open. Suspicious! 🤔"],
+ ["tour","Abu Jaber taught me only one sentence: <bdi class='ar'>«آخر سعر!»</bdi> I say it 200 times a day. 🦜"],
+ ["price","If he says the price fast, he hopes you didn't hear it. Make him say it again, {N}! 👂"],
+ ["price","Numbers are like football scores: nobody believes the FIRST one Abu Jaber says. ⚽"],
+ ["pay","I once paid with a sunflower seed. Abu Jaber said <bdi class='ar'>«هاي مش كفاية!»</bdi> 🌻😂"],
+ ["pay","Pro tip: fewer notes = faster shopping. More time for kunafa! 🍰"],
+ ["reply","Never say <bdi class='ar'>«اتّفقنا!»</bdi> before he even says the price. That's how I bought a 60-dinar pencil. ✏️"],
+ ["reply","Say <bdi class='ar'>«غالي كتير!»</bdi> with a sad face = 2 dinars off. With a sad parrot face = 3! 🦜"],
+ ["haggle","Secret move: <bdi class='ar'>«بدوّر على محلّ تاني»</bdi> and walk slowly… he runs after you faster than Salah! 🏃"],
+ ["haggle","Polite words are magic here: <bdi class='ar'>«لو سمحت»</bdi> = price goes down. Rude words = price goes UP. 🪄"],
+ ["boss","Abu Jaber's 'LAST price' has a part 2, a part 3 and a Netflix series. 🎬"],
+ ["live","Now the teacher is Abu Jaber. He's even trickier… good luck, {N}! 😈"],
+ ["end","{N}, you bargain better than me now. I'm a parrot, I only repeat prices! 🦜🏆"],
+];
+/* ============ STATE ============ */
+let P=null, S=null;
+function load(pid){try{return JSON.parse(localStorage.getItem('souq_'+pid))||null}catch(e){return null}}
+function save(){try{localStorage.setItem('souq_'+P.id,JSON.stringify(S))}catch(e){}}
+function fresh(){return {done:[],stars:{},bought:{},wallet:P.budget,rude:0}}
+const $=s=>document.querySelector(s);
+const app=()=>$('#app');
+const G=(m,f)=>P&&P.g==='f'?f:m;
+/* ============ AUDIO ============ */
+let AC=null;
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}return AC}
+function beep(type){const a=ac();if(!a)return;const t=a.currentTime;const seq={coin:[[988,.07],[1319,.18]],good:[[523,.08],[659,.08],[784,.16]],bad:[[220,.18],[180,.22]],win:[[523,.1],[659,.1],[784,.1],[1047,.3]],tick:[[880,.05]]}[type]||[[440,.1]];let d=0;seq.forEach(([f,l])=>{const o=a.createOscillator(),g=a.createGain();o.type=type==='bad'?'sawtooth':'triangle';o.frequency.value=f;g.gain.setValueAtTime(.18,t+d);g.gain.exponentialRampToValueAtTime(.001,t+d+l);o.connect(g);g.connect(a.destination);o.start(t+d);o.stop(t+d+l+.02);d+=l*.9})}
+let cur=null;
+function stopAudio(){if(cur){try{cur.pause()}catch(e){}cur=null}document.querySelectorAll('.talking').forEach(e=>e.classList.remove('talking'))}
+let pendingId=null;
+function play(id,talker){return new Promise(res=>{stopAudio();const a=new Audio((window.AUDIO_DATA&&window.AUDIO_DATA[id])||(id+'.mp3'));cur=a;if(talker)talker.classList.add('talking');const done=()=>{if(talker)talker.classList.remove('talking');res()};a.onended=done;a.onerror=done;a.play().catch(e=>{if(e&&e.name==='NotAllowedError'){pendingId=id;showTapHint()}done()})})}
+function showTapHint(){if($('#tapHint'))return;const d=document.createElement('div');d.id='tapHint';d.className='taphint';d.innerHTML='🔊 <span class="ar">اضغط في أي مكان عشان تسمع</span> · Tap anywhere for sound';document.body.appendChild(d)}
+document.addEventListener('pointerdown',()=>{const h=$('#tapHint');if(h)h.remove();if(pendingId){const id=pendingId;pendingId=null;setTimeout(()=>play(id,$('#seller')),50)}},true);
+/* step-by-step: after a sentence, wait for the child to repeat, then tap to hear the next one */
+let gapRes=null;
+function gap(repeatId,txt,ids){return new Promise(res=>{const old=$('#gapBar');if(old)old.remove();gapRes=res;hideJoke();
+  const d=document.createElement('div');d.id='gapBar';d.className='gapbar';
+  d.innerHTML=`<div class="gtop">🗣️ <b>Your turn!</b> <span class="ar">دورك… قولها!</span></div>${txt?`<div class="gtxt ar">${txt}</div>`:''}
+   <div class="row c"><button class="btn ghost" id="gapAgain">🔊 <span class="ar">كمان مرّة</span></button><button class="btn lime" id="gapNext"><span class="ar">التالي</span> ▶</button></div>`;
+  document.body.appendChild(d);
+  $('#gapAgain').onclick=()=>ids?sayIds(ids):play(repeatId);
+  $('#gapNext').onclick=()=>{d.remove();gapRes=null;res()};
+  setTimeout(()=>{const n=$('#gapNext');if(n)n.classList.add('ready')},1800)})}
+async function seq(list){for(const [id,t] of list){await play(id,t);await wait(180)}}
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function pv(id){return P&&P.g==='f'?'g_'+id:id} // player-voice file
+/* recording */
+let rec=null,recChunks=[],lastRec={};
+async function recToggle(btn,key){
+  if(rec&&rec.state==='recording'){rec.stop();return}
+  try{const st=await navigator.mediaDevices.getUserMedia({audio:true});rec=new MediaRecorder(st);recChunks=[];
+    rec.ondataavailable=e=>recChunks.push(e.data);
+    rec.onstop=()=>{st.getTracks().forEach(t=>t.stop());btn.classList.remove('on');lastRec[key]=URL.createObjectURL(new Blob(recChunks,{type:rec.mimeType||'audio/webm'}));const pb=btn.nextElementSibling;if(pb){pb.style.display='grid'}beep('tick')};
+    rec.start();btn.classList.add('on');setTimeout(()=>{if(rec&&rec.state==='recording')rec.stop()},4000);
+  }catch(e){toast('🎤 Mic not available — just say it out loud!')}
+}
+function recPlay(key){if(lastRec[key]){stopAudio();cur=new Audio(lastRec[key]);cur.play()}}
+function phraseRow(p,withRec=true){
+  return `<div class="phrase"><button class="ib" onclick="play('${pv(p.id)}')" title="Listen">🔊</button>${withRec?`<button class="ib rec" onclick="recToggle(this,'${p.id}')" title="Record yourself">🎤</button><button class="ib play" style="display:none" onclick="recPlay('${p.id}')" title="Hear yourself">▶</button>`:''}<div class="txt">${p.ar}<span class="en">${p.en}</span></div></div>`
+}
+/* ============ VIDEO ============ */
+function tvPlay(btn,line){const box=btn.closest('.tv');const v=box.querySelector('video');try{v.currentTime=0;v.play()}catch(e){}if(line)play(line,$('#seller'))}
+function tv(id,cap,line){return `<div class="tv">${line?`<button class="tvbtn" onclick="tvPlay(this,'${line}')" title="Play">▶<span class="ar">اسمع</span></button>`:''}<video muted autoplay loop playsinline preload="auto"><source src="${id}.webm" type="video/webm"><source src="${id}.mp4" type="video/mp4" onerror="this.closest('.tv').remove()"></video>${cap?`<div class="tvcap">${cap}</div>`:''}</div>`}
+/* ============ UI helpers ============ */
+function toast(msg){const d=document.createElement('div');d.className='pill';d.style.cssText='position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:70';d.innerHTML=msg;document.body.appendChild(d);setTimeout(()=>d.remove(),2200)}
+function confetti(n=40){for(let i=0;i<n;i++){const s=document.createElement('div');s.className='confetti';s.textContent=['🪙','⭐','🎉','💚','🟡'][i%5];s.style.left=Math.random()*100+'vw';s.style.animationDelay=Math.random()*.8+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),3400)}}
+function popup(html){$('#popIn').innerHTML=html;$('#pop').classList.add('show')}
+function closePop(){$('#pop').classList.remove('show')}
+function hideJoke(){$('#joke').classList.remove('show')}
+function joke(lv){if(!P)return;const pool=JOKES.filter(j=>j[0]===lv);if(!pool.length)return;const j=pool[Math.floor(Math.random()*pool.length)];
+  $('#jWho').textContent='🦜';$('#jName').innerHTML='Za\'tar <bdi class="ar">زعتر</bdi> says:';$('#jTxt').innerHTML=j[1].replace(/\{N\}/g,P.en||`<bdi class="ar">${P.ar}</bdi>`);
+  const el=$('#joke');el.classList.remove('show');void el.offsetWidth;setTimeout(()=>{if(!$('#gapBar'))el.classList.add('show')},900);clearTimeout(joke.t);joke.t=setTimeout(hideJoke,14000)}
+function seller(){return `<div class="seller" id="seller"><svg viewBox="0 0 160 190">
+  <rect x="30" y="120" width="100" height="70" rx="26" fill="#3AB8FF" stroke="#1B1740" stroke-width="4"/>
+  <rect x="55" y="128" width="50" height="62" rx="8" fill="#fff" stroke="#1B1740" stroke-width="3"/>
+  <text x="80" y="165" font-size="22" text-anchor="middle">🪙</text>
+  <circle cx="80" cy="82" r="44" fill="#E8B48A" stroke="#1B1740" stroke-width="4"/>
+  <path d="M34 72 Q80 10 126 72 L132 96 Q80 70 28 96Z" fill="#fff" stroke="#1B1740" stroke-width="4"/>
+  <g fill="#E0243A">${[0,1,2,3,4,5].map(i=>`<rect x="${44+i*13}" y="${46-(i%2)*4}" width="7" height="7"/><rect x="${50+i*13}" y="${56}" width="7" height="7"/>`).join('')}</g>
+  <path d="M36 70 Q80 40 124 70" fill="none" stroke="#1B1740" stroke-width="6"/>
+  <circle cx="64" cy="84" r="5" fill="#1B1740"/><circle cx="96" cy="84" r="5" fill="#1B1740"/>
+  <path d="M56 74 l14 -3 M104 74 l-14 -3" stroke="#1B1740" stroke-width="4" stroke-linecap="round"/>
+  <path d="M58 100 Q80 90 102 100 Q80 108 58 100Z" fill="#4A2A1A"/>
+  <g class="mouth" style="transform-origin:80px 112px"><ellipse cx="80" cy="112" rx="10" ry="6" fill="#8B1E2E" stroke="#1B1740" stroke-width="2"/></g>
+</svg><div class="center" style="font-weight:800">أبو جابر</div></div>`}
+function sayS(id,extraText){const b=$('#sb');if(b)b.innerHTML=`<span class="ar">${extraText||SELL[id]||''}</span>`;return play(id,$('#seller'))}
+function topBar(){return `<div class="top"><button class="btn ghost" onclick="goMap()">🗺️ Map</button><span class="pill" dir="ltr">${P.g==='f'?'👧':'👦'} <bdi class="ar">${P.ar}</bdi></span><span class="pill wallet" dir="ltr">👛 <span id="wal">${S.wallet}</span> <bdi class="ar">دينار</bdi></span></div>`}
+/* ============ GATE ============ */
+let gateNext=null;
+function gate(next){gateNext=next;$('#code').value='';$('#gateMsg').textContent='';$('#gate').classList.add('show');setTimeout(()=>$('#code').focus(),100)}
+$('#gateGo').onclick=()=>{if($('#code').value===TEACHER_CODE){$('#gate').classList.remove('show');beep('good');gateNext&&gateNext()}else{$('#gateMsg').textContent='❌ Ask Mohamed for the code';beep('bad')}};
+$('#code').addEventListener('keydown',e=>{if(e.key==='Enter')$('#gateGo').click()});
+function finishLevel(id){if(!S.done.includes(id))S.done.push(id);save();beep('win');confetti(30);
+  setTimeout(()=>gate(goMap),900)}
+</script>
+<script>
+/* ============ SCREENS ============ */
+function render(html){stopAudio();const gb=$('#gapBar');if(gb)gb.remove();try{busy=false}catch(e){}app().innerHTML=`<div class="fade">${html}</div>`;window.scrollTo(0,0)}
+function itemIc(k){return ITEMS[k].ic}
+const KB=['ا','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','ه','و','ي','ة','ى','أ','إ','آ','ء','ئ','ؤ'];
+let typed='';
+function home(){P=null;hideJoke();typed='';
+  render(`<div class="awning"></div><div class="card center" style="border-radius:0 0 24px 24px;margin-top:0;padding-top:30px">
+    <div class="big-ar" style="font-size:clamp(40px,8vw,70px)">سوق وسط البلد</div>
+    <h2>The Souq Deal 🪙</h2><div class="hint">Bargain like a local and get the BEST price!</div></div>
+   ${tv('v_hello','أهلا وسهلا بالسوق! 👋','s_name')}
+   <div class="card"><div class="stage">${seller()}<div><div class="bubble" id="sb"><span class="ar">${SELL.s_name}</span></div>
+     <div class="hint" style="margin-top:8px">✍️ Write your name in Arabic to open the souq!</div></div></div></div>
+   <div class="card"><div class="namebox" id="nameBox"><span class="ph">اكتب اسمك هون…</span></div>
+    <div class="kb" id="kb">${KB.map(l=>`<button class="key" onclick="kbType('${l}')">${l}</button>`).join('')}
+     <button class="key wide" onclick="kbType(' ')">مسافة</button><button class="key wide back" onclick="kbBack()">⌫</button></div>
+    <div class="row c" style="margin-top:14px"><button class="btn pink" id="goName" disabled onclick="nameGo()">🛍️ <span class="ar">يلا عالسوق!</span></button></div></div>
+   <div class="center"><button class="btn ghost" style="font-size:14px" onclick="resetAsk()">🔄 Teacher: reset a player</button></div>`);
+  setTimeout(()=>sayS('s_name'),600)}
+function kbType(l){if(typed.length>=14)return;typed+=l;beep('tick');kbShow()}
+function kbBack(){typed=typed.slice(0,-1);kbShow()}
+function kbShow(){const b=$('#nameBox');const t=typed.trim();b.innerHTML=t?`<span>${typed}</span><span class="caret"></span>`:'<span class="ph">اكتب اسمك هون…</span>';$('#goName').disabled=t.length<2}
+document.addEventListener('keydown',e=>{if(P||!$('#kb'))return;if(e.key==='Backspace'){e.preventDefault();kbBack()}else if(e.key==='Enter'){if(!$('#goName').disabled)nameGo()}else if(/^[ء-ي ]$/.test(e.key)){kbType(e.key)}});
+function nameGo(){const name=typed.trim();const known=findPlayer(name);
+  if(known){return start(known)}
+  popup(`<div style="font-size:60px">👋</div><div class="big-ar">أهلا يا ${name}!</div><h2>Are you a boy or a girl?</h2>
+   <div class="row c"><button class="btn sky" onclick="closePop();guest('m')"><span class="ar">ولد</span> 👦</button><button class="btn pink" onclick="closePop();guest('f')"><span class="ar">بنت</span> 👧</button></div>`)}
+function guest(g){const name=typed.trim();start({id:'g_'+norm(name),ar:name,en:'',g,budget:50,mom:g==='f'?'m_gf':'m_gm',list:GUEST_LIST,goal:'headphones + a football + kunafa for the family'})}
+function savedIds(){const out=[];try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('souq_'))out.push(k.slice(5))}}catch(e){}return out}
+function resetAsk(){const ids=savedIds();popup(`<h2>Reset whose progress?</h2><div class="row c">${ids.length?ids.map(id=>{const nm=(PLAYERS[id]&&PLAYERS[id].ar)||id.replace(/^g_/,'');return `<button class="btn" onclick="gate(()=>{try{localStorage.removeItem('souq_${id}')}catch(e){};closePop();home()})"><span class="ar">${nm}</span></button>`}).join(''):'<p class="hint">No saved players yet.</p>'}</div><p><button class="btn ghost" onclick="closePop()">Cancel</button></p>`)}
+const MOMTXT={m_h:'يلا حبيبي هشام، هاي خمسين دينار. روح عالسوق، وفاصِل منيح!',m_l:'يلا حبيبتي لينا، هاي خمسين دينار. روحي عالسوق، وفاصلي منيح!',m_k:'يلا حبيبي كريم، هاي خمسين دينار. روح عالسوق، وفاصِل منيح!',m_gm:'يلا حبيبي، هاي خمسين دينار. روح عالسوق، وفاصِل منيح!',m_gf:'يلا حبيبتي، هاي خمسين دينار. روحي عالسوق، وفاصلي منيح!'};
+function start(p){P=p;S=load(p.id)||fresh();ac();save();
+  if(S.done.length){goMap();return}
+  render(`<div class="card center"><div style="font-size:80px">${P.g==='f'?'👩‍👧':'👩‍👦'}</div>
+   <div class="bubble" style="text-align:right;margin:10px auto;max-width:620px"><span class="ar" id="momTxt">${MOMTXT[P.mom]}</span></div>
+   <p class="hint">Mama gave you <b>${P.budget} dinars</b>. Your mission: buy <b>${P.goal}</b> — and don't let Abu Jaber win! 😎</p>
+   <div class="row c"><button class="btn sky" onclick="play('${P.mom}')">🔊 Mama</button></div></div>
+   <div class="card"><h2 class="center">📝 <span class="ar">قايمة المشتريات</span> · Shopping list</h2>
+   <div class="grid g3">${P.list.map(i=>`<div class="item mine" onclick="play('i_${i.k}')"><div class="ic">${itemIc(i.k)}</div><div class="nm">${ITEMS[i.k].ar}</div><div class="hint">${ITEMS[i.k].en}</div></div>`).join('')}</div>
+   <div class="center" style="margin-top:14px"><button class="btn pink" onclick="goMap()">🛍️ Yalla to the souq!</button></div></div>`);
+  setTimeout(()=>play(P.mom),500)}
+function goMap(){if(!P)return home();hideJoke();
+  const nextI=LEVELS.findIndex(l=>!S.done.includes(l.id));
+  render(`${topBar()}<div class="awning"></div><div class="card" style="border-radius:0 0 24px 24px;margin-top:0;padding-top:28px">
+   <h2 class="center">🗺️ <span class="ar">خريطة السوق</span> · The Souq Map</h2>
+   <p class="hint center">Pick any stall you like! 🦜 Za'tar suggests the bouncing one.</p>
+   <div class="map">${LEVELS.map((l,i)=>{const done=S.done.includes(l.id);return `<div class="stop ${done?'done':''} ${i===nextI?'next':''}" onclick="runLevel('${l.id}')"><div class="ic">${l.ic}</div><div class="t">${l.ar}</div><div class="e">${i+1}. ${l.en}</div></div>`}).join('')}</div></div>
+   <div class="center"><button class="btn ghost" onclick="home()">✍️ <span class="ar">لاعب جديد</span> · New player</button></div>`);
+  setTimeout(()=>joke('map'),300)}
+function runLevel(id){({tour:lvTour,price:lvPrice,pay:lvPay,reply:lvReply,haggle:lvHaggle,boss:lvBoss,live:lvLive,end:lvEnd})[id]();joke(id)}
+
+/* ---------- 1. TOUR ---------- */
+let tourCount=0;
+function lvTour(){tourCount=0;const mine=P.list.map(i=>i.k);
+  render(`${topBar()}${tv('v_souq','سوق وسط البلد · عمّان',G('s_hi_m','s_hi_f'))}<div class="card"><div class="stage">${seller()}<div class="bubble" id="sb"><span class="ar">${SELL[G('s_hi_m','s_hi_f')]}</span></div></div></div>
+  <div class="card"><h2>🛍️ <span class="ar">شو في بالسوق؟</span> <span class="hint">Tap everything to hear it! 📝 = on your list</span></h2>
+   <div class="grid g4">${Object.keys(ITEMS).map(k=>`<div class="item ${mine.includes(k)?'mine':''}" onclick="tourTap(this,'i_${k}')"><div class="ic">${itemIc(k)}</div><div class="nm">${ITEMS[k].ar}</div><div class="hint">${ITEMS[k].en}</div></div>`).join('')}
+   <div class="item" onclick="tourTap(this,'i_dinar')"><div class="ic">🪙</div><div class="nm">دينار</div><div class="hint">dinar (money)</div></div></div></div>
+  <div class="card"><h2>🧰 <span class="ar">عِدّة الفِصال</span> <span class="hint">Your bargaining toolkit — 🔊 listen · 🎤 record yourself · ▶ compare</span></h2>
+   <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(290px,1fr))">${PHR.map(p=>phraseRow(p)).join('')}</div></div>
+  <div class="center"><span class="pill">🔎 <span id="tc">0</span>/8</span> <button class="btn lime" id="tourDone" disabled onclick="finishLevel('tour')">I'm ready! ✅</button></div>`);
+  document.querySelectorAll('.phrase .ib:first-child').forEach(b=>b.addEventListener('click',tourPlus));
+  setTimeout(()=>sayS(G('s_hi_m','s_hi_f')),500)}
+function tourTap(el,id){el.classList.add('heard');play(id);tourPlus()}
+function tourPlus(){tourCount++;const t=$('#tc');if(t)t.textContent=Math.min(tourCount,8);if(tourCount>=8){const b=$('#tourDone');if(b)b.disabled=false}}
+
+/* ---------- 2. PRICE ---------- */
+let pi=0,pScore=0;
+function lvPrice(){pi=0;pScore=0;priceQ()}
+const AR_DIG=n=>String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
+function priceQ(){if(pi>=P.list.length){return finishLevel('price')}
+  const it=P.list[pi];const n=it.start;
+  let opts=[n,n+10,Math.max(5,n-5),n+5];
+  opts=[...new Set(opts)].filter(x=>x>0);while(opts.length<4)opts.push(n+opts.length*3);opts.sort(()=>Math.random()-.5);
+  render(`${topBar()}${pi===0?tv('v_price','والله خسران فيها! 😅','s_loss'):''}<div class="card"><div class="stage">${seller()}<div><div class="bubble me" style="margin-bottom:10px"><span class="ar">قدّيش هاد؟</span></div><div class="bubble" id="sb"><span class="ar">…</span></div></div></div></div>
+   <div class="card center"><div class="hint">Item ${pi+1} of ${P.list.length}</div><div style="width:110px;height:110px;margin:auto;font-size:90px;display:grid;place-items:center">${itemIc(it.k)}</div><div class="big-ar">${ITEMS[it.k].ar}</div>
+   <div class="row c" style="margin:10px 0"><button class="btn sky" onclick="askPrice()">🗣️ <span class="ar">قدّيش هاد؟</span></button></div>
+   <p class="hint">Ask, listen to Abu Jaber, then tap the price you heard.</p>
+   <div class="grid g4" id="opts">${opts.map(o=>`<button class="opt num" onclick="pickPrice(this,${o},${n})">${o}</button>`).join('')}</div></div>`);
+  setTimeout(askPrice,500)}
+async function askPrice(){await play(pv('p_price'));await gap(pv('p_price'),'قدّيش هاد؟');const it=P.list[pi];sayS('pr_'+it.start,NUMW[it.start]||(it.start+' دينار'))}
+function pickPrice(b,o,n){if(o===n){b.classList.add('good');beep('coin');pScore++;document.querySelectorAll('#opts .opt').forEach(x=>x.disabled=true);
+    setTimeout(()=>{popup(`<div style="font-size:60px">😱</div><div class="big-ar">${n} دينار؟! <span style="color:var(--pink)">غالي كتير!</span></div><p class="hint">Remember this price — in the bargaining level, you'll bring it DOWN.</p><button class="btn lime" onclick="closePop();pi++;priceQ()">Next ▶</button>`);play(pv('p_exp'))},500)}
+  else{b.classList.add('bad');beep('bad');setTimeout(()=>b.classList.remove('bad'),400);toast('🔁 Listen again!');setTimeout(askPrice,600)}}
+
+/* ---------- 2b. PAY ---------- */
+const MONEY=[{v:20,c:'#2E9E6A'},{v:10,c:'#C0392B'},{v:5,c:'#7B4DFF'},{v:1,c:'#2F80ED'}];
+let payI=0,payTot=0,payN=0,payStars=0,PAYQ=[];
+function lvPay(){payI=0;payStars=0;PAYQ=[15,20,35,18,45];payQ()}
+function note(m,click){return `<button class="note" style="--nc:${m.c}" onclick="${click}"><span class="nv">${m.v}</span><span class="nd">دينار</span></button>`}
+function payQ(){if(payI>=PAYQ.length){popup(`<div style="font-size:60px">💵</div><h2>Cash master!</h2><div class="stars">${'⭐'.repeat(Math.max(1,Math.round(payStars/PAYQ.length*3)))}</div><p class="hint">You paid ${PAYQ.length} times like a real Ammani shopper.</p><button class="btn lime" onclick="closePop();finishLevel('pay')">Next ▶</button>`);return}
+  payTot=0;payN=0;const n=PAYQ[payI];
+  render(`${topBar()}${payI===0?tv('v_pay','ادفع المصاري 💵',G('s_pay_m','s_pay_f')):''}<div class="card"><div class="stage">${seller()}<div><div class="bubble" id="sb"><span class="ar">${NUMW[n]}</span></div>
+   <div class="row" style="margin-top:8px"><button class="btn ghost" onclick="sayS('pr_${n}',NUMW[${n}])">🔊 Again</button><span class="hint">${payI+1} / ${PAYQ.length} · Listen, then pay EXACTLY. Fewest notes = ⭐⭐⭐</span></div></div></div></div>
+   <div class="card center"><h2>💵 <span class="ar">ادفع المصاري</span> <span class="hint">Tap the money to put it on the counter</span></h2>
+    <div class="row c">${MONEY.map(m=>note(m,`payAdd(${m.v},'${m.c}')`)).join('')}</div>
+    <div class="counter" id="counter"><span class="hint" id="cHint">The counter 🧾</span></div>
+    <div class="row c"><span class="ptag" style="font-size:40px" id="payTot">0 <small>دينار</small></span></div>
+    <div class="row c" style="margin-top:12px"><button class="btn ghost" onclick="payQ()">↩ Clear</button><button class="btn lime" onclick="payGo()">🤝 <span class="ar">تفضّل!</span> Pay</button></div></div>`);
+  setTimeout(async()=>{await sayS(G('s_pay_m','s_pay_f'));await gap(G('s_pay_m','s_pay_f'),SELL[G('s_pay_m','s_pay_f')]);sayS('pr_'+n,NUMW[n])},450)}
+function payAdd(v,c){payTot+=v;payN++;beep('coin');const ch=$('#cHint');if(ch)ch.remove();
+  $('#counter').insertAdjacentHTML('beforeend',`<span class="note sm" style="--nc:${c};transform:rotate(${Math.random()*16-8}deg)"><span class="nv">${v}</span></span>`);
+  $('#payTot').innerHTML=`${payTot} <small>دينار</small>`}
+function minNotes(n){let c=0;for(const m of MONEY){c+=Math.floor(n/m.v);n%=m.v}return c}
+async function payGo(){const n=PAYQ[payI];if(!payTot)return toast('💸 Put some money on the counter first!');
+  if(payTot<n){beep('bad');await sayS('s_short');toast(`Need ${n-payTot} more!`);return}
+  if(payTot>n){beep('bad');await sayS('s_more');popup(`<div style="font-size:54px">🤔</div><h2>You paid ${payTot}… the price was ${n}.</h2><p>Abu Jaber gives you back <b>${payTot-n}</b>. Try to pay EXACTLY next time!</p><button class="btn" onclick="closePop();payI++;payQ()">Next ▶</button>`);payStars+=1;return}
+  const best=minNotes(n),st=payN<=best?3:payN<=best+2?2:1;payStars+=st;beep('win');confetti(18);await sayS('s_exact');
+  popup(`<div style="font-size:60px">${'⭐'.repeat(st)}</div><div class="big-ar">مزبوط!</div><p>${st===3?'Perfect — fewest notes possible! 🔥':`Correct! Could you do it with only ${best} notes?`}</p><button class="btn lime" onclick="closePop();payI++;payQ()">Next ▶</button>`)}
+
+/* ---------- 3. REPLY ---------- */
+const RUDE={id:null,ar:'إنت حرامي! 😠',en:"You're a thief!"};
+function P_(id){return PHR.find(p=>p.id===id)}
+let ri=0,rScore=0,RQ=[];
+function lvReply(){ri=0;rScore=0;const it=P.list[0];
+  RQ=[
+   {say:G('s_hi_m','s_hi_f'),ok:'p_want',bad:['p_exp','p_thanks','p_last'],why:"He asked what you want → tell him politely."},
+   {say:'pr_'+it.start,txt:NUMW[it.start],ok:'p_exp',bad:['p_deal',RUDE,'p_thanks'],why:"First price is ALWAYS too high. React! Never say «ماشي» straight away."},
+   {say:'s_orig',ok:'p_down',bad:['p_deal','p_salam','p_want'],why:"'It's original!' → OK… but still ask him to bring it down."},
+   {say:'s_loss',ok:'p_last',bad:['p_thanks','p_want',RUDE],why:"'I'm losing money!' 🙄 Everyone says that. Ask for his final price."},
+   {say:'s_no',ok:'p_have',bad:['p_deal','p_salam','p_price'],why:"If he says your offer is too low, show him your wallet: «معي بس…»"},
+   {say:'s_last',ok:'p_walk',bad:['p_exp','p_salam','p_want'],why:"Still too high? The secret weapon: walk away!"},
+   {say:G('s_come_m','s_come_f'),ok:'p_deal',bad:['p_walk','p_price',RUDE],why:"He called you back with a better price → close the deal!"},
+   {say:G('s_deal_m','s_deal_f'),ok:'p_thanks',bad:['p_exp','p_last','p_price'],why:"Deal done → always thank him. Politeness gets you a better price next time."},
+  ];
+  replyQ()}
+function replyQ(){if(ri>=RQ.length)return orderGame();
+  const q=RQ[ri];const n=3;let opts=[q.ok,...q.bad.slice(0,n-1)].sort(()=>Math.random()-.5);
+  render(`${topBar()}<div class="card"><div class="stage">${seller()}<div class="bubble" id="sb"><span class="ar">${q.txt||SELL[q.say]||''}</span></div></div>
+   <div class="row c" style="margin-top:8px"><button class="btn ghost" onclick="sayS('${q.say}',${q.txt?`'${q.txt}'`:'null'})">🔊 Again</button><span class="hint">${ri+1} / ${RQ.length}</span></div></div>
+   <div class="card"><h2>💬 <span class="ar">شو بتحكيله؟</span> <span class="hint">What's your best answer?</span></h2>
+   <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))" id="opts">${opts.map((o,i)=>{const p=typeof o==='string'?P_(o):o;return `<button class="opt" data-ok="${o===q.ok?1:0}" onclick="pickReply(this)">${p.ar}<div style="font-family:'Baloo 2';font-size:13px;color:var(--muted);direction:ltr">${p.en}</div></button>`}).join('')}</div>
+   <div id="after"></div></div>`);
+  setTimeout(()=>sayS(q.say,q.txt||null),450)}
+async function pickReply(b){const q=RQ[ri];
+  if(b.dataset.ok==='1'){b.classList.add('good');beep('good');rScore++;document.querySelectorAll('#opts .opt').forEach(x=>x.disabled=true);
+    const p=P_(q.ok);$('#after').innerHTML=`<p class="hint">💡 ${q.why}</p><h2>🎤 Now YOU say it — out loud!</h2>${phraseRow(p)}<div class="row c" style="margin-top:12px"><button class="btn lime" onclick="ri++;replyQ()">Next ▶</button></div>`;
+    await wait(300);play(pv(q.ok))}
+  else{b.classList.add('bad');beep('bad');if(b.textContent.includes('حرامي')){toast('😠 Rude = price goes UP!');sayS('s_angry')}else toast('🤔 Hmm… try another one');setTimeout(()=>b.classList.remove('bad'),400)}}
+/* order the conversation */
+let ORD=[],ordPick=[];
+function orderGame(){ORD=['p_salam','p_price','p_exp','p_down','p_last','p_deal','p_thanks'];ordPick=[];
+  const sh=[...ORD].sort(()=>Math.random()-.5);
+  render(`${topBar()}<div class="card"><h2>🧩 <span class="ar">رتّب الحوار</span> <span class="hint">Put the bargaining conversation in order!</span></h2>
+   <div id="ordOut" class="grid" style="gap:8px;margin-bottom:12px;min-height:60px"></div>
+   <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">${sh.map(id=>`<button class="opt" id="o_${id}" onclick="ordTap('${id}')">${P_(id).ar}</button>`).join('')}</div>
+   <div class="row c" style="margin-top:12px"><button class="btn ghost" onclick="orderGame()">↩ Start over</button></div></div>`)}
+async function ordTap(id){const need=ORD[ordPick.length];const b=$('#o_'+id);
+  if(id===need){ordPick.push(id);b.disabled=true;b.classList.add('good');beep('tick');$('#ordOut').insertAdjacentHTML('beforeend',`<div class="phrase"><span class="pill">${ordPick.length}</span><div class="txt">${P_(id).ar}</div></div>`);await play(pv(id));
+    if(ordPick.length===ORD.length){await wait(300);finishLevel('reply')}}
+  else{b.classList.add('bad');beep('bad');setTimeout(()=>b.classList.remove('bad'),400)}}
+
+/* ---------- 4. HAGGLE ---------- */
+let H=null;
+function lvHaggle(){const left=P.list.filter(i=>!S.bought[i.k]);if(!left.length)return finishLevel('haggle');
+  const it=left[0];H={it,price:it.start,used:{},rude:0,moves:0};haggleUI();
+  setTimeout(async()=>{await sayS(G('s_hi_m','s_hi_f'));await gap(G('s_hi_m','s_hi_f'),SELL[G('s_hi_m','s_hi_f')]);await sayS('pr_'+it.start,NUMW[it.start]);},500)}
+function mv(id,ar,en,cls=''){const used=H.used[id]?'used':'';return `<button class="move ${cls} ${used}" onclick="doMove('${id}')"><b>${ar}</b><span>${en}</span></button>`}
+function haggleUI(){const it=H.it;const pct=Math.max(0,Math.min(100,(H.price-it.fair)/(it.start-it.fair)*100));
+  const mk=[
+    mv('exp','غالي كتير!','React: too expensive!'),
+    mv('down','نزّللي شوي، لو سمحت.','Ask politely for less'),
+    mv('give','بعطيك …','Make an offer'),
+    mv('last','آخِر سِعر؟','Ask for the final price'),
+    mv('walk','لا خلص، بدوّر على محلّ تاني.','Walk away 🚶'),
+    mv('have',`معي بس ${S.wallet} دينار.`,'Show your wallet'),
+    mv('rude','هاد سعر حرامية! 😠','Be rude?!','rude'),
+    mv('deal','ماشي، اتّفقنا! ✅',`Buy it for ${H.price}`,'deal'),
+  ].join('');
+  render(`${topBar()}<div class="card"><div class="stage">${seller()}<div><div class="bubble" id="sb"><span class="ar">…</span></div><div class="bubble me" id="mb" style="margin-top:10px;display:none"></div></div></div></div>
+   <div class="card center"><div class="row c"><div style="width:90px;height:90px;font-size:74px;display:grid;place-items:center">${itemIc(it.k)}</div><div><div class="big-ar">${ITEMS[it.k].ar}</div><div class="ptag" id="ptag">${H.price} <small>دينار</small></div></div></div>
+   <div class="meter"><div class="fair" style="left:0%"></div><div class="dot" id="dot" style="left:${pct}%">🏷️</div></div>
+   <div class="row" style="justify-content:space-between;font-weight:800"><span>🎯 Great price</span><span>😱 Start: ${it.start}</span></div></div>
+   <div class="card"><h2>🎚️ <span class="ar">شو بتعمل؟</span> <span class="hint">Choose your move — then SAY it out loud!</span></h2><div class="moves" id="moves">${mk}</div><div id="offer"></div></div>`)}
+function setPrice(n){H.price=Math.max(1,Math.round(n));const it=H.it;const pct=Math.max(0,Math.min(100,(H.price-it.fair)/(it.start-it.fair)*100));
+  $('#ptag').innerHTML=`${H.price} <small>دينار</small>`;$('#dot').style.left=pct+'%';$('#ptag').animate([{transform:'scale(1.2)'},{transform:'scale(1)'}],{duration:350});
+  const d=document.querySelector('.move.deal span');if(d)d.textContent='Buy it for '+H.price}
+function meSay(ar){const m=$('#mb');m.style.display='block';m.innerHTML=`<span class="ar">${ar}</span>`}
+let busy=false;
+async function doMove(id){if(busy)return;busy=true;try{await doMove2(id)}finally{busy=false}}
+async function doMove2(id){const it=H.it,k=1,fair=it.fair;H.moves++;$('#offer').innerHTML='';
+  const cut=(frac)=>setPrice(Math.max(fair,H.price-Math.max(1,(H.price-fair)*frac)));
+  if(id==='exp'){meSay('غالي كتير!');await play(pv('p_exp'));await gap(pv('p_exp'),'غالي كتير!');if(!H.used.exp){cut(.3*k);await sayS('s_orig')}else{cut(.08*k);await sayS('s_loss')}}
+  else if(id==='down'){meSay('نزّللي شوي، لو سمحت.');await play(pv('p_down'));await gap(pv('p_down'),'نزّللي شوي، لو سمحت.');if(!H.used.down){cut(.3*k);await sayS('s_foryou')}else{cut(.1*k);await sayS('s_loss')}}
+  else if(id==='last'){meSay('آخِر سِعر؟');await play(pv('p_last'));await gap(pv('p_last'),'آخِر سِعر؟');if(!H.used.last){cut(.45*k);await sayS('s_last')}else{await sayS('s_loss')}}
+  else if(id==='walk'){meSay('لا خلص، بدوّر على محلّ تاني.');await play(pv('p_walk'));await gap(pv('p_walk'),'لا خلص، بدوّر على محلّ تاني.');
+    if(H.used.walk){toast('🙄 He knows you\'re bluffing now!');await sayS('s_no')}
+    else if(Object.keys(H.used).length<2){toast('🤷 Too early! He doesn\'t care yet — bargain first, walk away LAST.');await sayS('s_no');return}
+    else{cut(.6*k);popup(`${tv('v_walk',SELL[G('s_come_m','s_come_f')],G('s_come_m','s_come_f'))}<h2>It worked! 🚶➜🏃</h2><p>New price: <b>${H.price}</b> دينار</p><button class="btn lime" onclick="closePop()">OK</button>`);await sayS(G('s_come_m','s_come_f'),SELL[G('s_come_m','s_come_f')]+` ${H.price} دينار!`);if(H.price<=60)await play('nS_'+H.price,$('#seller'))}}
+  else if(id==='rude'){meSay('هاد سعر حرامية! 😠');await play(pv('p_rude'));H.rude++;S.rude++;setPrice(H.price+Math.round(it.start*.1));beep('bad');await sayS('s_angry');toast('😬 Rude = price UP. Stay polite!')}
+  else if(id==='give'){const opts=[...new Set([Math.round(fair*.5),Math.round(fair*.8),fair,Math.round((H.price+fair)/2)])].filter(x=>x<H.price&&x>0).sort((a,b)=>a-b);
+    $('#offer').innerHTML=`<h2 style="margin-top:12px">💰 <span class="ar">بعطيك…</span> <span class="hint">How much will you offer?</span></h2><div class="grid g4">${opts.map(o=>`<button class="opt num" onclick="offer(${o})">${o}</button>`).join('')}</div>`;H.moves--;return}
+  else if(id==='have'){meSay(`معي بس ${S.wallet} دينار.`);{const ids=S.wallet>=1&&S.wallet<=60?['P:p_have0','K:'+S.wallet]:['P:p_have0'];await sayIds(ids);await gap(null,`معي بس ${S.wallet} دينار.`,ids)}
+    if(S.wallet>=H.price){toast('🤔 You have enough money! Try another move.');await sayS('s_loss')}
+    else if(S.wallet>=Math.round(fair*.85)){await sayS(G('s_deal_m','s_deal_f'));return buy(S.wallet)}
+    else{await sayS('s_no');if(S.wallet<Math.round(fair*.85)){popup(`<div style="font-size:60px">📱</div><h2>Mama sent 5 more dinars 😅</h2><p class="hint">Be careful with the money!</p><button class="btn lime" onclick="closePop()">OK</button>`);S.wallet+=5;$('#wal').textContent=S.wallet;save()}}}
+  else if(id==='deal'){if(S.wallet<H.price){toast('👛 Not enough money! Try «معي بس…»');beep('bad');return}
+    meSay('ماشي، اتّفقنا!');await play(pv('p_deal'));await gap(pv('p_deal'),'ماشي، اتّفقنا!');await sayS(G('s_deal_m','s_deal_f'));return buy(H.price)}
+  H.used[id]=true;const b=document.querySelector(`.move[onclick="doMove('${id}')"]`);if(b&&id!=='deal')b.classList.add('used')}
+async function offer(o){if(busy)return;busy=true;try{const it=H.it,fair=it.fair;$('#offer').innerHTML='';H.moves++;
+  meSay(`بعطيك ${o} دينار.`);{const ids=['P:p_give0','K:'+o];await sayIds(ids);await gap(null,`بعطيك ${o} دينار.`,ids)}
+  if(o<fair*.65){H.rude+=0;setPrice(H.price+2);beep('bad');await sayS('s_angry');toast('😅 Too low — that felt like an insult!')}
+  else if(o<fair){setPrice(H.price-Math.max(1,(H.price-fair)*.15));await sayS('s_no')}
+  else{const counter=Math.round((H.price+o)/2);if(counter-o<=2){await sayS(G('s_deal_m','s_deal_f'));busy=false;return buy(o)}setPrice(counter);await sayS('s_foryou',SELL.s_foryou+` ${counter} دينار!`);if(counter<=60)await play('nS_'+counter,$('#seller'))}
+  H.used.give=true}finally{busy=false}}
+function buy(price){const it=H.it;S.wallet-=price;const st=Math.max(1,(price<=it.fair?3:price<=it.fair*1.2?2:1)-(H.rude?1:0));
+  S.bought[it.k]={paid:price,start:it.start,stars:st};S.stars[it.k]=st;save();$('#wal').textContent=S.wallet;beep('coin');confetti(25);
+  popup(`${tv('v_deal','اتّفقنا! 🤝',G('s_deal_m','s_deal_f'))}<div style="font-size:50px">${'⭐'.repeat(st)}</div><h2>You bought the <bdi class="ar">${ITEMS[it.k].ar}</bdi>!</h2>
+   <div class="big-ar" dir="ltr" style="direction:ltr">${it.start} ➜ <span style="color:#2FA84F">${price}</span> <bdi>دينار</bdi></div><p><b>You saved ${it.start-price} dinars!</b> ${price<=it.fair?'🔥 Best price in the souq!':'Could you get it cheaper next time? 🤔'}</p>
+   <div class="row c">${phraseRow(P_('p_thanks'),false)}</div><p><button class="btn lime" onclick="closePop();lvHaggle()">Next ▶</button></p>`);
+  setTimeout(()=>play(pv('p_thanks')),600)}
+
+/* ---------- 5. BOSS ---------- */
+const DEAL=['صفقة 👍','خدعة 🚨'];
+const BOSS={
+ hesham:[
+  {q:'الطابة كانت بـ٢٠… هلّأ «عشانك بس» بـ٢٥!',en:'The ball was 20… now "just for you" 25!',o:DEAL,a:1,why:'25 is MORE than 20. That\'s not a discount! 🚨'},
+  {q:'شاورما وحدة بـ١٠، وتنتين بـ١٦.',en:'One shawarma 10, two for 16.',o:DEAL,a:0,why:'2 × 10 = 20. You pay 16 → you save 4! 👍'},
+  {q:'إيد وحدة بـ٣٠، وتنتين بـ٦٥!',en:'One controller 30, two for 65!',o:DEAL,a:1,why:'2 × 30 = 60, not 65. Trick! 🚨'},
+  {q:'معك ٥٠. اشتريت إيد بـ٣٠ وطابة بـ١٢. قدّيش ضلّ معك؟',en:'You have 50. Controller 30 + ball 12. How much is left?',o:['8','18','12'],a:0,why:'30 + 12 = 42. 50 − 42 = 8 ✅'},
+  {q:'«آخر سعر ٣٠!»… مشيت… «تعال! ٢٥!» — كان فعلًا آخر سعر؟',en:'"Last price 30!"… you walked… "Come back! 25!" Was 30 really the last price?',o:['آه','لأ! 😏'],a:1,why:'The "last price" is never the last price. Walking away works! 😏'},
+ ],
+ lina:[
+  {q:'الشنطة كانت بـ٣٥… هلّأ «خصم» بـ٤٠!',en:'The bag was 35… now "discount" 40!',o:DEAL,a:1,why:'40 is MORE than 35 — fake discount! 🚨'},
+  {q:'إسوارة وحدة بـ٨، وتنتين بـ١٤.',en:'One bracelet 8, two for 14.',o:DEAL,a:0,why:'2 × 8 = 16. You pay 14 → save 2! 👍'},
+  {q:'باقة ورد بـ٦، وباقتين بـ١٥.',en:'One bunch of flowers 6, two for 15.',o:DEAL,a:1,why:'2 × 6 = 12, not 15. Trick! 🚨'},
+  {q:'معك ٥٠. اشتريتي شنطة بـ٢٢ وإسوارة بـ٩. قدّيش ضلّ معك؟',en:'You have 50. Bag 22 + bracelet 9. How much is left?',o:['19','21','9'],a:0,why:'22 + 9 = 31. 50 − 31 = 19 ✅'},
+  {q:'«آخر سعر ٢٥!»… مشيتي… «تعالي! ٢٢!» — كان فعلًا آخر سعر؟',en:'"Last price 25!"… you walked… "Come back! 22!" Was it really the last price?',o:['آه','لأ! 😏'],a:1,why:'Walking away = your superpower. 😏'},
+ ],
+ kareem:[
+  {q:'السمّاعات كانت بـ٣٥… هلّأ «عشانك بس» بـ٤٠!',en:'The headphones were 35… now "just for you" 40!',o:DEAL,a:1,why:'40 is MORE than 35. Fake discount! 🚨'},
+  {q:'ساعة وحدة بـ١٢، وتنتين بـ٢٠.',en:'One watch 12, two for 20.',o:DEAL,a:0,why:'2 × 12 = 24. You pay 20 → save 4! 👍'},
+  {q:'كنافة: كيلو بـ١٠، وكيلوين بـ٢٥.',en:'Kunafa: 1 kilo 10, 2 kilos 25.',o:DEAL,a:1,why:'2 × 10 = 20, not 25. Trick! 🚨'},
+  {q:'معك ٥٠. اشتريت سمّاعات بـ٢٢ وساعة بـ١٢. قدّيش ضلّ معك؟',en:'You have 50. Headphones 22 + watch 12. How much is left?',o:['16','26','14'],a:0,why:'22 + 12 = 34. 50 − 34 = 16 ✅'},
+  {q:'«آخر سعر ٢٥!»… مشيت… «تعال! ٢٢!» — كان فعلًا آخر سعر؟',en:'"Last price 25!"… you walked… "Come back! 22!" Was it really the last price?',o:['آه','لأ! 😏'],a:1,why:'Never believe the first "last price". 😏'},
+ ],
+ guest:[
+  {q:'الطابة كانت بـ٢٠… هلّأ «عشانك بس» بـ٢٥!',en:'The ball was 20… now "just for you" 25!',o:DEAL,a:1,why:'25 is MORE than 20. That\'s not a discount! 🚨'},
+  {q:'كنافة: كيلو بـ١٠، وكيلوين بـ١٦.',en:'Kunafa: 1 kilo 10, 2 kilos 16.',o:DEAL,a:0,why:'2 × 10 = 20. You pay 16 → save 4! 👍'},
+  {q:'سمّاعات وحدة بـ٢٠، وتنتين بـ٤٥!',en:'One headphones 20, two for 45!',o:DEAL,a:1,why:'2 × 20 = 40, not 45. Trick! 🚨'},
+  {q:'معك ٥٠. اشتريت سمّاعات بـ٢٢ وطابة بـ١٢. قدّيش ضلّ معك؟',en:'You have 50. Headphones 22 + ball 12. How much is left?',o:['16','26','14'],a:0,why:'22 + 12 = 34. 50 − 34 = 16 ✅'},
+  {q:'«آخر سعر ٣٠!»… مشيت… «تعال! ٢٥!» — كان فعلًا آخر سعر؟',en:'"Last price 30!"… you walked… "Come back! 25!" Was it really the last price?',o:['آه','لأ! 😏'],a:1,why:'The "last price" is never the last price! 😏'},
+ ]};
+let bi=0,bScore=0;
+function lvBoss(){bi=0;bScore=0;bossQ();setTimeout(async()=>{toast('😈 <bdi class="ar">ها ها! أنا الزعيم… «آخر سعر!»</bdi>');await play('s_boss',$('#seller'));await wait(300);if(bi===0)bossVoice()},500)}
+function bossQ(){const L=BOSS[P.id]||BOSS.guest;if(bi>=L.length){popup(`<div style="font-size:70px">👑</div><h2>You beat the boss!</h2><p class="big-ar">${bScore} / ${L.length}</p><p class="hint">Abu Jaber can't trick you anymore 😎</p><button class="btn lime" onclick="closePop();finishLevel('boss')">Next ▶</button>`);return}
+  const q=L[bi];
+  render(`${topBar()}${bi===0?tv('v_hello','صفقة ولا خدعة؟ 👑','s_last'):''}<div class="card"><div class="stage">${seller()}<div class="bubble" id="sb"><span class="ar">${q.q}</span><div class="hint" style="direction:ltr">${q.en}</div></div></div></div>
+   <div class="card"><h2>👑 <span class="ar">${q.o===DEAL?'صفقة ولا خدعة؟':'قدّيش؟'}</span> <span class="hint">${bi+1} / ${L.length}</span></h2>
+   <div class="grid g4" id="opts">${q.o.map((o,i)=>`<button class="opt ${/^[٠-٩0-9]+$/.test(o)?'num':''}" onclick="pickBoss(this,${i})">${o}</button>`).join('')}</div><div id="after"></div></div>`);if(bi>0)setTimeout(bossVoice,400)}
+function bossVoice(){const q=(BOSS[P.id]||BOSS.guest)[bi];const ids=resolveIds(q.q);if(ids)sayIds(ids,$('#seller'))}
+function pickBoss(b,i){const q=(BOSS[P.id]||BOSS.guest)[bi];document.querySelectorAll('#opts .opt').forEach(x=>x.disabled=true);
+  if(i===q.a){b.classList.add('good');beep('good');bScore++}else{b.classList.add('bad');beep('bad');document.querySelectorAll('#opts .opt')[q.a].classList.add('good')}
+  $('#after').innerHTML=`<p style="font-size:20px">💡 ${q.why}</p><div class="row c"><button class="btn lime" onclick="bi++;bossQ()">Next ▶</button></div>`;
+  if(i===q.a)sayS('s_loss');}
+
+/* ---------- 6. LIVE ---------- */
+const LIVE=['p_salam','p_price','p_exp','p_down','p_give','p_last','p_walk','p_have','p_deal','p_thanks'];
+let liveOn={};
+function lvLive(){liveOn={};gate(()=>{
+  render(`${topBar()}<div class="card center"><div style="font-size:64px">🎭</div><h2>Teacher = Abu Jaber now!</h2><div class="big-ar" style="font-size:26px">الأستاذ هلّأ هو أبو جابر… فاصِل معه عالهوا!</div>
+   <p class="hint">Buy your ${P.list.length} things from the teacher. Every time you use a phrase, the teacher ticks it ✔. Get 6 to win!</p>
+   <div class="row c">${P.list.map(i=>`<span class="pill"><span style="width:30px;height:30px;display:inline-grid;place-items:center">${itemIc(i.k)}</span> <span class="ar">${ITEMS[i.k].ar}</span></span>`).join('')}</div></div>
+   <div class="card"><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">${LIVE.map(id=>`<div class="check" id="c_${id}" onclick="liveTick('${id}')"><span class="bx"></span><span style="flex:1">${P_(id).ar}</span><button class="ib" onclick="event.stopPropagation();play('${pv(id)}')">🔊</button></div>`).join('')}</div>
+   <div class="center" style="margin-top:14px"><span class="pill">⭐ <span id="lc">0</span></span> <button class="btn lime" id="liveDone" disabled onclick="finishLevel('live')">We made a deal! ✅</button></div></div>`)})}
+function liveTick(id){liveOn[id]=!liveOn[id];const el=$('#c_'+id);el.classList.toggle('on',liveOn[id]);el.querySelector('.bx').textContent=liveOn[id]?'✔':'';if(liveOn[id])beep('coin');
+  const n=Object.values(liveOn).filter(Boolean).length;$('#lc').textContent=n;$('#liveDone').disabled=n<6}
+
+/* ---------- 7. END ---------- */
+function lvEnd(){const rows=P.list.map(i=>{const b=S.bought[i.k];return b?`<tr><td style="font-size:30px;width:50px">${itemIc(i.k)}</td><td class="ar" style="font-size:22px">${ITEMS[i.k].ar}</td><td><s>${b.start}</s> ➜ <b>${b.paid}</b></td><td>${'⭐'.repeat(b.stars)}</td></tr>`:''}).join('');
+  const saved=P.list.reduce((a,i)=>a+(S.bought[i.k]?S.bought[i.k].start-S.bought[i.k].paid:0),0);
+  if(!S.done.includes('end')){S.done.push('end');save()}
+  render(`${topBar()}${tv('v_deal','مبروك! 🏆',G('m_win_m','m_win_f'))}<div class="cert fade"><div style="font-size:60px">🏆</div><div class="big-ar" style="font-size:clamp(34px,7vw,58px)">${G('أشطر مُفاصِل بالسوق','أشطر مُفاصِلة بالسوق')}</div>
+   <h2>${P.en} — Souq Bargaining Champion</h2><div class="big-ar">${P.ar}</div>
+   <table style="margin:14px auto;border-collapse:collapse;font-size:20px;font-weight:700">${rows}</table>
+   <div class="ptag" style="font-size:40px">💰 ${saved} <small>saved!</small></div><p style="font-weight:800;margin-top:14px">👛 Money left for Mama: ${S.wallet} دينار</p>
+   <div class="row c"><button class="btn sky" onclick="play('${G('m_win_m','m_win_f')}')">🔊 Mama</button><button class="btn ghost" onclick="home()">🏠 Home</button></div></div>`);
+  confetti(60);beep('win');setTimeout(()=>play(G('m_win_m','m_win_f')),700)}
+
+
+/* ============ EVERY ARABIC TEXT CAN BE HEARD ============ */
+const AUD={"سوق وسط البلد": ["u_souq"], "خريطة السوق": ["u_map"], "جولة بالسوق": ["u_tour"], "ادفع المصاري": ["u_pay"], "شو بتحكي؟": ["u_reply"], "عدّاد الفِصال": ["u_haggle"], "صفقة ولا خدعة؟": ["u_boss"], "مع الأستاذ": ["u_live"], "الشهادة": ["u_end"], "شو في بالسوق؟": ["u_what"], "عِدّة الفِصال": ["u_kit"], "قايمة المشتريات": ["u_list"], "شو بتحكيله؟": ["u_say"], "رتّب الحوار": ["u_order"], "شو بتعمل؟": ["u_do"], "يلا عالسوق!": ["u_go"], "اكتب اسمك هون": ["u_write"], "لاعب جديد": ["u_new"], "ولد": ["u_boy"], "بنت": ["u_girl"], "استنّى! الأستاذ محمد رح يشرحلك قبل ما نكمّل": ["u_stop"], "دورك… قولها!": ["u_turn"], "كمان مرّة": ["u_again"], "التالي": ["u_next"], "اضغط في أي مكان عشان تسمع": ["u_tap"], "تفضّل!": ["u_here"], "أبو جابر": ["u_abu"], "قدّيش؟": ["u_howmuch"], "أشطر مُفاصِل بالسوق": ["u_champ_m"], "أشطر مُفاصِلة بالسوق": ["u_champ_f"], "مزبوط!": ["u_exact"], "آه": ["u_yes"], "لأ!": ["u_no"], "صفقة": ["u_deal"], "خدعة": ["u_trick"], "الأستاذ هلّأ هو أبو جابر… فاصِل معه عالهوا!": ["u_teacher"], "مسافة": ["u_space"], "اسمع": ["u_listen"], "زعتر": ["u_zatar"], "لو سمحت": ["u_please"], "هشام": ["u_hesham"], "لينا": ["u_lina"], "كريم": ["u_kareem"], "أهلا!": ["u_hello"], "الطابة كانت بـ٢٠… هلّأ «عشانك بس» بـ٢٥!": ["b1"], "شاورما وحدة بـ١٠، وتنتين بـ١٦.": ["b2"], "إيد وحدة بـ٣٠، وتنتين بـ٦٥!": ["b3"], "معك ٥٠. اشتريت إيد بـ٣٠ وطابة بـ١٢. قدّيش ضلّ معك؟": ["b4"], "«آخر سعر ٣٠!»… مشيت… «تعال! ٢٥!» — كان فعلًا آخر سعر؟": ["b5"], "الشنطة كانت بـ٣٥… هلّأ «خصم» بـ٤٠!": ["b6"], "إسوارة وحدة بـ٨، وتنتين بـ١٤.": ["b7"], "باقة ورد بـ٦، وباقتين بـ١٥.": ["b8"], "معك ٥٠. اشتريتي شنطة بـ٢٢ وإسوارة بـ٩. قدّيش ضلّ معك؟": ["b9"], "«آخر سعر ٢٥!»… مشيتي… «تعالي! ٢٢!» — كان فعلًا آخر سعر؟": ["b10"], "السمّاعات كانت بـ٣٥… هلّأ «عشانك بس» بـ٤٠!": ["b11"], "ساعة وحدة بـ١٢، وتنتين بـ٢٠.": ["b12"], "كنافة: كيلو بـ١٠، وكيلوين بـ٢٥.": ["b13"], "معك ٥٠. اشتريت سمّاعات بـ٢٢ وساعة بـ١٢. قدّيش ضلّ معك؟": ["b14"], "«آخر سعر ٢٥!»… مشيت… «تعال! ٢٢!» — كان فعلًا آخر سعر؟": ["b15"], "كنافة: كيلو بـ١٠، وكيلوين بـ١٦.": ["b16"], "سمّاعات وحدة بـ٢٠، وتنتين بـ٤٥!": ["b17"], "معك ٥٠. اشتريت سمّاعات بـ٢٢ وطابة بـ١٢. قدّيش ضلّ معك؟": ["b18"], "ها ها! أنا الزعيم… «آخر سعر!» 😈": ["s_boss"], "مبروك! 🏆": ["s_mabrook"], "اتّفقنا! 🤝": ["s_ittafaqna"], "سوق وسط البلد · عمّان": ["s_souqamman"], "أهلا وسهلا بالسوق! 👋": ["s_welcome"], "معي بس": ["P:p_have0"], "بعطيك": ["P:p_give0"], "هاد سعر حرامية! 😠": ["P:p_rude"], "إنت حرامي! 😠": ["P:p_thief"], "دينار": ["i_dinar"]};
+const nk=t=>(t||'').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[ً-ْـ]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/[^ء-ي0-9]/g,'');
+let SAYMAP=null;
+function sayMap(){if(SAYMAP)return SAYMAP;const m={};const add=(t,ids)=>{const k=nk(t);if(k&&!m[k])m[k]=ids};
+  Object.entries(AUD).forEach(([t,ids])=>add(t,ids));
+  Object.entries(SELL).forEach(([id,t])=>add(t,[id]));
+  PHR.forEach(p=>add(p.ar,['P:'+p.id]));
+  Object.entries(ITEMS).forEach(([k,it])=>add(it.ar,['i_'+k]));
+  Object.entries(NUMW).forEach(([n,t])=>add(t,['pr_'+n]));
+  Object.entries(MOMTXT).forEach(([id,t])=>add(t,[id]));
+  add(RUDE.ar,['P:p_thief']);add('بدوّر على محلّ تاني',['P:p_walk']);add('معي بس',['P:p_have0']);add('بعطيك',['P:p_give0']);add('هاد سعر حرامية!',['P:p_rude']);
+  return SAYMAP=m}
+function resolveIds(text){const m=sayMap();const k=nk(text);if(!k)return null;if(m[k])return m[k];
+  if(/^اهلايا/.test(k))return['u_hello'];
+  const mm=k.match(/^(.*?)(\d+)(دينار|دنانير)?$/);if(!mm)return null;const n=+mm[2];if(n<1||n>60)return null;
+  const pre=mm[1];let base=pre?m[pre]:[];if(pre&&!base)return null;
+  const kid=base.length&&String(base[0]).startsWith('P:');return [...base,(kid?'K:':'nS_')+n]}
+function realId(id){if(id.startsWith('P:'))return pv(id.slice(2));if(id.startsWith('K:'))return (P&&P.g==='f'?'nG_':'nB_')+id.slice(2);return id}
+async function sayIds(ids,talker){for(let i=0;i<ids.length;i++){await play(realId(ids[i]),talker);if(i<ids.length-1)await wait(120)}}
+const AUTO='.item,.ib,.move,.key,.note,.tvbtn,#gapAgain,#gapNext,.phrase,.spk,input';
+function hasArabicText(el){for(const n of el.childNodes){if(n.nodeType===3&&/[ء-ي]/.test(n.nodeValue))return true}return false}
+function decorate(){document.querySelectorAll('#app *, #pop *, #gapBar *, #joke *, #gate *, #tapHint').forEach(el=>{
+  if(el.closest('.kb')||el.closest('.namebox')||el.closest('script'))return;
+  if(el.parentElement&&el.parentElement.closest('.ptag,.wallet'))return;
+  if(!hasArabicText(el)&&!el.matches('.ptag,.wallet'))return;
+  const k=nk(el.textContent);if(el.dataset.hk===k)return;el.dataset.hk=k;
+  const ids=resolveIds(el.textContent);const host=el.closest('[onclick],button');
+  el.classList.toggle('hear',!!ids&&!(host&&(host.matches(AUTO)||host.closest(AUTO))));
+  if(!ids)return;
+  if(host&&!host.matches(AUTO)&&!host.closest(AUTO)&&!host.querySelector(':scope > .spk')){
+    const i=document.createElement('i');i.className='spk';i.textContent='🔊';i.title='Listen';
+    i.addEventListener('click',ev=>{ev.stopPropagation();ev.preventDefault();sayIds(resolveIds(el.textContent)||[])});host.appendChild(i);el.classList.add('inbtn')}
+ })}
+document.addEventListener('click',ev=>{const el=ev.target.closest('.hear');if(!el||el.classList.contains('inbtn'))return;
+  if(el.closest('[onclick],button'))return;
+  const ids=resolveIds(el.textContent);if(!ids)return;const talker=el.closest('.stage')?$('#seller'):null;sayIds(ids,talker)});
+let decoT=0;new MutationObserver(()=>{cancelAnimationFrame(decoT);decoT=requestAnimationFrame(decorate)}).observe(document.body,{childList:true,subtree:true,characterData:true});
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closePop();hideJoke()}});
+$('#pop').addEventListener('click',e=>{if(e.target.id==='pop')closePop()});
+home();
+</script>
+
+</body></html>
