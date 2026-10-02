@@ -349,6 +349,14 @@ footer.sig{background:rgba(255,255,255,.94);border-top:0;box-shadow:0 -4px 16px 
 
 .sa-sea{fill:var(--sea)} .sa-sun{fill:var(--sun)}
 
+.seg-i.p{color:var(--coral);background:linear-gradient(transparent 58%,#ffe0d9 58%)}
+.seg.p{color:#d9480f;background:#ffe8e2}
+.chip.p{border-color:var(--coral)} .chip.p .ar{color:#d9480f}
+.legend .lp::before{background:var(--coral)}
+blockquote.taf{margin:6px 0;padding:8px 12px;border-inline-start:3px solid var(--sea);background:#f4f9ff;border-radius:10px}
+blockquote.taf .en{font-size:1rem;line-height:1.6}
+blockquote.taf cite{display:block;font-size:.75rem;font-style:normal;font-weight:800;color:var(--sea);margin-top:4px}
+
 </style>
 </head>
 <body>
@@ -363,7 +371,7 @@ footer.sig{background:rgba(255,255,255,.94);border-top:0;box-shadow:0 -4px 16px 
 <script>
 /* ============ DATA: The Hidden Receiver (Class 19) ============ */
 // Audio files that exist next to index.html (e.g. 1 means "01.mp3"). Filled in when recordings arrive.
-const AUDIO_READY = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,92,93];  // 90 and 91 held back: the two files you sent are identical
+const AUDIO_READY = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,92,93, ...Array.from({length:51},(_,i)=>101+i), ...Array.from({length:20},(_,i)=>201+i)];  // 90 and 91 held back: the two files you sent are identical
 // Optional scene videos (v1.mp4, v2.mp4, v3.mp4) that exist next to index.html.
 const VIDEO_READY = [];
 
@@ -654,6 +662,257 @@ const LEVELS = [
   screens:[{t:"boss"}]}
 ];
 
+/* ============ PART 2 · The Causer: وزن أَفْعَلَ ============ */
+const P = (a,b)=>[[a,"p"],[b,"v"]];
+
+/* ---------- Easy sentences (Teacher reads them) ---------- */
+function S(id, ar, en, gloss){ L(id,{kind:"line",who:"Teacher",ar,en,gloss}); }
+S("S0","ضَحِكَ الطِّفْلُ.","The child laughed.",[["ضَحِكَ","laughed"],["الطِّفْلُ","the child"]]);
+S("S1","أَضْحَكَتْ زَيْنَبُ الطِّفْلَ.","Zainab made the child laugh.",[["أَضْحَكَتْ","she made (someone) laugh"],["زَيْنَبُ","Zainab"],["الطِّفْلَ","the child"]]);
+S("S2","أَخْرَجَ بِلَالٌ الْكِتَابَ مِنَ الْحَقِيبَةِ.","Bilal took the book out of the bag.",[["أَخْرَجَ","he took out (made it go out)"],["بِلَالٌ","Bilal"],["الْكِتَابَ","the book"],["مِنَ","from"],["الْحَقِيبَةِ","the bag"]]);
+S("S3","أَجْلَسَتْ زَيْنَبُ الطِّفْلَ عَلَى الْكُرْسِيِّ.","Zainab sat the child on the chair.",[["أَجْلَسَتْ","she seated (made someone sit)"],["زَيْنَبُ","Zainab"],["الطِّفْلَ","the child"],["عَلَى","on"],["الْكُرْسِيِّ","the chair"]]);
+S("S4","يُضْحِكُنِي بِلَالٌ دَائِمًا.","Bilal always makes me laugh.",[["يُضْحِكُنِي","he makes me laugh"],["بِلَالٌ","Bilal"],["دَائِمًا","always"]]);
+S("S5","تُطْعِمُ زَيْنَبُ الْقِطَّةَ كُلَّ صَبَاحٍ.","Zainab feeds the cat every morning.",[["تُطْعِمُ","she feeds"],["زَيْنَبُ","Zainab"],["الْقِطَّةَ","the cat"],["كُلَّ صَبَاحٍ","every morning"]]);
+S("S6","يُخْرِجُ بِلَالٌ الْقَلَمَ مِنْ حَقِيبَتِهِ.","Bilal takes the pen out of his bag.",[["يُخْرِجُ","he takes out"],["بِلَالٌ","Bilal"],["الْقَلَمَ","the pen"],["مِنْ","from"],["حَقِيبَتِهِ","his bag"]]);
+S("S7","يَا بِلَالُ، أَخْرِجِ الْقَلَمَ!","Bilal, take out the pen!",[["يَا بِلَالُ","Bilal!"],["أَخْرِجِ","take out! (to a man)"],["الْقَلَمَ","the pen"]]);
+S("S8","يَا زَيْنَبُ، أَطْعِمِي الطِّفْلَ.","Zainab, feed the child.",[["يَا زَيْنَبُ","Zainab!"],["أَطْعِمِي","feed! (to a woman)"],["الطِّفْلَ","the child"]]);
+S("S9","أَسْمِعْنِي صَوْتَكَ.","Let me hear your voice.",[["أَسْمِعْنِي","make me hear"],["صَوْتَكَ","your voice"]]);
+S("S10","إِخْرَاجُ الْقَلَمِ مِنَ الْحَقِيبَةِ صَعْبٌ!","Getting the pen out of the bag is hard!",[["إِخْرَاجُ","taking out (the action)"],["الْقَلَمِ","the pen"],["مِنَ الْحَقِيبَةِ","from the bag"],["صَعْبٌ","hard"]]);
+S("S11","إِطْعَامُ الْجَائِعِ عَمَلٌ جَمِيلٌ.","Feeding the hungry is a beautiful deed.",[["إِطْعَامُ","feeding (the action)"],["الْجَائِعِ","the hungry person"],["عَمَلٌ","a deed"],["جَمِيلٌ","beautiful"]]);
+
+/* ---------- Base verb ↔ causative pairs ---------- */
+function PAIR(bid, bar, ben, cid, car, cen, leb, icon){
+  L(bid,{kind:"word",ar:bar,en:ben,icon,form:"past"});
+  L(cid,{kind:"word",ar:car,en:cen,icon,base:bid,leb:leb,form:"past",cause:true,segs:P(car.slice(0,2),car.slice(2))});
+}
+PAIR("b_dahika","ضَحِكَ","he laughed","c_adhaka","أَضْحَكَ","he made (someone) laugh","ضَحَّك","heart");
+PAIR("b_baka","بَكَى","he cried","c_abka","أَبْكَى","he made (someone) cry","بَكّى","q");
+PAIR("b_kharaja","خَرَجَ","he went out","c_akhraja","أَخْرَجَ","he took out (made it go out)","طَلَّع","walk");
+PAIR("b_dakhala","دَخَلَ","he went in","c_adkhala","أَدْخَلَ","he brought in (made someone go in)","فَوَّت","walk");
+PAIR("b_jalasa","جَلَسَ","he sat","c_ajlasa","أَجْلَسَ","he seated (made someone sit)","قَعَّد","person");
+PAIR("b_nazala","نَزَلَ","he came down","c_anzala","أَنْزَلَ","he sent down (made it come down)","نَزَّل","light");
+PAIR("b_taima","طَعِمَ","he ate","c_atama","أَطْعَمَ","he fed (made someone eat)","طَعمى","bag");
+PAIR("b_samia","سَمِعَ","he heard","c_asmaa","أَسْمَعَ","he made (someone) hear","سَمَّع","ear");
+
+/* ---------- The four forms of خرج: plain verb vs أَفْعَلَ ---------- */
+L("f1_past",{kind:"word",ar:"خَرَجَ",en:"he went out",form:"past"});
+L("f4_past",{kind:"word",ar:"أَخْرَجَ",en:"he took out",form:"past",cause:true,segs:[["أَ","p"],["خْرَجَ","v"]]});
+L("f1_pres",{kind:"word",ar:"يَخْرُجُ",en:"he goes out",form:"present"});
+L("f4_pres",{kind:"word",ar:"يُخْرِجُ",en:"he takes out",form:"present",cause:true,segs:[["يُ","p"],["خْرِجُ","v"]]});
+L("f1_cmd",{kind:"word",ar:"اُخْرُجْ",en:"go out! (to a man)",form:"command"});
+L("f4_cmd",{kind:"word",ar:"أَخْرِجْ",en:"take out! (to a man)",form:"command",cause:true,segs:[["أَ","p"],["خْرِجْ","v"]]});
+L("f1_mas",{kind:"word",ar:"خُرُوج",en:"going out",form:"masdar"});
+L("f4_mas",{kind:"word",ar:"إِخْرَاج",en:"taking out",form:"masdar",cause:true,segs:[["إِ","p"],["خْرَ","v"],["ا","p"],["ج","v"]]});
+/* present & command extras */
+L("pr_yudhiku",{kind:"word",ar:"يُضْحِكُ",en:"he makes (someone) laugh",form:"present",cause:true,segs:[["يُ","p"],["ضْحِكُ","v"]]});
+L("pr_yutimu",{kind:"word",ar:"يُطْعِمُ",en:"he feeds",form:"present",cause:true,segs:[["يُ","p"],["طْعِمُ","v"]]});
+L("pr_yanzilu",{kind:"word",ar:"يَنْزِلُ",en:"he comes down",form:"present"});
+L("pr_yunzilu",{kind:"word",ar:"يُنْزِلُ",en:"he sends down",form:"present",cause:true,segs:[["يُ","p"],["نْزِلُ","v"]]});
+L("cm_akhriji",{kind:"word",ar:"أَخْرِجِي",en:"take out! (to a woman)",form:"command",cause:true,segs:[["أَ","p"],["خْرِجِي","v"]]});
+L("cm_akhriju",{kind:"word",ar:"أَخْرِجُوا",en:"take out! (to a group)",form:"command",cause:true,segs:[["أَ","p"],["خْرِجُوا","v"]]});
+L("cm_atimi",{kind:"word",ar:"أَطْعِمِي",en:"feed! (to a woman)",form:"command",cause:true,segs:[["أَ","p"],["طْعِمِي","v"]]});
+/* masdars */
+L("ms_itam",{kind:"word",ar:"إِطْعَام",en:"feeding",form:"masdar",cause:true,segs:[["إِ","p"],["طْعَ","v"],["ا","p"],["م","v"]]});
+L("ms_islam",{kind:"word",ar:"إِسْلَام",en:"submitting oneself (to God)",form:"masdar",segs:[["إِ","p"],["سْلَ","v"],["ا","p"],["م","v"]]});
+L("ms_iman",{kind:"word",ar:"إِيمَان",en:"belief, faith",form:"masdar"});
+L("ms_ihsan",{kind:"word",ar:"إِحْسَان",en:"doing good, excellence",form:"masdar",segs:[["إِ","p"],["حْسَ","v"],["ا","p"],["ن","v"]]});
+
+/* ---------- Shape-shifters: weak verbs on the same pattern ---------- */
+const SETS = {
+ ss_aqama:{en:"set up, establish (from قَامَ: he stood)", w:[["past","أَقَامَ","he established"],["present","يُقِيمُ","he establishes"],["command","أَقِمْ","establish! (to a man)"],["masdar","إِقَامَة","establishing"]]},
+ ss_ata:{en:"give", w:[["past","أَعْطَى","he gave"],["present","يُعْطِي","he gives"],["command","أَعْطِ","give! (to a man)"],["masdar","إِعْطَاء","giving"]]},
+ ss_amana:{en:"make safe; believe (from أَمِنَ: he was safe)", w:[["past","آمَنَ","he believed / made safe"],["present","يُؤْمِنُ","he believes"],["command","آمِنْ","believe! (to a man)"],["masdar","إِيمَان","belief"]]},
+ ss_ahya:{en:"give life (from حَيِيَ: he lived)", w:[["past","أَحْيَا","he gave life"],["present","يُحْيِي","he gives life"],["command","أَحْيِ","give life! (to a man)"],["masdar","إِحْيَاء","giving life"]]}
+};
+Object.keys(SETS).forEach(k=>{ const s=SETS[k];
+  L(k,{kind:"set",ar:s.w.map(x=>x[1]).join(" · "),en:s.en,set:s.w,icon:"spark"});
+  s.w.forEach((x,i)=>L(k+"_"+i,{kind:"word",ar:x[1],en:x[2],form:x[0],parent:k}));
+});
+
+/* ---------- The 20 ayahs (text: quran-simple; tafsir explained in simple English) ---------- */
+// Commentary paraphrased into simple English from at-Tafsīr al-Muyassar and Tafsīr al-Saʿdī (Arabic text via quran.com)
+function Q(id, ref, ar, en, targets, tw, tafsir, gist){
+  L(id,{kind:"quran",noTTS:true,ref,ar,en,words:ar.split(" "),targets,tw,tafsir,gist});
+  targets.forEach((k,i)=>{ const t=tw[i]; L(id+"_w"+k,{kind:"word",noTTS:true,ar:ar.split(" ")[k],en:t[2],form:t[0],base:t[1]?t[1]:null,qref:ref}); });
+}
+// tw = per target: [form, base verb (or ""), meaning]
+Q("v01","Al-Kawthar 108:1","إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ","Indeed, We have given you al-Kawthar (abundant good).",[1],[["past","","We gave (you)"]],
+  [["Tafsīr al-Muyassar", "God says to the Prophet: We gave you a huge amount of good, in this life and the next. Part of that good is al-Kawthar, a river in Paradise."]],"أَعْطَى means “gave”. Just learn it as a word.");
+Q("v02","Al-Qadr 97:1","إِنَّا أَنْزَلْنَاهُ فِي لَيْلَةِ الْقَدْرِ","Indeed, We sent it (the Qur'an) down on the Night of Decree.",[1],[["past","نَزَلَ","We sent (it) down"]],
+  [["Tafsīr al-Muyassar", "God sent the Qur'an down on a night of honour and great blessing. It is one of the nights of Ramadan."], ["Tafsīr al-Saʿdī", "The sending down of the Qur'an started in Ramadan, on Laylat al-Qadr."]],"نَزَلَ = it came down. أَنْزَلَ = He made it come down (He sent it down).");
+Q("v03","Az-Zalzalah 99:2","وَأَخْرَجَتِ الْأَرْضُ أَثْقَالَهَا","And the earth brings out its burdens.",[0],[["past","خَرَجَ","(it) brought out"]],
+  [["Tafsīr al-Muyassar", "On the Last Day, the earth pushes out everything inside it: the dead and its hidden treasures."]],"خَرَجَ = it came out. أَخْرَجَ = it made something come out (brought it out).");
+Q("v04","Quraysh 106:4","الَّذِي أَطْعَمَهُمْ مِنْ جُوعٍ وَآمَنَهُمْ مِنْ خَوْفٍ","Who fed them against hunger and made them safe from fear.",[1,4],[["past","طَعِمَ","He fed them"],["past","أَمِنَ","He made them safe"]],
+  [["Tafsīr al-Muyassar", "God fed the people of Quraysh when they were very hungry, and He made them safe when they were very afraid."], ["Tafsīr al-Saʿdī", "Having plenty of food and being safe from danger are two of the biggest blessings in this world. They should make us thankful to God."]],"Two in one verse: they ate because He fed them (أَطْعَمَ), and they felt safe because He made them safe (آمَنَ).");
+Q("v05","Ad-Ḍuḥā 93:8","وَوَجَدَكَ عَائِلًا فَأَغْنَىٰ","And He found you in need and made you free of need.",[2],[["past","غَنِيَ","He made (you) free of need"]],
+  [["Tafsīr al-Muyassar", "God found the Prophet poor, then brought him what he needed, and made his heart rich with contentment and patience."]],"غَنِيَ = to have no need. أَغْنَى = to make someone have no need.");
+Q("v06","Al-Fīl 105:3","وَأَرْسَلَ عَلَيْهِمْ طَيْرًا أَبَابِيلَ","And He sent against them birds in flocks.",[0],[["past","","He sent"]],
+  [["Tafsīr al-Muyassar", "God sent against the army of the elephant birds that came in groups, one group after another."]],"أَرْسَلَ means “sent”. Just learn it as a word.");
+Q("v07","An-Najm 53:43","وَأَنَّهُ هُوَ أَضْحَكَ وَأَبْكَىٰ","And that it is He who makes laugh and makes weep.",[2,3],[["past","ضَحِكَ","He made (people) laugh"],["past","بَكَى","He made (people) cry"]],
+  [["Tafsīr al-Muyassar", "God makes whoever He wills laugh by giving them joy, and makes whoever He wills cry by giving them sadness."], ["Tafsīr al-Saʿdī", "God is the One who created the reasons that make people laugh and cry."]],"This verse IS today's lesson: people laugh and cry, and God is the One who makes them laugh (أَضْحَكَ) and makes them cry (أَبْكَى).");
+Q("v08","An-Najm 53:44","وَأَنَّهُ هُوَ أَمَاتَ وَأَحْيَا","And that it is He who causes death and gives life.",[2,3],[["past","مَاتَ","He caused death"],["past","حَيِيَ","He gave life"]],
+  [["Tafsīr al-Muyassar", "Only God gives life and only God takes it away."], ["Tafsīr al-Saʿdī", "Only God brings things into existence and only God ends their existence."]],"مَاتَ = he died. أَمَاتَ = He made someone die. حَيِيَ = he lived. أَحْيَا = He gave life.");
+Q("v09","Al-Baqarah 2:3","الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنفِقُونَ","Who believe in the unseen, establish prayer, and spend from what We have provided them.",[1,3,6],[["present","أَمِنَ","they believe"],["present","قَامَ","they establish (make it stand)"],["present","","they spend"]],
+  [["Tafsīr al-Saʿdī", "God did not say “they do the prayer”. He said “they establish it” (يُقِيمُونَ), because just doing the outer movements is not enough. The prayer has to be done properly, with the heart present."]],"قَامَ = to stand. أَقَامَ = to make something stand up straight and complete. That is why we “establish” the prayer.");
+Q("v10","Al-Baqarah 2:258 (part)","إِذْ قَالَ إِبْرَاهِيمُ رَبِّيَ الَّذِي يُحْيِي وَيُمِيتُ قَالَ أَنَا أُحْيِي وَأُمِيتُ","When Ibrāhīm said: My Lord is the One who gives life and causes death. He said: I give life and cause death.",[5,6,9,10],[["present","حَيِيَ","He gives life"],["present","مَاتَ","He causes death"],["present","حَيِيَ","I give life"],["present","مَاتَ","I cause death"]],
+  [["Tafsīr al-Muyassar", "Ibrāhīm said: my Lord is the One who gives life to creatures, so they live, and takes their life away, so they die."]],"Look at the pattern: He gives life (يُحْيِي), so they live. He makes it happen, they do it. That is the whole idea of أَفْعَلَ.");
+Q("v11","Ar-Rūm 30:19 (part)","يُخْرِجُ الْحَيَّ مِنَ الْمَيِّتِ وَيُخْرِجُ الْمَيِّتَ مِنَ الْحَيِّ وَيُحْيِي الْأَرْضَ بَعْدَ مَوْتِهَا","He brings the living out of the dead, brings the dead out of the living, and gives life to the earth after its death.",[0,4,8],[["present","خَرَجَ","He brings out"],["present","خَرَجَ","He brings out"],["present","حَيِيَ","He gives life"]],
+  [["Tafsīr al-Muyassar", "God gives life to the earth with plants, after it was dry and dead."]],"Three in one verse: He brings out (يُخْرِجُ) twice, and He gives life (يُحْيِي) once.");
+Q("v12","Yā-Sīn 36:79","قُلْ يُحْيِيهَا الَّذِي أَنْشَأَهَا أَوَّلَ مَرَّةٍ وَهُوَ بِكُلِّ خَلْقٍ عَلِيمٌ","Say: He will give them life who produced them the first time, and He knows every creation.",[1,3],[["present","حَيِيَ","He will give them life"],["past","نَشَأَ","He produced them"]],
+  [["Tafsīr al-Muyassar", "The One who created the bones the first time is the One who will bring them back to life."]],"Present and past together: يُحْيِي (He will give life) and أَنْشَأَ (He brought into being).");
+Q("v13","Al-Baqarah 2:43","وَأَقِيمُوا الصَّلَاةَ وَآتُوا الزَّكَاةَ وَارْكَعُوا مَعَ الرَّاكِعِينَ","And establish prayer, give zakah, and bow with those who bow.",[0,2],[["command","قَامَ","establish! (to a group)"],["command","","give! (to a group)"]],
+  [["Tafsīr al-Muyassar", "This means: pray in the correct way, and pay the zakah that God made obligatory, in the way He taught."]],"Two commands on our pattern, said to a group (they end in ـُوا): أَقِيمُوا and آتُوا. Compare ارْكَعُوا, a normal command with no أَ at the start.");
+Q("v14","Al-Mu'minūn 23:29","وَقُلْ رَبِّ أَنْزِلْنِي مُنْزَلًا مُبَارَكًا وَأَنْتَ خَيْرُ الْمُنْزِلِينَ","And say: My Lord, let me land at a blessed landing place, and You are the best to bring to land.",[2],[["command","نَزَلَ","let me land (make me come down)"]],
+  [["Tafsīr al-Muyassar", "Nūḥ is told to say: my Lord, make my landing easy, blessed and safe. You are the best One to bring people to land."]],"أَنْزِلْنِي = make me come down (command + ـنِي “me”, from Class 19). A beautiful du'a to say when you arrive somewhere.");
+Q("v15","Al-Baqarah 2:250 (part)","رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا","Our Lord, pour patience upon us.",[1],[["command","فَرَغَ","pour out! (make it empty out)"]],
+  [["Tafsīr al-Muyassar", "The believers said: our Lord, send down great patience on our hearts."]],"أَفْرِغْ = pour out (make it empty out). The believers ask God to pour patience on them like water.");
+Q("v16","At-Taḥrīm 66:8 (part)","رَبَّنَا أَتْمِمْ لَنَا نُورَنَا وَاغْفِرْ لَنَا","Our Lord, complete our light for us and forgive us.",[1],[["command","تَمَّ","complete! (make it complete)"]],
+  [["Tafsīr al-Muyassar", "On the Last Day the believers will say: our Lord, make our light complete, so we can cross the bridge (the Ṣirāṭ) and reach Paradise."]],"تَمَّ = to be complete. أَتْمِمْ = make it complete!");
+Q("v17","Ar-Raḥmān 55:60","هَلْ جَزَاءُ الْإِحْسَانِ إِلَّا الْإِحْسَانُ","Is the reward of doing good anything but good?",[2,4],[["masdar","","doing good"],["masdar","","goodness (in return)"]],
+  [["Tafsīr al-Muyassar", "A person who did good deeds in this life will be rewarded by God with good: Paradise in the next life."]],"The same masdar twice: إِحْسَان (doing good). You do good, and God answers you with good.");
+Q("v18","Āl ʿImrān 3:19 (part)","إِنَّ الدِّينَ عِنْدَ اللَّهِ الْإِسْلَامُ","Indeed, the religion with God is Islam (submission).",[4],[["masdar","","submitting oneself"]],
+  [["Tafsīr al-Muyassar", "The religion God accepts is Islam: following God alone, obeying Him, and giving yourself to Him completely."]],"إِسْلَام is the masdar of أَسْلَمَ: to hand yourself over to God.");
+Q("v19","An-Naḥl 16:90 (part)","إِنَّ اللَّهَ يَأْمُرُ بِالْعَدْلِ وَالْإِحْسَانِ وَإِيتَاءِ ذِي الْقُرْبَىٰ","Indeed, God commands justice, doing good, and giving to relatives.",[4,5],[["masdar","","doing good"],["masdar","","giving"]],
+  [["Tafsīr al-Muyassar", "God commands people to do good, and to give their relatives what they need, so the family stays connected and kind to each other."]],"Two masdars: إِحْسَان (doing good) and إِيتَاء (giving).");
+Q("v20","Al-Isrā' 17:23 (part)","وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ وَبِالْوَالِدَيْنِ إِحْسَانًا","And your Lord has decreed that you worship none but Him, and be good to your parents.",[7],[["masdar","","doing good"]],
+  [["Tafsīr al-Muyassar", "God commands us to be good to our father and mother, especially when they become old."]],"A masdar used like a command: إِحْسَانًا = be good (to your parents). Also spot إِيَّاهُ (Him) from Class 19.");
+
+/* ---------- Part 2 levels ---------- */
+const FORMS = ["past","present","command","masdar"];
+const FORMLAB = {past:"Past (he did)",present:"Present (he does)",command:"Command (do it!)",masdar:"Masdar (the action as a name)"};
+const QL1 = ["v01","v02","v03","v04","v05","v06","v07","v08","v09","v10"], QL2 = ["v11","v12","v13","v14","v15","v16","v17","v18","v19","v20"];
+function verseItems(ids){ const out=[]; ids.forEach(id=>{ out.push({k:"verse",id}); const e=LEX[id]; out.push({k:"form",id:id+"_w"+e.targets[0]}); }); return out; }
+const LEVELS2 = [
+ {n:10,part:2,first:true,title:"Day 4 · The Magic أ",ar:"ضَحِكَ · أَضْحَكَ",skill:"One letter turns doing into making someone do",min:8,
+  joke:["Add one letter to “he laughed”…","…and suddenly someone else is responsible for the laughing."],
+  screens:[
+   {t:"learnLines",title:"Two short sentences",lead:"Tap each one, hear it, tap words for their meaning, then say it.",ids:["S0","S1"]},
+   {t:"scene",act:1,title:"Scene · Back at the souk",lead:"The lost child is waiting for his father. Zainab gets to work.",ids:["S0","S1"],
+    discover:{q:"In which sentence does someone MAKE the child laugh?",opts:["أَضْحَكَتْ زَيْنَبُ الطِّفْلَ","ضَحِكَ الطِّفْلُ","Both are the same"],ans:0,why:"ضَحِكَ: the child laughed by himself. أَضْحَكَتْ: Zainab made him laugh. The extra أَ at the front is the whole trick."},
+    roleplay:"Your turn: tell Mohamed something that made you laugh this week."},
+   {t:"concept2",title:"The magic أ",lead:"Put أَ in front of a verb and the doer becomes the one who makes it happen."},
+   {t:"learn",title:"Eight pairs",lead:"Tap each card: first the verb on its own, then the أَ version. Lebanese gets there by doubling the middle letter.",ids:["c_adhaka","c_abka","c_akhraja","c_adkhala","c_ajlasa","c_anzala","c_atama","c_asmaa"],
+    rule:"Test any أَفْعَلَ word with “made someone…”. If it fits, the meaning is causative: أَجْلَسَ = made someone sit. Some words don't fit (أَرْسَلَ sent, أَحْسَنَ did good). Learn those as words."},
+   {t:"quiz",title:"Did it, or made it happen?",lead:"Choose the verb that fits the meaning.",items:[
+     {k:"pick",q:"Zainab made the child laugh. Which verb?",opts:[{id:"c_adhaka"},{id:"b_dahika"}],ans:0},
+     {k:"pick",q:"Bilal went out of the library. Which verb?",opts:[{id:"c_akhraja"},{id:"b_kharaja"}],ans:1},
+     {k:"pick",q:"God sent the rain down. Which verb?",opts:[{id:"b_nazala"},{id:"c_anzala"}],ans:1},
+     {k:"pick",q:"The mother fed the baby. Which verb?",opts:[{id:"c_atama"},{id:"b_taima"}],ans:0},
+     {k:"pick",q:"The child sat on the chair. Which verb?",opts:[{id:"c_ajlasa"},{id:"b_jalasa"}],ans:1},
+     {k:"pick",q:"سَمِعَ = he heard. So أَسْمَعَ means…",opts:["he made someone hear","he heard twice","he listened"],ans:0,qid:"c_asmaa"},
+     {k:"pick",q:"دَخَلَ = he went in. So أَدْخَلَ means…",opts:["he brought someone in","he went in quickly","he left"],ans:0,qid:"c_adkhala"},
+     {k:"bin",id:"c_abka",bins:["does it himself","makes someone do it"],ans:1},
+     {k:"bin",id:"b_baka",bins:["does it himself","makes someone do it"],ans:0},
+     {k:"tap",id:"saadtuhu"}]}
+  ]},
+ {n:11,part:2,title:"The Past · أَفْعَلَ",ar:"أَفْعَلَ",skill:"Four shapes of one verb; the past",min:7,stop:["c_adhaka","c_anzala","c_atama"],
+  joke:["The أَ at the front is a tiny remote control.","Press it, and someone else does the action."],
+  screens:[
+   {t:"table2",title:"One verb, four shapes",lead:"The plain verb on the right, the أَفْعَلَ version on the left. Tap any word to hear it."},
+   {t:"learnLines",title:"Past sentences",lead:"Tap, hear, read the meaning, say it.",ids:["S2","S3"]},
+   {t:"quiz",title:"Build the past",lead:"Build the أَفْعَلَ past from its pieces.",items:[
+     {k:"build",id:"f4_past",q:"he took out",chips:[["أَ","p"],["خْرَجَ","v"],["يُ","p"],["إِ","p"]],ans:[0,1]},
+     {k:"build",id:"c_ajlasa",q:"he seated (someone)",chips:[["أَ","p"],["جْلَسَ","v"],["يُ","p"]],ans:[0,1]},
+     {k:"build",id:"c_adhaka",q:"he made (someone) laugh",chips:[["أَ","p"],["ضْحَكَ","v"],["إِ","p"]],ans:[0,1]},
+     {k:"pick",q:"In أَخْرَجَ بِلَالٌ الْكِتَابَ, who made something go out?",opts:["Bilal","the book","the bag"],ans:0,qid:"S2"},
+     {k:"form",id:"f4_past"},{k:"form",id:"f1_pres"},
+     {k:"recv",id:"shakarani"}]}
+  ]},
+ {n:12,part:2,title:"The Present · يُفْعِلُ",ar:"يُفْعِلُ",skill:"يُـ with a ḍamma is the key in the present",min:7,stop:["f4_past","f4_pres","f4_mas"],
+  joke:["يَخْرُجُ or يُخْرِجُ?","One small ḍamma decides who goes out, and who gets taken out."],
+  screens:[
+   {t:"learn",title:"يَـ or يُـ?",lead:"Plain verbs start with يَـ. Our pattern starts with يُـ (ḍamma) and has a kasra before the last letter.",ids:["f4_pres","pr_yudhiku","pr_yutimu","pr_yunzilu","pr_yanzilu"],
+    rule:"يَنْزِلُ = he comes down (plain). يُنْزِلُ = he sends down (أَفْعَلَ). Same root, one vowel apart."},
+   {t:"learnLines",title:"Present sentences",lead:"Tap, hear, read the meaning, say it.",ids:["S4","S5","S6"]},
+   {t:"quiz",title:"Ear and eye",lead:"Is it the plain verb or our pattern?",items:[
+     {k:"bin",id:"f1_pres",bins:["plain verb <span class=\"ar\">يَـ</span>","pattern <span class=\"ar\">يُـ</span>"],ans:0},
+     {k:"bin",id:"f4_pres",bins:["plain verb <span class=\"ar\">يَـ</span>","pattern <span class=\"ar\">يُـ</span>"],ans:1},
+     {k:"bin",id:"pr_yanzilu",bins:["plain verb <span class=\"ar\">يَـ</span>","pattern <span class=\"ar\">يُـ</span>"],ans:0},
+     {k:"bin",id:"pr_yunzilu",bins:["plain verb <span class=\"ar\">يَـ</span>","pattern <span class=\"ar\">يُـ</span>"],ans:1},
+     {k:"bin",id:"pr_yutimu",bins:["plain verb <span class=\"ar\">يَـ</span>","pattern <span class=\"ar\">يُـ</span>"],ans:1},
+     {k:"build",id:"pr_yudhiku",q:"he makes (someone) laugh",chips:[["يُ","p"],["ضْحِكُ","v"],["يَ","p"],["أَ","p"]],ans:[0,1]},
+     {k:"pick",q:"يُضْحِكُنِي بِلَالٌ. Who laughs?",opts:["I do (Zainab)","Bilal","nobody"],ans:0,qid:"S4"},
+     {k:"pick",q:"Which means “he sends down”?",opts:[{id:"pr_yunzilu"},{id:"pr_yanzilu"}],ans:0},
+     {k:"form",id:"c_atama"}]}
+  ]},
+ {n:13,part:2,title:"The Command · أَفْعِلْ",ar:"أَفْعِلْ",skill:"A firm أَ at the front, a kasra before the end",min:8,stop:["f4_pres","pr_yutimu","pr_yunzilu"],
+  joke:["Fuṣḥā commands on this pattern start with a firm أَ…","…like a Lebanese mum calling everyone to the table."],
+  screens:[
+   {t:"learn",title:"Commanding someone to make it happen",lead:"To a man, to a woman, to a group. Compare the plain command اُخْرُجْ (go out!).",ids:["f4_cmd","cm_akhriji","cm_akhriju","f1_cmd","cm_atimi"],
+    rule:"اُخْرُجْ = go out! (you do it). أَخْرِجْ = take it out! (make it go out). The أَ of our command is always pronounced, even in the middle of a sentence."},
+   {t:"learnLines",title:"Command sentences",lead:"Tap, hear, read the meaning, say it.",ids:["S7","S8","S9"]},
+   {t:"quiz",title:"Give the order",lead:"Choose the right command.",items:[
+     {k:"pick",q:"Tell Bilal: take out the pen!",opts:[{id:"f4_cmd"},{id:"cm_akhriji"},{id:"f1_cmd"}],ans:0},
+     {k:"pick",q:"Tell Zainab: take it out!",opts:[{id:"f4_cmd"},{id:"cm_akhriji"},{id:"cm_akhriju"}],ans:1},
+     {k:"pick",q:"Tell the whole class: take it out!",opts:[{id:"cm_akhriju"},{id:"f4_cmd"},{id:"cm_akhriji"}],ans:0},
+     {k:"pick",q:"Tell Bilal: go out!",opts:[{id:"f1_cmd"},{id:"f4_cmd"}],ans:0},
+     {k:"pick",q:"أَسْمِعْنِي صَوْتَكَ means…",opts:["Let me hear your voice","I heard your voice","Listen to my voice"],ans:0,qid:"S9"},
+     {k:"form",id:"cm_atimi"},{k:"form",id:"f1_mas"}]},
+   {t:"speak",title:"Role-play: give the orders",lead:"Mohamed is Bilal. Give him the commands in Fuṣḥā.",ids:["S7","S9"]}
+  ]},
+ {n:14,part:2,title:"The Masdar · إِفْعَال",ar:"إِفْعَال",skill:"The action as a name: إِـ at the front, ا before the last letter",min:7,stop:["f4_cmd","cm_akhriji","cm_atimi"],
+  joke:["Getting a pen out of a bag now has a grammar name.","It's a verbal noun. Zainab's bag produces a lot of them."],
+  screens:[
+   {t:"learn",title:"The action as a name",lead:"The masdar names the action itself: taking out, feeding, believing.",ids:["f4_mas","ms_itam","ms_islam","ms_iman","ms_ihsan"],
+    rule:"Some of the most famous words in Arabic are masdars of this pattern: إِسْلَام، إِيمَان، إِحْسَان. Now you can see the pattern inside them."},
+   {t:"learnLines",title:"Masdar sentences",lead:"Tap, hear, read the meaning, say it.",ids:["S10","S11"]},
+   {t:"quiz",title:"Spot the masdar",lead:"",items:[
+     {k:"pick",q:"Which one is the masdar?",opts:[{id:"f4_mas"},{id:"f4_past"},{id:"f4_pres"}],ans:0},
+     {k:"pick",q:"Which one is the masdar?",opts:[{id:"c_atama"},{id:"ms_itam"},{id:"cm_atimi"}],ans:1},
+     {k:"build",id:"f4_mas",q:"taking out (the action)",chips:[["إِ","p"],["خْرَ","v"],["ا","p"],["ج","v"],["يُ","p"]],ans:[0,1,2,3]},
+     {k:"form",id:"ms_ihsan"},{k:"form",id:"f4_cmd"},{k:"form",id:"pr_yudhiku"},
+     {k:"pick",q:"إِطْعَامُ الْجَائِعِ means…",opts:["feeding the hungry","the hungry ate","feed the hungry!"],ans:0,qid:"S11"}]}
+  ]},
+ {n:15,part:2,title:"Shape-shifters",ar:"أَقَامَ · يُقِيمُ",skill:"Weak verbs on the same pattern: recognise them",min:6,stop:["f4_mas","ms_islam","ms_iman"],
+  joke:["Some verbs lose a letter when they move.","Like suitcases on a flight to Beirut."],
+  screens:[
+   {t:"learn",title:"Same pattern, different look",lead:"Recognise these; you don't need to build them yet. Look for يُـ, the firm أَ, and إِـ…ا.",ids:["ss_aqama","ss_ata","ss_amana","ss_ahya"]},
+   {t:"quiz",title:"Which shape is it?",lead:"",items:[{k:"form",id:"ss_aqama_1"},{k:"form",id:"ss_aqama_2"},{k:"form",id:"ss_aqama_3"},{k:"form",id:"ss_ata_1"},{k:"form",id:"ss_amana_3"},{k:"form",id:"ss_ahya_1"},{k:"form",id:"ss_ahya_0"},{k:"form",id:"ss_ata_2"}]}
+  ]},
+ {n:16,part:2,title:"Qur'an Lab · 20 verses",ar:"أَنْزَلْنَاهُ",skill:"Recognise the pattern and predict its meaning in the Qur'an",min:16,stop:["ss_aqama_1","ss_amana_3","ss_ahya_1"],
+  joke:["Twenty verses, one small letter.","Listen for it, and the meaning opens."],
+  screens:[
+   {t:"quran",title:"Qur'an Lab · verses 1 to 10",lead:"Listen to Mohamed's recitation. Tap “Show the pattern” to see each word, its base verb and what the commentators say.",ids:QL1},
+   {t:"quiz",title:"Find it and name it",lead:"Tap the word on our pattern, then say which shape it is.",items:verseItems(QL1)},
+   {t:"quran",title:"Qur'an Lab · verses 11 to 20",lead:"Same steps. Notice how the commentators explain one pattern word with another.",ids:QL2},
+   {t:"quiz",title:"Find it and name it",lead:"",items:verseItems(QL2).concat([
+     {k:"pick",q:"نَزَلَ = came down. In أَنْزِلْنِي, what does the أَ add?",opts:["make me come down (let me land)","I came down","he will come down"],ans:0,qid:"v14_w2"},
+     {k:"pick",q:"تَمَّ = was complete. So أَتْمِمْ means…",opts:["make it complete!","it was complete","completing"],ans:0,qid:"v16_w1"}])}
+  ]},
+ {n:17,part:2,boss:true,title:"Boss · Who Made It Happen?",ar:"أَفْعَلَ · يُفْعِلُ · أَفْعِلْ · إِفْعَال",skill:"Everything from Part 2, against the clock",min:5,stop:["c_asmaa","f4_cmd","ms_ihsan"],
+  joke:["Final round.","Bilal promises to make you laugh this time, not cry."],
+  screens:[{t:"boss"}]}
+];
+LEVELS.forEach(l=>{ if(!l.part) l.part=1; });
+LEVELS.push(...LEVELS2);
+
+/* ---------- Part 2 recording plan (fixed numbers from 101) ---------- */
+GROUPS.F = "Take F · Teacher · Part 2 words (plain verb, pause, أَفْعَلَ verb)";
+GROUPS.G = "Take G · Lebanese voice · Part 2 Lebanese twins";
+GROUPS.H = "Take H · Teacher · Part 2 sentences";
+GROUPS.I = "Take I · Teacher · recitation of the 20 verses";
+(function(){
+  const F = ["c_adhaka","c_abka","c_akhraja","c_adkhala","c_ajlasa","c_anzala","c_atama","c_asmaa",
+             "f1_past","f4_past","f1_pres","f4_pres","f1_cmd","f4_cmd","f1_mas","f4_mas",
+             "pr_yudhiku","pr_yutimu","pr_yanzilu","pr_yunzilu","cm_akhriji","cm_akhriju","cm_atimi",
+             "ms_itam","ms_islam","ms_iman","ms_ihsan","ss_aqama","ss_ata","ss_amana","ss_ahya"];
+  let n = 100;
+  F.forEach(id=>{ n++; CLIPS.push([n,"F",id,"f"]); LEX[id].a = n; });
+  ["c_adhaka","c_abka","c_akhraja","c_adkhala","c_ajlasa","c_anzala","c_atama","c_asmaa"].forEach(id=>{ n++; CLIPS.push([n,"G",id,"l"]); LEX[id].la = n; });
+  ["S0","S1","S2","S3","S4","S5","S6","S7","S8","S9","S10","S11"].forEach(id=>{ n++; CLIPS.push([n,"H",id,"f"]); LEX[id].a = n; });
+  n = 200;
+  QL1.concat(QL2).forEach(id=>{ n++; CLIPS.push([n,"I",id,"f"]); LEX[id].a = n; });
+  // pair cards: the base verb is spoken in the same clip as the أَفْعَلَ verb
+  Object.values(LEX).forEach(e=>{ if(e.base && LEX[e.base] && e.cause && e.a) { LEX[e.base].a = LEX[e.base].a || null; } });
+  // set members share the set clip
+  Object.keys(SETS).forEach(k=>SETS[k].w.forEach((x,i)=>{ LEX[k+"_"+i].a = LEX[k].a; }));
+})();
+// text read in combined clips
+function clipText2(c){ const e=LEX[c[2]];
+  if(c[1]==="F" && e.base) return LEX[e.base].ar+" … "+e.ar;
+  if(c[1]==="F" && e.kind==="set") return e.set.map(x=>x[1]).join(" … ");
+  return null; }
+
 /* ============ ENGINE: The Hidden Receiver ============ */
 (function(){
 "use strict";
@@ -701,7 +960,7 @@ function speakText(txt, done){
     if(done){ u.onend=done; u.onerror=done; } speechSynthesis.speak(u); }catch(e){ if(done) done(); }
 }
 function playOne(it, done){
-  if(it.n && AUDIO_READY.includes(it.n)){ const a = new Audio(pad(it.n)+".mp3"); curAudio = a; a.onended = done; a.play().catch(()=>{ if(!it.noTTS) speakText(it.txt, done); else done(); }); return; }
+  if(it.n && AUDIO_READY.includes(it.n)){ const a = new Audio((it.n>=100?"hidden-receiver-update/":"")+pad(it.n)+".mp3"); curAudio = a; a.onended = done; a.play().catch(()=>{ if(!it.noTTS) speakText(it.txt, done); else done(); }); return; }
   if(it.noTTS){ toast("Mohamed recites this one. His recording will play here once it is added."); done(); return; }
   speakText(it.txt, done);
 }
@@ -760,6 +1019,7 @@ const ICONS = {
 const icon = n => n && ICONS[n] ? `<span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24">${ICONS[n]}</svg></span>` : "";
 const playBtn = (id, label="Listen") => `<button class="play" data-play="${id}">${label}</button>`;
 const SAY = `<span class="say">🗣️ Your turn — say it</span>`;
+const LEGEND2 = `<div class="legend"><span class="lp">pattern letters</span><span class="lv">root letters</span></div>`;
 const LEGEND = `<div class="legend"><span class="lv">action</span><span class="ld">doer</span><span class="lr">receiver (each person has its own colour)</span></div>`;
 const nOpts = () => ({gentle:3, normal:4, challenge:5})[S.diff];
 function bindPlays(root){ root.querySelectorAll("[data-play]").forEach(b=>b.addEventListener("click", ev=>{ ev.stopPropagation(); play(b.dataset.play); }));
@@ -809,24 +1069,29 @@ function render(){
   if(m==="done") return renderDone(app);
   if(m==="cert") return renderCert(app);
 }
-function levelOpen(i){ return i===0 || S.done.includes(LEVELS[i-1].n) || S.done.includes(LEVELS[i].n); }
+function levelOpen(i){ return i===0 || LEVELS[i].first || S.done.includes(LEVELS[i-1].n) || S.done.includes(LEVELS[i].n); }
 function startLevel(i){ const L = LEVELS[i]; if(L.stop && !S.unlocked.includes(L.n)) go({mode:"stop", li:i}); else go({mode:"intro", li:i}); }
 
 function renderMap(app){
   const next = LEVELS.findIndex(l=>!S.done.includes(l.n));
-  app.innerHTML = `<section class="fadein">
-   <div class="eyebrow">Class 19 · Zainab's Beirut week</div>
-   <h1>The Hidden Receiver</h1>
-   <p class="lead">Who did what to whom? In Fuṣḥā, the person who receives the action hides at the end of the verb. Your Lebanese already knows the trick; today you learn the formal version.</p>
-   <div class="statgrid"><div class="stat"><div class="k">XP</div><div class="v">${S.xp}</div></div><div class="stat"><div class="k">Best streak</div><div class="v">${S.best}</div></div><div class="stat"><div class="k">Mastered words</div><div class="v">${mastered()}</div></div><div class="stat"><div class="k">Levels done</div><div class="v">${S.done.length}/${LEVELS.length}</div></div></div>
-   <div class="map">${LEVELS.map((l,i)=>{ const done=S.done.includes(l.n), open=levelOpen(i); const cur=i===next;
+  const node = (l,i)=>{ const done=S.done.includes(l.n), open=levelOpen(i); const cur=i===next;
      return `<button class="node ${done?"done":""} ${cur?"cur":""} ${open?"":"lock"}" data-l="${i}" ${open?"":"aria-disabled=\"true\""}>
-      <span class="n">${l.boss?"BOSS":"LEVEL "+l.n} · ${l.min} MIN</span><span class="t">${l.title}</span>${done?`<span class="ar">${l.ar}</span>`:""}<span class="m">${l.skill}</span></button>`; }).join("")}
-     ${S.done.includes(9)?`<button class="node cur" data-cert="1"><span class="n">FINISH</span><span class="t">Certificate & mission</span><span class="m">What you can say now</span></button>`:""}
-   </div></section>`;
+      <span class="n">${l.boss?"BOSS":"LEVEL "+(l.part===2?l.n-9:l.n)} · ${l.min} MIN</span><span class="t">${l.title}</span>${done?`<span class="ar">${l.ar}</span>`:""}<span class="m">${l.skill}</span></button>`; };
+  const part = p => LEVELS.map((l,i)=>[l,i]).filter(x=>x[0].part===p).map(x=>node(x[0],x[1])).join("");
+  const certNode = p => `<button class="node cur" data-cert="${p}"><span class="n">FINISH</span><span class="t">Certificate & mission</span><span class="m">What you can say now</span></button>`;
+  app.innerHTML = `<section class="fadein">
+   <div class="eyebrow">Zainab's Beirut week</div>
+   <h1>The Hidden Receiver</h1>
+   <p class="lead">Part 1: who did what to whom, with the receiver hidden at the end of the verb. Part 2: one small أَ that turns doing into making someone do.</p>
+   <div class="statgrid"><div class="stat"><div class="k">XP</div><div class="v">${S.xp}</div></div><div class="stat"><div class="k">Best streak</div><div class="v">${S.best}</div></div><div class="stat"><div class="k">Mastered words</div><div class="v">${mastered()}</div></div><div class="stat"><div class="k">Levels done</div><div class="v">${S.done.length}/${LEVELS.length}</div></div></div>
+   <h2 style="margin-top:26px">Part 2 · The Causer <span class="ar" style="font-size:1.3rem;color:var(--coral)">أَفْعَلَ</span></h2>
+   <div class="map">${part(2)}${S.done.includes(17)?certNode(2):""}</div>
+   <h2 style="margin-top:26px">Part 1 · The Hidden Receiver <span style="font-size:.9rem;color:var(--muted)">Class 19</span></h2>
+   <div class="map">${part(1)}${S.done.includes(9)?certNode(1):""}</div>
+   </section>`;
   app.querySelectorAll("[data-l]").forEach(b=>b.addEventListener("click",()=>{ const i=+b.dataset.l; if(!levelOpen(i)) return toast("Finish the level before this one first."); startLevel(i); }));
-  const c = app.querySelector("[data-cert]"); if(c) c.addEventListener("click",()=>go({mode:"cert"}));
-  AUTO = () => { if(next<0) return go({mode:"cert"}); startLevel(next); };
+  app.querySelectorAll("[data-cert]").forEach(c=>c.addEventListener("click",()=>go({mode:"cert", part:+c.dataset.cert})));
+  AUTO = () => { if(next<0) return go({mode:"cert", part:2}); startLevel(next); };
 }
 
 function renderStop(app){
@@ -851,7 +1116,7 @@ function renderStop(app){
 
 function renderIntro(app){
   const L = LEVELS[view.li];
-  app.innerHTML = `<section class="panel fadein"><div class="eyebrow">${L.boss?"Final boss":"Level "+L.n+" of 8"} · about ${L.min} minutes</div>
+  app.innerHTML = `<section class="panel fadein"><div class="eyebrow">${L.boss?"Final boss":(L.part===2?"Part 2 · Level "+(L.n-9)+" of 7":"Level "+L.n+" of 8")} · about ${L.min} minutes</div>
    <h1 style="margin-top:6px">${L.title}</h1><p class="lead">${L.skill}</p>
    <div class="joke"><span class="who">Mohamed's one-liner</span>${L.joke[0]}<span class="p2" id="p2">${L.joke[1]}</span></div>
    <div class="foot-actions"><button class="btn ghost" id="back">Map</button><button class="btn" id="go">Start</button></div></section>`;
@@ -863,7 +1128,7 @@ function renderIntro(app){
 function nextScreen(){
   const L = LEVELS[view.li];
   if(view.si+1 < L.screens.length) go({mode:"screen", li:view.li, si:view.si+1});
-  else { if(!S.done.includes(L.n)) S.done.push(L.n); save(); SFX.win(); go({mode: L.boss ? "cert" : "done", li:view.li}); }
+  else { if(!S.done.includes(L.n)) S.done.push(L.n); save(); SFX.win(); go(L.boss ? {mode:"cert", part:L.part} : {mode:"done", li:view.li}); }
 }
 function renderDone(app){
   const L = LEVELS[view.li]; const nx = view.li+1 < LEVELS.length ? view.li+1 : null;
@@ -876,10 +1141,10 @@ function renderDone(app){
   AUTO = () => nx!=null ? startLevel(nx) : go({mode:"cert"});
 }
 
-function head(sc, L){ return `<div class="eyebrow">${L.boss?"Boss":"Level "+L.n} · ${L.title}</div><h2 style="margin-top:4px">${sc.title}</h2>${sc.lead?`<p class="lead">${sc.lead}</p>`:""}`; }
+function head(sc, L){ return `<div class="eyebrow">${L.boss?"Boss":(L.part===2?"Part 2 · Level "+(L.n-9):"Level "+L.n)} · ${L.title}</div><h2 style="margin-top:4px">${sc.title}</h2>${sc.lead?`<p class="lead">${sc.lead}</p>`:""}`; }
 function renderScreen(app){
   const L = LEVELS[view.li], sc = L.screens[view.si];
-  const f = {learn:scLearn, learnLines:scLines, scene:scScene, concept:scConcept, quiz:scQuiz, speak:scSpeak, map:scMap, quran:scQuran, boss:scBoss}[sc.t];
+  const f = {learn:scLearn, learnLines:scLines, scene:scScene, concept:scConcept, concept2:scConcept2, table2:scTable2, quiz:scQuiz, speak:scSpeak, map:scMap, quran:scQuran, boss:scBoss}[sc.t];
   f(app, sc, L);
 }
 
@@ -889,6 +1154,8 @@ function cardOpenHTML(e){
   if(e.leb){ h += `<div class="twin"><div class="l"><div class="lab">Lebanese (spoken)</div><div class="ar">${e.leb}</div>${trOf(e.lebTr)}<button class="play" data-playleb="${e.id}">Lebanese</button></div><div class="f"><div class="lab">Fuṣḥā</div><div class="ar">${e.ar}</div>${trOf(e.tr)}<button class="play" data-play="${e.id}">Fuṣḥā</button></div></div>${e.same?`<div class="same">Same pattern in both. You already do this.</div>`:""}`; }
   if(e.alt){ const a = LEX[e.alt]; h += `<div class="twin"><div class="f"><div class="lab">${e.recv==="youm"?"To a man":"To a woman"}</div><div class="ar">${e.ar}</div>${trOf(e.tr)}</div><div class="f"><div class="lab">${a.recv==="youm"?"To a man":"To a woman"}</div><div class="ar">${a.ar}</div>${trOf(a.tr)}<div class="en" style="font-size:.8rem">${a.en}</div></div></div>`; }
   if(e.alt2){ h += `<div class="note">Also correct: <span class="ar">${e.alt2.split(" · ")[0]}</span> ${trOf(e.alt2.split(" · ")[1],1)} (${e.alt2.split(" · ")[2]})</div>`; }
+  if(e.base && e.cause){ const b=LEX[e.base]; h += `<div class="twin"><div class="f" style="background:#eef6fb"><div class="lab" style="color:var(--sea)">Does it himself</div><div class="ar">${b.ar}</div><div class="en" style="font-size:.8rem">${b.en}</div></div><div class="f" style="background:#fff0e6"><div class="lab" style="color:#c2410c">Makes someone do it</div><div class="ar">${e.ar}</div><div class="en" style="font-size:.8rem">${e.en}</div></div></div>`; }
+  if(e.set){ h += `<div class="twin" style="grid-template-columns:1fr 1fr">${e.set.map(x=>`<div class="f"><div class="lab">${x[0]}</div><div class="ar">${x[1]}</div><div class="en" style="font-size:.78rem">${x[2]}</div></div>`).join("")}</div>`; }
   h += `<div class="row">${playBtn(e.id)}${SAY}</div>`;
   return h;
 }
@@ -900,7 +1167,7 @@ function scLearn(app, sc, L){
   const cont = $("#cont");
   const open = el => { const id = el.dataset.id, e = LEX[id]; if(el.classList.contains("open")) { playBoth(id); return; }
     el.classList.remove("closed"); el.classList.add("open"); el.innerHTML = `<span class="tick">OPENED</span>` + cardOpenHTML(e); bindPlays(el);
-    teach(id); if(e.alt) teach(e.alt); opened.add(id); playBoth(id); SFX.tap(); if(opened.size===sc.ids.length) cont.disabled=false; };
+    teach(id); if(e.alt) teach(e.alt); if(e.base) teach(e.base); if(e.set) e.set.forEach((x,i)=>teach(id+"_"+i)); opened.add(id); playBoth(id); SFX.tap(); if(opened.size===sc.ids.length) cont.disabled=false; };
   app.querySelectorAll(".card").forEach(el=>{ el.addEventListener("click",()=>open(el)); el.addEventListener("keydown",ev=>{ if(ev.key==="Enter"||ev.key===" "){ ev.preventDefault(); open(el);} }); });
   cont.onclick = nextScreen;
   AUTO = () => { app.querySelectorAll(".card.closed").forEach(open); nextScreen(); };
@@ -981,11 +1248,11 @@ function scMap(app, sc, L){
 function scQuran(app, sc, L){
   const shown = new Set();
   app.innerHTML = `<section class="stack fadein">${head(sc,L)}${sc.ids.map(id=>{ const e=LEX[id]; return `<div class="panel stack" data-id="${id}"><div class="ref">${e.ref}</div><div class="verse ar" lang="ar">${e.words.map((w,k)=>`<span class="vw" data-k="${k}">${w}</span>`).join(" ")}</div>${trOf(e.tr)}<div class="en">${e.en}</div>
-    <div class="row">${playBtn(id,"Recitation")}<button class="btn small ghost" data-rev="${id}">Show the receivers</button></div><div class="tn"></div></div>`; }).join("")}
+    <div class="row">${playBtn(id,"Recitation")}<button class="btn small ghost" data-rev="${id}">${e.tw?"Show the pattern":"Show the receivers"}</button></div><div class="tn"></div></div>`; }).join("")}
    <div class="foot-actions"><button class="btn" id="cont" disabled>Continue</button></div></section>`;
   bindPlays(app);
   const rev = id => { const box = app.querySelector(`[data-id="${id}"]`), e=LEX[id]; if(shown.has(id)) return; shown.add(id); teach(id); if(id==="q2") teach("ihdini");
-    e.targets.forEach(k=>box.querySelector(`.vw[data-k="${k}"]`).classList.add("hl")); box.querySelector(".tn").innerHTML = `<div class="fb ok">${e.tnote.replace(/([؀-ۿً-ْ]+)/g,'<span class="ar">$1</span>')}</div>`; SFX.tap();
+    e.targets.forEach(k=>box.querySelector(`.vw[data-k="${k}"]`).classList.add("hl")); if(e.tw){ e.targets.forEach(k=>teach(id+"_w"+k)); box.querySelector(".tn").innerHTML = verseNote(e); } else box.querySelector(".tn").innerHTML = `<div class="fb ok">${e.tnote.replace(/([؀-ۿً-ْ]+)/g,'<span class="ar">$1</span>')}</div>`; SFX.tap();
     if(shown.size===sc.ids.length) $("#cont").disabled=false; };
   app.querySelectorAll("[data-rev]").forEach(b=>b.addEventListener("click",()=>rev(b.dataset.rev)));
   $("#cont").onclick = nextScreen;
@@ -1053,12 +1320,18 @@ function makeItem(it){
     R.hint = "Man: ـكَ · Woman: ـكِ";
     const c = it.opts[it.ans]; R.fb = it.after ? `${arOf(LEX[it.after])} ${trOf(LEX[it.after].tr,1)} ${LEX[it.after].en}` : (c.id ? `<span class="ar">${LEX[c.id].ar}</span> ${trOf(LEX[c.id].tr,1)} ${LEX[c.id].en}` : `Answer: ${optLabel(c)}`);
     if(it.after) R.teachAfter = it.after; R.afterPlay = it.after || (c.id||null); R.id = c.id || it.qid || null;
+  } else if(it.k==="form"){
+    use(it.id,"form prompt");
+    R.opts = FORMS.map(f=>FORMLAB[f]); R.ans = FORMS.indexOf(e.form);
+    R.prompt = `<div class="prompt" style="text-align:center">${arOf(e)}${e.qref?`<div class="ref">${e.qref}</div>`:""}<div>Which shape is this?</div></div>`;
+    R.hint = "أَـ + sukun = past · يُـ = present · أَـ…ـِـْ = command · إِـ…ا = masdar";
+    const bv = e.base ? (LEX[e.base] ? LEX[e.base].ar : e.base) : ""; R.fb = `${arOf(e)} = ${FORMLAB[e.form]} · ${e.en}${bv?` · plain verb <span class="ar">${bv}</span>`:""}`;
   } else if(it.k==="verse"){
     use(it.id,"verse prompt");
     R.verse = true; R.targets = e.targets;
-    R.prompt = `<div class="ref">${e.ref}</div><div class="verse ar" lang="ar">${e.words.map((w,k)=>`<button class="vw" data-k="${k}">${w}</button>`).join(" ")}</div>${trOf(e.tr)}<div class="en">${e.en}</div><div class="prompt">Tap a word that carries a receiver.</div>`;
-    R.hint = "Look for ـنِي, ـنَا, ـكَ, ـهُ or ـهُمْ at the end of a verb.";
-    R.fb = e.tnote.replace(/([؀-ۿً-ْ]+)/g,'<span class="ar">$1</span>');
+    R.prompt = `<div class="ref">${e.ref}</div><div class="verse ar" lang="ar">${e.words.map((w,k)=>`<button class="vw" data-k="${k}">${w}</button>`).join(" ")}</div>${trOf(e.tr)}<div class="en">${e.en}</div><div class="prompt">${e.tw?"Tap a word on the أَفْعَلَ pattern.":"Tap a word that carries a receiver."}</div>`;
+    R.hint = e.tw ? "Look for أَـ at the front, يُـ with a ḍamma, or إِـ…ا." : "Look for ـنِي, ـنَا, ـكَ, ـهُ or ـهُمْ at the end of a verb.";
+    R.fb = e.tw ? e.targets.map((k,i)=>`<span class="ar">${e.words[k]}</span> · ${FORMLAB[e.tw[i][0]]}${e.tw[i][1]?` · from <span class="ar">${e.tw[i][1]}</span>`:""} · ${e.tw[i][2]}`).join("<br>") : e.tnote.replace(/([؀-ۿً-ْ]+)/g,'<span class="ar">$1</span>');
   } else if(it.k==="build"){
     R.build = true; R.chips = it.chips; R.bans = it.ans;
     const lb = it.leb ? `<div class="thought"><span class="lab">Zainab thinks</span><span class="ar" style="font-size:1.5rem">${e.leb}</span>${trOf(e.lebTr,1)}</div>` : "";
@@ -1145,15 +1418,16 @@ function scQuiz(app, sc, L){
     $("#cont").onclick = nextScreen; AUTO = nextScreen; }});
 }
 function scBoss(app, sc, L){
-  const pool = LEVELS.filter(l=>!l.boss).flatMap(l=>l.screens.filter(s=>s.t==="quiz").flatMap(s=>s.items)).filter(it=>["recv","tap","leb","gender","bin","pick","verse","build"].includes(it.k));
+  const pool = LEVELS.filter(l=>!l.boss && l.part===L.part).flatMap(l=>l.screens.filter(s=>s.t==="quiz").flatMap(s=>s.items)).filter(it=>["recv","tap","leb","gender","bin","pick","verse","build","form"].includes(it.k));
   const items = shuffle(pool).slice(0,12);
-  const hdr = `<div class="eyebrow">Boss</div><h2 style="margin-top:4px">Who did what to whom?</h2><p class="lead">Twelve mixed questions from the whole class${S.diff==="gentle"?"":", against the clock"}. Every level comes back.</p>`;
+  const hdr = `<div class="eyebrow">Boss</div><h2 style="margin-top:4px">${L.part===2?"Who made it happen?":"Who did what to whom?"}</h2><p class="lead">Twelve mixed questions from the whole class${S.diff==="gentle"?"":", against the clock"}. Every level comes back.</p>`;
   runQuiz(app, items, {headHTML: hdr, boss:true, onDone:(s2,tot)=>{
-    app.innerHTML = `<section class="panel fadein"><div class="eyebrow">Boss defeated</div><h2 style="margin-top:6px">${s2} / ${tot}</h2><p class="lead">${s2>=10?"Outstanding. The receivers are yours.":"Solid. Replay the boss any time from the map to push that score up."}</p><div class="foot-actions"><button class="btn" id="cont">See your certificate</button></div></section>`;
+    app.innerHTML = `<section class="panel fadein"><div class="eyebrow">Boss defeated</div><h2 style="margin-top:6px">${s2} / ${tot}</h2><p class="lead">${s2>=10?(L.part===2?"Outstanding. You can hear the أَ now.":"Outstanding. The receivers are yours."):"Solid. Replay the boss any time from the map to push that score up."}</p><div class="foot-actions"><button class="btn" id="cont">See your certificate</button></div></section>`;
     $("#cont").onclick = nextScreen; AUTO = nextScreen; }});
 }
 /* ---------- Certificate ---------- */
 function renderCert(app){
+  if(view.part===2) return renderCert2(app);
   const say = ["saadtuhu","shakarani","yahfazuna","qaratuha","antaziruka","uallimuki","saadahum","ataytukihi","sc1"];
   const d = new Date().toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
   teach("dua");
@@ -1167,14 +1441,51 @@ function renderCert(app){
    <div class="mission" style="background:var(--amber-tint)"><div class="eyebrow" style="color:var(--amber)">Homework from the class file</div><ol style="margin:8px 0 0;padding-inline-start:20px"><li><b>The Storyteller:</b> write three short sentences where an action is done TO someone or something (example: I read the book, <span class="ar">قَرَأْتُهُ</span>).</li><li><b>Tafsīr speaker:</b> a one-minute voice note on the difference between <span class="ar">خَلَقْتَنِي</span> and <span class="ar">خَلَقْتَهُ</span>, using the story of Iblīs and Ādam.</li></ol></div>
    <div class="foot-actions"><button class="btn ghost" id="map">Back to map</button></div></section>`;
   bindPlays(app); $("#map").onclick = ()=>go({mode:"map"});
+  AUTO = () => go({mode:"map"});
+}
+function renderCert2(app){
+  const say = ["S1","S4","S7","S10","c_anzala","ms_islam"];
+  const d = new Date().toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
+  app.innerHTML = `<section class="stack fadein"><div class="cert"><div class="eyebrow">Arabanion · Certificate of completion</div><h1 style="margin-top:8px">Zainab</h1>
+   <p class="lead" style="margin-inline:auto">completed <b>Part 2 · The Causer</b> (the pattern <span class="ar">أَفْعَلَ</span>: past, present, command and masdar, with 20 verses of the Qur'an) on ${d}.</p>
+   <div class="statgrid"><div class="stat"><div class="k">XP</div><div class="v">${S.xp}</div></div><div class="stat"><div class="k">Best streak</div><div class="v">${S.best}</div></div><div class="stat"><div class="k">Mastered words</div><div class="v">${mastered()}</div></div></div>
+   <h3 style="margin-top:18px">Zainab can now say and recognise</h3><ul>${say.map(id=>{ const e=LEX[id]; return `<li><span class="ar">${e.ar}</span> · ${e.en}</li>`; }).join("")}
+   <li><span class="ar">أَفْعَلَ · يُفْعِلُ · أَفْعِلْ · إِفْعَال</span> · the four shapes, in 20 verses</li></ul></div>
+   <div class="mission"><div class="eyebrow">Real-life mission · before next class</div><p style="margin:6px 0 0">In your next prayer or Qur'an reading, listen for one word with يُـ or a firm أَـ at the front. Write it down, find its plain verb, and tell Mohamed what the أَ added.</p></div>
+   <div class="mission" style="background:var(--amber-tint)"><div class="eyebrow" style="color:var(--amber)">Homework</div><ol style="margin:8px 0 0;padding-inline-start:20px"><li>Write four sentences about your day with the same verb in all four shapes (for example <span class="ar">أَخْرَجَ، يُخْرِجُ، أَخْرِجْ، إِخْرَاج</span>).</li><li>Record yourself reading 53:43 and 53:44 and explain in one minute who laughs and who makes them laugh.</li></ol></div>
+   <div class="foot-actions"><button class="btn ghost" id="map">Back to map</button></div></section>`;
+  bindPlays(app); $("#map").onclick = ()=>go({mode:"map"});
   AUTO = null;
+}
+function verseNote(e){
+  const rows = e.targets.map((k,i)=>{ const t=e.tw[i]; return `<tr><td><span class="ar" style="font-size:1.4rem;color:var(--coral)">${e.words[k]}</span></td><td>${FORMLAB[t[0]]}</td><td>${t[1]?`<span class="ar">${t[1]}</span>`:"learn as a word"}</td><td>${t[2]}</td></tr>`; }).join("");
+  const taf = e.tafsir.map(t=>`<blockquote class="taf"><div class="en">${t[1]}</div><cite>${t[0]}, in simple English</cite></blockquote>`).join("");
+  return `<div class="tablewrap"><table class="map7"><thead><tr><th>Word</th><th>Shape</th><th>Plain verb</th><th>Meaning</th></tr></thead><tbody>${rows}</tbody></table></div><div class="eyebrow" style="margin-top:6px">What the scholars of tafsīr explain</div>${taf}<div class="fb ok"><b>In short · </b>${e.gist.replace(/([؀-ۿً-ْ]+)/g,'<span class="ar">$1</span>')}</div>`;
+}
+function scConcept2(app, sc, L){
+  const P1 = [["ضَحِكَ","he laughed"],["أَضْحَكَ","he made someone laugh"]];
+  app.innerHTML = `<section class="stack fadein">${head(sc,L)}
+   <div class="panel stack"><div class="eq"><span class="seg p ar">أَ</span><span class="op">+</span><span class="seg v ar">ضْحَكَ</span><span class="op">=</span>${segHTML([["أَ","p"],["ضْحَكَ","v"]])}</div>
+   <div style="text-align:center"><b>ضَحِكَ = he laughed · أَضْحَكَ = he made someone laugh</b></div>${LEGEND2}<div class="row" style="justify-content:center">${playBtn("c_adhaka")}${SAY}</div></div>
+   <div class="panel stack"><h3>The test</h3><p style="margin:0">Say “made someone…” in front of the plain meaning. If it fits, you have found the causative: <span class="ar">أَجْلَسَ</span> = made someone sit, <span class="ar">أَنْزَلَ</span> = made it come down.</p></div>
+   <div class="panel stack" style="background:var(--leb-tint)"><h3 style="color:var(--leb)">Your Lebanese already does this</h3><p style="margin:0">In Lebanese you make someone do something by doubling the middle letter: <span class="ar">ضَحَّكْني، نَزَّل، طَلَّع، قَعَّد</span>. Fuṣḥā has that too, and it has a second way: a أَ at the front. You even use two of these every day without the أَ: <span class="ar">عطى</span> (from <span class="ar">أَعْطَى</span>) and <span class="ar">طعمى</span> (from <span class="ar">أَطْعَمَ</span>).</p></div>
+   <div class="foot-actions"><button class="btn" id="cont">Continue</button></div></section>`;
+  bindPlays(app); teach("c_adhaka"); teach("b_dahika"); $("#cont").onclick = nextScreen; AUTO = nextScreen;
+}
+function scTable2(app, sc, L){
+  const rows = [["Past","f1_past","f4_past","أَ at the front, sukun after it"],["Present","f1_pres","f4_pres","يُـ with a ḍamma, kasra before the last letter"],["Command","f1_cmd","f4_cmd","a firm أَ, kasra before the last letter"],["Masdar","f1_mas","f4_mas","إِ at the front, ا before the last letter"]];
+  rows.forEach(r=>{ teach(r[1]); teach(r[2]); });
+  app.innerHTML = `<section class="stack fadein">${head(sc,L)}${LEGEND2}<div class="panel tablewrap"><table class="map7"><thead><tr><th>Shape</th><th>أَفْعَلَ (makes someone do)</th><th>Plain (does it)</th><th>How to spot it</th></tr></thead><tbody>
+   ${rows.map(r=>`<tr><td><b>${r[0]}</b></td><td>${arOf(LEX[r[2]])}<div class="en" style="font-size:.8rem">${LEX[r[2]].en}</div>${playBtn(r[2],"Listen")}</td><td><span class="ar" style="font-size:1.4rem">${LEX[r[1]].ar}</span><div class="en" style="font-size:.8rem">${LEX[r[1]].en}</div></td><td style="font-size:.88rem">${r[3]}</td></tr>`).join("")}</tbody></table></div>${SAY}
+   <div class="foot-actions"><button class="btn" id="cont">Continue</button></div></section>`;
+  bindPlays(app); $("#cont").onclick = nextScreen; AUTO = nextScreen;
 }
 
 /* ---------- modals ---------- */
 function modal(html, onBind){ const m=document.createElement("div"); m.className="modal"; m.innerHTML=`<div class="sheet" role="dialog" aria-modal="true">${html}<div class="foot-actions"><button class="btn ghost" data-close>Close</button></div></div>`;
   document.body.appendChild(m); m.addEventListener("click",ev=>{ if(ev.target===m || ev.target.hasAttribute("data-close")) m.remove(); }); if(onBind) onBind(m); return m; }
 function openPhrasebook(){
-  const groups = [["Me & us",["shakarani","raani","yahfazuna","yarifuni","khalaqana","m_ni","m_na"]],["Him / it",["saadtuhu","raaytuhu","akhadhtuhu","lamafhamhu","saadtihi","bihi","tudayyiihi","uriduhu","wajadtuhu","samituhu","m_hu"]],["Her / it",["saadtuha","qaratuha","kutub","wajadnaha","m_ha"]],["You",["antaziruka","antaziruki","uallimuki","uallimuka","uhibbuki","uhibbuka","ansaki","ansaka","yaraka","m_ka","m_ki"]],["Them",["saadahum","m_hum"]],["Two receivers",["ataytukihi"]],["Roots & raw verbs",["root_shkr","root_alm","raw_samitu","raw_yara","raw_wajadna","raw_hada"]],["Things",["n_qalam","n_haqiba","n_kitab","n_kutub","n_dars","n_maktaba","n_ukht","n_tifl"]],["Phrases",["sc1","sc2","hadana"]],["The story",["Z1","B1","Z2","B2","Z3","B3","Z4","B4","Z5","B5","Z6","B6","Z7","B7","Z8","B8"]],["Qur'an & duʿāʾ",["q1","q2","q3","q4","dua"]]];
+  const groups = [["Me & us",["shakarani","raani","yahfazuna","yarifuni","khalaqana","m_ni","m_na"]],["Him / it",["saadtuhu","raaytuhu","akhadhtuhu","lamafhamhu","saadtihi","bihi","tudayyiihi","uriduhu","wajadtuhu","samituhu","m_hu"]],["Her / it",["saadtuha","qaratuha","kutub","wajadnaha","m_ha"]],["You",["antaziruka","antaziruki","uallimuki","uallimuka","uhibbuki","uhibbuka","ansaki","ansaka","yaraka","m_ka","m_ki"]],["Them",["saadahum","m_hum"]],["Two receivers",["ataytukihi"]],["Roots & raw verbs",["root_shkr","root_alm","raw_samitu","raw_yara","raw_wajadna","raw_hada"]],["Things",["n_qalam","n_haqiba","n_kitab","n_kutub","n_dars","n_maktaba","n_ukht","n_tifl"]],["Phrases",["sc1","sc2","hadana"]],["The story",["Z1","B1","Z2","B2","Z3","B3","Z4","B4","Z5","B5","Z6","B6","Z7","B7","Z8","B8"]],["Qur'an & duʿāʾ",["q1","q2","q3","q4","dua"]],["Part 2 · pairs",["c_adhaka","c_abka","c_akhraja","c_adkhala","c_ajlasa","c_anzala","c_atama","c_asmaa"]],["Part 2 · four shapes",["f4_past","f4_pres","f4_cmd","f4_mas","pr_yudhiku","pr_yutimu","pr_yunzilu","cm_akhriji","cm_akhriju","cm_atimi","ms_itam","ms_islam","ms_iman","ms_ihsan"]],["Part 2 · shape-shifters",["ss_aqama","ss_ata","ss_amana","ss_ahya"]],["Part 2 · sentences",["S0","S1","S2","S3","S4","S5","S6","S7","S8","S9","S10","S11"]],["Part 2 · Qur'an",QL1.concat(QL2)]];
   let any = false;
   const html = groups.map(([t,ids])=>{ const got = ids.filter(id=>TAUGHT.has(id)); if(!got.length) return ""; any = true;
     return `<div class="pb-group"><div class="eyebrow">${t}</div>${got.map(id=>{ const e=LEX[id]; return `<div class="pb-row"><div><span class="ar">${e.ar}</span>${trOf(e.tr)}<div class="en">${e.en}${e.leb?` · Lebanese: <span class="ar" style="font-size:1rem">${e.leb}</span>`:""}</div></div>${playBtn(id,"Listen")}</div>`; }).join("")}</div>`; }).join("");
@@ -1200,10 +1511,10 @@ function openTeacher(){
 }
 function teacherPanel(){
   const codes = LEVELS.filter(l=>l.stop).map(l=>`<div class="pb-row"><div><b>Before ${l.boss?"the boss":"Level "+l.n}</b></div><div class="ar">${l.stop.map(id=>LEX[id].ar).join(" · ")}</div></div>`).join("");
-  const clips = Object.keys(GROUPS).map(g=>`<h4 style="margin:14px 0 4px">${GROUPS[g]}</h4>` + CLIPS.filter(c=>c[1]===g).map(c=>{ const n=c[0]; return `<div class="cliprow"><span class="num">${pad(n)}</span><div><div class="ar">${clipText(c)}</div><div class="en" style="font-size:.78rem;color:var(--muted)">${pad(n)}.mp3</div></div><div style="display:flex;gap:6px;align-items:center"><span class="${AUDIO_READY.includes(n)?"st-ok":"st-miss"}">${AUDIO_READY.includes(n)?"file ready":"voice fallback"}</span><button class="play" data-pn="${n}">Play</button></div></div>`; }).join("")).join("");
+  const clips = Object.keys(GROUPS).map(g=>`<h4 style="margin:14px 0 4px">${GROUPS[g]}</h4>` + CLIPS.filter(c=>c[1]===g).map(c=>{ const n=c[0]; return `<div class="cliprow"><span class="num">${pad(n)}</span><div><div class="ar">${clipText2(c)||clipText(c)}</div><div class="en" style="font-size:.78rem;color:var(--muted)">${pad(n)}.mp3</div></div><div style="display:flex;gap:6px;align-items:center"><span class="${AUDIO_READY.includes(n)?"st-ok":"st-miss"}">${AUDIO_READY.includes(n)?"file ready":"voice fallback"}</span><button class="play" data-pn="${n}">Play</button></div></div>`; }).join("")).join("");
   let armed = false;
   modal(`<h2>🔑 Teacher panel</h2>
-   <h3>Jump to a level</h3><div class="lvbtns">${LEVELS.map((l,i)=>`<button class="btn small ghost" data-j="${i}">${l.boss?"Boss":"L"+l.n}</button>`).join("")}<button class="btn small ghost" data-cert>Certificate</button></div>
+   <h3>Jump to a level</h3><div class="lvbtns">${LEVELS.map((l,i)=>`<button class="btn small ghost" data-j="${i}">${l.boss?(l.part===2?"Boss 2":"Boss"):(l.part===2?"P2·L"+(l.n-9):"L"+l.n)}</button>`).join("")}<button class="btn small ghost" data-cert>Certificate</button></div>
    <div class="row" style="margin-top:12px"><button class="btn small" id="unl">Unlock every STOP screen</button><button class="btn small ghost" id="rst">Reset all progress</button></div>
    <h3 style="margin-top:16px">STOP codes (say these three words, in order)</h3>${codes}
    <h3 style="margin-top:16px">Check every audio clip</h3><p class="lead" style="margin-top:2px">${AUDIO_READY.length} of ${CLIPS.length} recordings added. Missing ones use the computer voice (never for Qur'an).</p>${clips}
@@ -1212,7 +1523,7 @@ function teacherPanel(){
     m.querySelector("[data-cert]").onclick = ()=>{ m.remove(); go({mode:"cert"}); };
     m.querySelector("#unl").onclick = ()=>{ LEVELS.forEach(l=>{ if(!S.unlocked.includes(l.n)) S.unlocked.push(l.n); }); save(); toast("All STOP screens unlocked."); };
     m.querySelector("#rst").onclick = e=>{ if(!armed){ armed=true; e.target.textContent="Tap again to erase everything"; return; } S=Object.assign({},DEF); TAUGHT=new Set(); save(); m.remove(); go({mode:"map"}); };
-    m.querySelectorAll("[data-pn]").forEach(b=>b.onclick=()=>{ const n=+b.dataset.pn; const c=CLIPS.find(x=>x[0]===n); playNum(n, clipText(c), LEX[c[2]].noTTS); });
+    m.querySelectorAll("[data-pn]").forEach(b=>b.onclick=()=>{ const n=+b.dataset.pn; const c=CLIPS.find(x=>x[0]===n); playNum(n, clipText2(c)||clipText(c), LEX[c[2]].noTTS); });
   });
 }
 
